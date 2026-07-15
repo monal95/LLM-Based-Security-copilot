@@ -1,0 +1,182 @@
+# ==========================================
+
+# Python bytecode and caches
+
+# ==========================================
+
+**pycache**/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.hypothesis/
+.dmypy.json
+dmypy.json
+
+# ==========================================
+
+# Virtual environments and environment files
+
+# ==========================================
+
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+.env
+.env.*
+
+# ==========================================
+
+# Build, packaging and distribution
+
+# ==========================================
+
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+*.egg-info/
+*.egg
+.installed.cfg
+
+# ==========================================
+
+# PyInstaller
+
+# ==========================================
+
+*.manifest
+*.spec
+
+# ==========================================
+
+# Testing and coverage
+
+# ==========================================
+
+htmlcov/
+.tox/
+.nox/
+
+.coverage
+.coverage.*
+coverage.xml
+nosetests.xml
+.cache
+
+*.cover
+*.py,cover
+
+# ==========================================
+
+# Logs and temporary files
+
+# ==========================================
+
+*.log
+*.tmp
+*.bak
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ==========================================
+
+# IDE and editor files
+
+# ==========================================
+
+.vscode/
+.idea/
+
+*.swp
+*.swo
+*~
+
+# ==========================================
+
+# Operating system files
+
+# ==========================================
+
+.DS_Store
+Thumbs.db
+
+# ==========================================
+
+# Documentation build artifacts
+
+# ==========================================
+
+docs/_build/
+
+# ==========================================
+
+# C extensions and debug symbols
+
+# ==========================================
+
+*.so
+cython_debug/
+
+# ==========================================
+
+# SecureRAG project-specific files
+
+# ==========================================
+
+# Temporary NVD ingestion pages and checkpoints
+
+data/raw/nvd_pages/
+data/raw/*.checkpoint.json
+
+# Raw datasets (NVD, KEV, EPSS, MITRE, etc.)
+
+data/raw/*
+
+# Processed datasets and embeddings
+
+data/processed/*
+
+# Keep folder structure in Git
+
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Vector databases and embeddings
+
+vector_db/
+embeddings/
+chroma_db/
+faiss_index/
+
+# Runtime files
+
+logs/
+tmp/
+
+# Generated artifacts
+
+SecureRAG_Roadmap.docx
+securerag_flowchart.png
