@@ -158,12 +158,17 @@ data/raw/*
 # Processed datasets and embeddings
 
 data/processed/*
+data/chunks/*
+data/embeddings/*
+embeddings/*
+
 
 # Keep folder structure in Git
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-
+!data/chunks/.gitkeep
+!data/embeddings/.gitkeep
 # Vector databases and embeddings
 
 vector_db/
