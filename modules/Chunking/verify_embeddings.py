@@ -413,7 +413,45 @@ def run(config: Optional[VerificationConfig] = None) -> Dict[str, Any]:
         "passed": final_status,
         "peek_count": peek_count,
     }
-
-
 if __name__ == "__main__":
-    run()
+    report = run()
+
+    try:
+        from transformers import AutoTokenizer
+
+        tokenizer = AutoTokenizer.from_pretrained(
+            "sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+        chunks_file = DEFAULT_CHUNKS_FILE
+
+        with open(chunks_file, "r", encoding="utf-8") as f:
+            chunks = json.load(f)
+
+        total_tokens = 0
+        max_tokens = 0
+
+        for chunk in chunks:
+            text = chunk.get("text", "")
+            token_count = len(
+                tokenizer.encode(
+                    text,
+                    add_special_tokens=False,
+                    truncation=False
+                )
+            )
+
+            total_tokens += token_count
+            max_tokens = max(max_tokens, token_count)
+
+        print("\n==========================")
+        print("TOKEN STATISTICS")
+        print("==========================")
+        print(f"Total Chunks           : {len(chunks):,}")
+        print(f"Total Tokens           : {total_tokens:,}")
+        print(f"Average Tokens/Chunk   : {total_tokens/len(chunks):.2f}")
+        print(f"Largest Chunk          : {max_tokens}")
+        print("==========================")
+
+    except Exception as e:
+        print(f"\nToken statistics skipped: {e}")

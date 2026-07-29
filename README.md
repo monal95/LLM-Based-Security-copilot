@@ -1,23 +1,45 @@
 # SecureRAG CTI Processing Pipeline
 
+## Project Status
+
+- Phase 1 (CTI Ingestion): Completed
+- Phase 2 (Knowledge Base and Indexing): Completed
+- Phase 4 (Retrieval, Generation, Verification Pipeline): Completed
+
 This repository implements a comprehensive pipeline for ingesting, processing, and indexing cyber threat intelligence (CTI) data for retrieval-augmented generation (RAG) applications. The pipeline consists of two main modules:
 
 ## Modules Overview
 
 ### Module 1: CTI Ingestion
+
 Ingests and normalizes threat intelligence from four sources:
+
 - NVD CVEs (National Vulnerability Database Common Vulnerabilities and Exposures)
 - MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge)
 - CISA KEV (Cybersecurity and Infrastructure Security Agency Known Exploited Vulnerabilities)
 - EPSS (Exploit Prediction Scoring System)
 
 ### Module 2: CTI Processing & Indexing
+
 Processes the ingested CTI data through a pipeline that:
+
 1. **Chunks** the CTI documents into retrievable passages
 2. **Embeds** the chunks using sentence transformers for semantic search
 3. **Indexes** the embeddings in a vector database (ChromaDB) for similarity search
 4. **Indexes** the chunks in a BM25 index for keyword search
 5. **Verifies** the quality and completeness of the generated artifacts
+
+### Phase 4: Secure Retrieval and Verified Generation
+
+Implements the complete secure answer pipeline for SOC analysts:
+
+1. **Dense Retrieval** from ChromaDB using semantic embeddings
+2. **Sparse Retrieval** from BM25 index using keyword matching
+3. **Hybrid Fusion** using Reciprocal Rank Fusion (RRF)
+4. **Cross-Encoder Reranking** for final evidence prioritization
+5. **Prompt Construction** with strict grounding policy
+6. **Mistral via Ollama** for grounded response generation
+7. **Hallucination Guard** to verify claims against retrieved evidence
 
 ## Project Layout
 
@@ -37,6 +59,17 @@ Processes the ingested CTI data through a pipeline that:
 │   │   ├── bm25_index.py         # BM25 keyword indexing (Module 2.4)
 │   │   ├── verify_embeddings.py  # Verification of outputs (Module 2.5)
 │   │   └── build_knowledge_base.py # Module 2 pipeline orchestration
+│   ├── Retrieval/                # Module 3: Retrieval
+│   │   ├── dense_retriever.py    # Module 3.1
+│   │   ├── sparse_retriever.py   # Module 3.2
+│   │   ├── hybrid_fusion.py      # Module 3.3
+│   │   └── reranker.py           # Module 3.4
+│   ├── Generation/               # Module 4: Generation
+│   │   ├── prompt_template.py    # Module 4.1
+│   │   └── llm_chain.py          # Module 4.2
+│   ├── Verification/             # Module 4: Verification
+│   │   └── hallucination_guard.py # Module 4.3
+│   ├── pipeline.py               # End-to-end SecureRAG orchestration
 │   └── ingestion/                # Module 1: CTI ingestion
 │       ├── __init__.py
 │       ├── __main__.py           # Entry point for `python -m modules.ingestion`
@@ -51,7 +84,7 @@ Processes the ingested CTI data through a pipeline that:
 
 ## Requirements
 
-- Python 3.10 or newer
+- Python 3.13 (recommended)
 - pip
 - See `requirements.txt` for Python package dependencies
 
@@ -87,6 +120,7 @@ py -3 modules/ingestion/epss_fetcher.py
 ```
 
 **Recommended order:**
+
 1. NVD
 2. MITRE
 3. KEV
@@ -132,6 +166,7 @@ If the key is not set, the script still works but runs more slowly due to strict
 ### Outputs
 
 Each script writes two files:
+
 - `data/raw/<source>_raw.json` - raw downloaded data
 - `data/processed/<source>.json` - normalized JSON output
 
@@ -154,38 +189,49 @@ py -3 modules/Chunking/build_knowledge_base.py
 You can also run each step independently:
 
 #### Step 1: Chunking (Module 2.1)
+
 ```bash
 py -3 modules/Chunking/chunker.py
 ```
+
 Creates `data/chunks/chunks.json` with chunked CTI documents.
 
 #### Step 2: Embedding Generation (Module 2.2)
+
 ```bash
 py -3 modules/Chunking/embedder.py
 ```
+
 Generates embeddings and saves to `data/embeddings/embedded_chunks.pkl`.
 
 #### Step 3: Vector Storage (Module 2.3)
+
 ```bash
 py -3 modules/Chunking/vector_store.py
 ```
+
 Builds persistent ChromaDB vector store in `embeddings/chroma_db/`.
 
 #### Step 4: BM25 Indexing (Module 2.4)
+
 ```bash
 py -3 modules/Chunking/bm25_index.py
 ```
+
 Creates BM25 index (`data/embeddings/bm25.pkl`) and tokenized corpus (`data/embeddings/corpus.pkl`).
 
 #### Step 5: Verification (Module 2.5)
+
 ```bash
 py -3 modules/Chunking/verify_embeddings.py
 ```
+
 Verifies the generated artifacts and reports on their quality.
 
 ### Accessing the Processed Data
 
 #### Vector Store (ChromaDB)
+
 ```python
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -207,6 +253,7 @@ results = collection.query(
 ```
 
 #### BM25 Index
+
 ```python
 import pickle
 from rank_bm25 import BM25Okapi
@@ -214,7 +261,7 @@ from rank_bm25 import BM25Okapi
 # Load the BM25 index and tokenized corpus
 with open("data/embeddings/bm25.pkl", "rb") as f:
     bm25 = pickle.load(f)
-    
+
 with open("data/embeddings/corpus.pkl", "rb") as f:
     corpus = pickle.load(f)
 
@@ -234,6 +281,7 @@ py -3 modules/Chunking/verify_embeddings.py
 ```
 
 This will check:
+
 - File existence and sizes
 - Embedding dimension (should be 384)
 - ChromaDB collection count and sample data
@@ -253,6 +301,79 @@ py -3 modules/Chunking/build_knowledge_base.py
 ```
 
 Or run the individual steps as needed based on your workflow requirements.
+
+## Phase 4: Retrieval and Verified Generation
+
+### End-to-End SecureRAG Flow
+
+```
+User Query
+    -> Dense Retrieval (ChromaDB)
+    -> Sparse Retrieval (BM25)
+    -> Hybrid Fusion (RRF)
+    -> Cross-Encoder Reranking
+    -> Prompt Builder
+    -> Mistral (Ollama)
+    -> Hallucination Guard
+    -> Final Verified Answer
+```
+
+### Run Complete SecureRAG Pipeline
+
+```bash
+py -3 modules/pipeline.py "How should we prioritize CVE-2021-44228?"
+```
+
+### Run Phase 4 Modules Individually
+
+Dense retrieval:
+
+```bash
+py -3 modules/Retrieval/dense_retriever.py "CVE-2021-44228"
+```
+
+Sparse retrieval:
+
+```bash
+py -3 modules/Retrieval/sparse_retriever.py "CVE-2021-44228"
+```
+
+Hybrid fusion:
+
+```bash
+py -3 modules/Retrieval/hybrid_fusion.py "CVE-2021-44228"
+```
+
+Cross-encoder reranking:
+
+```bash
+py -3 modules/Retrieval/reranker.py "CVE-2021-44228"
+```
+
+Prompt construction:
+
+```bash
+py -3 modules/Generation/prompt_template.py "CVE-2021-44228"
+```
+
+LLM chain (Ollama Mistral):
+
+```bash
+py -3 modules/Generation/llm_chain.py "CVE-2021-44228"
+```
+
+Hallucination guard:
+
+```bash
+py -3 modules/Verification/hallucination_guard.py "CVE-2021-44228"
+```
+
+### Security and Reliability Notes
+
+- The generated answer is always post-processed by the hallucination guard.
+- Unsupported claims are removed or replaced with explicit non-verified text.
+- If context is insufficient, the system returns: `Not found in retrieved evidence.`
+- Retrieval and generation stages implement failure-safe fallbacks and structured diagnostics.
 
 ## License
 
