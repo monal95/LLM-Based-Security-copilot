@@ -40,6 +40,7 @@ import logging
 import pickle
 import re
 import time
+from functools import lru_cache
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -71,7 +72,7 @@ class SparseRetrieverConfig:
     bm25_file: Path = DEFAULT_BM25_FILE
     corpus_file: Path = DEFAULT_CORPUS_FILE
     chunks_file: Path = DEFAULT_CHUNKS_FILE
-    top_k: int = 10
+    top_k: int = 30
     min_score: float = 0.0
     deduplicate_documents: bool = True
 
@@ -126,8 +127,17 @@ def _normalize_query(query: str) -> str:
 
 
 def _tokenize(text: str) -> List[str]:
-    """Deterministic tokenizer aligned with Module 2 BM25 build step."""
-    return re.findall(r"[a-z0-9]+(?:[-_][a-z0-9]+)*", text.lower())
+    """Deterministic cybersecurity-aware tokenizer."""
+    raw_tokens = re.findall(r"[a-z0-9]+(?:[-_][a-z0-9]+)*", text.lower())
+    expanded_tokens: List[str] = []
+    for tok in raw_tokens:
+        expanded_tokens.append(tok)
+        if "-" in tok or "_" in tok:
+            sub_parts = re.split(r"[-_]", tok)
+            for part in sub_parts:
+                if part and part not in expanded_tokens:
+                    expanded_tokens.append(part)
+    return expanded_tokens
 
 
 def _load_pickle(path: Path, expected_description: str) -> Any:
@@ -142,6 +152,24 @@ def _load_pickle(path: Path, expected_description: str) -> Any:
         raise RuntimeError(f"Failed to load {expected_description} from {path}") from exc
 
     return payload
+
+
+@lru_cache(maxsize=8)
+def _get_bm25_index(bm25_file: str) -> Any:
+    """Cache the BM25 index so repeated evaluations avoid re-unpickling it."""
+    return _load_pickle(Path(bm25_file), "BM25 index")
+
+
+@lru_cache(maxsize=8)
+def _get_tokenized_corpus(corpus_file: str) -> Any:
+    """Cache the tokenized corpus because it is read-only during evaluation."""
+    return _load_pickle(Path(corpus_file), "tokenized corpus")
+
+
+@lru_cache(maxsize=8)
+def _get_chunks(chunks_file: str) -> List[Dict[str, Any]]:
+    """Cache the chunk payload so sparse evaluation can reuse the evidence text."""
+    return _load_chunks(Path(chunks_file))
 
 
 def _load_chunks(chunks_file: Path) -> List[Dict[str, Any]]:
@@ -263,9 +291,10 @@ def run(query: str, config: SparseRetrieverConfig | None = None) -> SparseRetrie
         runtime_config.bm25_file,
     )
 
-    bm25 = _load_pickle(runtime_config.bm25_file, "BM25 index")
-    corpus = _load_pickle(runtime_config.corpus_file, "tokenized corpus")
-    chunks = _load_chunks(runtime_config.chunks_file)
+    # Cache the heavy sparse artifacts so the hot path only performs scoring and ranking.
+    bm25 = _get_bm25_index(str(runtime_config.bm25_file))
+    corpus = _get_tokenized_corpus(str(runtime_config.corpus_file))
+    chunks = _get_chunks(str(runtime_config.chunks_file))
 
     _validate_alignment(corpus=corpus, chunks=chunks)
 

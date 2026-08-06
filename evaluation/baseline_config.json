@@ -1,0 +1,19 @@
+{
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "dense_top_k": 10,
+  "sparse_top_k": 10,
+  "fusion_top_k": 15,
+  "rrf_k": 60,
+  "dense_weight": 0.5,
+  "sparse_weight": 0.5,
+  "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "reranker_input_limit": 25,
+  "reranker_top_k": 5,
+  "reranker_alpha": 0.85,
+  "metadata_boost": 0.15,
+  "query_expansion": true,
+  "cve_metadata_lookup": true,
+  "mitre_metadata_lookup": true,
+  "chunk_size": 512,
+  "chunk_overlap": 50
+}

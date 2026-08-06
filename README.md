@@ -41,6 +41,36 @@ Implements the complete secure answer pipeline for SOC analysts:
 6. **Mistral via Ollama** for grounded response generation
 7. **Hallucination Guard** to verify claims against retrieved evidence
 
+## Retrieval Evaluation Workflow
+
+The evaluation framework writes reproducible experiment outputs under `evaluation/experiments/`.
+
+Run the main evaluation suite:
+
+```bash
+py -3 evaluation/evaluate_retrieval.py --mode all --print-table
+```
+
+Compare saved experiments:
+
+```bash
+py -3 evaluation/compare_results.py
+```
+
+Generate plots for recall, precision, MRR, nDCG, and latency:
+
+```bash
+py -3 evaluation/visualize_results.py
+```
+
+Run hyperparameter tuning and save the best configuration:
+
+```bash
+py -3 evaluation/hyperparameter_search.py
+```
+
+The compatibility entrypoints `evaluation/run_full_evaluation.py` and `evaluation/tune_rrf.py` are still available if you prefer the older scripts.
+
 ## Project Layout
 
 ```
