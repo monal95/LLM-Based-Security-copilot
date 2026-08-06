@@ -1,0 +1,1184 @@
+{
+  "categories": {
+    "dense": {
+      "CVE": {
+        "mode": "dense",
+        "query_count": 87,
+        "metrics": {
+          "recall_5": 0.5488505747126436,
+          "recall_10": 0.5747126436781609,
+          "recall_20": 0.5747126436781609,
+          "recall_30": 0.5747126436781609,
+          "precision_5": 0.30574712643678165,
+          "precision_10": 0.20114942528735633,
+          "hit_1": 0.4942528735632184,
+          "hit_3": 0.5517241379310345,
+          "hit_5": 0.5632183908045977,
+          "hit_10": 0.5862068965517241,
+          "hit_20": 0.5862068965517241,
+          "hit_30": 0.5862068965517241,
+          "mrr": 0.5288451012588944,
+          "ndcg_5": 0.9877456835216402,
+          "ndcg_10": 1.1242246458285832
+        },
+        "avg_latency_ms": 1778.3584919471787,
+        "per_stage_latency_ms": {
+          "dense_ms": 403.8358586291708,
+          "sparse_ms": 1305.6957919442298,
+          "fusion_ms": 0.21222528423471698,
+          "reranker_ms": 427.8492689675962,
+          "total_ms": 1778.3584919471787
+        }
+      },
+      "MITRE ATT&CK": {
+        "mode": "dense",
+        "query_count": 13,
+        "metrics": {
+          "recall_5": 1.0,
+          "recall_10": 1.0,
+          "recall_20": 1.0,
+          "recall_30": 1.0,
+          "precision_5": 0.2923076923076923,
+          "precision_10": 0.14615384615384616,
+          "hit_1": 1.0,
+          "hit_3": 1.0,
+          "hit_5": 1.0,
+          "hit_10": 1.0,
+          "hit_20": 1.0,
+          "hit_30": 1.0,
+          "mrr": 1.0,
+          "ndcg_5": 1.2911983478022113,
+          "ndcg_10": 1.2911983478022113
+        },
+        "avg_latency_ms": 1728.5042153850484,
+        "per_stage_latency_ms": {
+          "dense_ms": 134.73635386281575,
+          "sparse_ms": 983.0541307500636,
+          "fusion_ms": 0.15551540463303143,
+          "reranker_ms": 714.7513000079646,
+          "total_ms": 1728.5042153850484
+        }
+      },
+      "Malware": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Threat Actor": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Vendor": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Patch": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "IOC": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Ransomware": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "SOC Workflow": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Natural Language": {
+        "mode": "dense",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      }
+    },
+    "sparse": {
+      "CVE": {
+        "mode": "sparse",
+        "query_count": 87,
+        "metrics": {
+          "recall_5": 0.5827586206896552,
+          "recall_10": 0.6517241379310346,
+          "recall_20": 0.6871647509578543,
+          "recall_30": 0.7076628352490422,
+          "precision_5": 0.24827586206896554,
+          "precision_10": 0.15632183908045977,
+          "hit_1": 0.4942528735632184,
+          "hit_3": 0.5747126436781609,
+          "hit_5": 0.5977011494252874,
+          "hit_10": 0.6666666666666666,
+          "hit_20": 0.7126436781609196,
+          "hit_30": 0.7241379310344828,
+          "mrr": 0.5493670064223602,
+          "ndcg_5": 0.8369303314200827,
+          "ndcg_10": 0.9287672239759696
+        },
+        "avg_latency_ms": 1778.3584919471787,
+        "per_stage_latency_ms": {
+          "dense_ms": 403.8358586291708,
+          "sparse_ms": 1305.6957919442298,
+          "fusion_ms": 0.21222528423471698,
+          "reranker_ms": 427.8492689675962,
+          "total_ms": 1778.3584919471787
+        }
+      },
+      "MITRE ATT&CK": {
+        "mode": "sparse",
+        "query_count": 13,
+        "metrics": {
+          "recall_5": 0.9230769230769231,
+          "recall_10": 0.9230769230769231,
+          "recall_20": 0.9230769230769231,
+          "recall_30": 0.9230769230769231,
+          "precision_5": 0.7384615384615384,
+          "precision_10": 0.6923076923076923,
+          "hit_1": 0.8461538461538461,
+          "hit_3": 0.9230769230769231,
+          "hit_5": 0.9230769230769231,
+          "hit_10": 0.9230769230769231,
+          "hit_20": 0.9230769230769231,
+          "hit_30": 0.9230769230769231,
+          "mrr": 0.8717948717948718,
+          "ndcg_5": 2.240249082511318,
+          "ndcg_10": 3.2735162992471163
+        },
+        "avg_latency_ms": 1728.5042153850484,
+        "per_stage_latency_ms": {
+          "dense_ms": 134.73635386281575,
+          "sparse_ms": 983.0541307500636,
+          "fusion_ms": 0.15551540463303143,
+          "reranker_ms": 714.7513000079646,
+          "total_ms": 1728.5042153850484
+        }
+      },
+      "Malware": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Threat Actor": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Vendor": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Patch": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "IOC": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Ransomware": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "SOC Workflow": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Natural Language": {
+        "mode": "sparse",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      }
+    },
+    "hybrid": {
+      "CVE": {
+        "mode": "hybrid",
+        "query_count": 87,
+        "metrics": {
+          "recall_5": 0.5574712643678161,
+          "recall_10": 0.5747126436781609,
+          "recall_20": 0.6957854406130268,
+          "recall_30": 0.7024904214559387,
+          "precision_5": 0.3218390804597701,
+          "precision_10": 0.2149425287356322,
+          "hit_1": 0.5172413793103449,
+          "hit_3": 0.5517241379310345,
+          "hit_5": 0.5632183908045977,
+          "hit_10": 0.5862068965517241,
+          "hit_20": 0.7241379310344828,
+          "hit_30": 0.7241379310344828,
+          "mrr": 0.5511228223516043,
+          "ndcg_5": 1.0378761791095343,
+          "ndcg_10": 1.190632579907525
+        },
+        "avg_latency_ms": 1778.3584919471787,
+        "per_stage_latency_ms": {
+          "dense_ms": 403.8358586291708,
+          "sparse_ms": 1305.6957919442298,
+          "fusion_ms": 0.21222528423471698,
+          "reranker_ms": 427.8492689675962,
+          "total_ms": 1778.3584919471787
+        }
+      },
+      "MITRE ATT&CK": {
+        "mode": "hybrid",
+        "query_count": 13,
+        "metrics": {
+          "recall_5": 1.0,
+          "recall_10": 1.0,
+          "recall_20": 1.0,
+          "recall_30": 1.0,
+          "precision_5": 0.7846153846153846,
+          "precision_10": 0.7153846153846154,
+          "hit_1": 1.0,
+          "hit_3": 1.0,
+          "hit_5": 1.0,
+          "hit_10": 1.0,
+          "hit_20": 1.0,
+          "hit_30": 1.0,
+          "mrr": 1.0,
+          "ndcg_5": 2.4426282943245075,
+          "ndcg_10": 3.4758955110603056
+        },
+        "avg_latency_ms": 1728.5042153850484,
+        "per_stage_latency_ms": {
+          "dense_ms": 134.73635386281575,
+          "sparse_ms": 983.0541307500636,
+          "fusion_ms": 0.15551540463303143,
+          "reranker_ms": 714.7513000079646,
+          "total_ms": 1728.5042153850484
+        }
+      },
+      "Malware": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Threat Actor": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Vendor": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Patch": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "IOC": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Ransomware": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "SOC Workflow": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Natural Language": {
+        "mode": "hybrid",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      }
+    },
+    "full": {
+      "CVE": {
+        "mode": "full",
+        "query_count": 87,
+        "metrics": {
+          "recall_5": 0.5747126436781609,
+          "recall_10": 0.5747126436781609,
+          "recall_20": 0.5747126436781609,
+          "recall_30": 0.5747126436781609,
+          "precision_5": 0.32873563218390806,
+          "precision_10": 0.16436781609195403,
+          "hit_1": 0.5287356321839081,
+          "hit_3": 0.5632183908045977,
+          "hit_5": 0.5862068965517241,
+          "hit_10": 0.5862068965517241,
+          "hit_20": 0.5862068965517241,
+          "hit_30": 0.5862068965517241,
+          "mrr": 0.5454022988505748,
+          "ndcg_5": 1.049805918159638,
+          "ndcg_10": 1.049805918159638
+        },
+        "avg_latency_ms": 1778.3584919471787,
+        "per_stage_latency_ms": {
+          "dense_ms": 403.8358586291708,
+          "sparse_ms": 1305.6957919442298,
+          "fusion_ms": 0.21222528423471698,
+          "reranker_ms": 427.8492689675962,
+          "total_ms": 1778.3584919471787
+        }
+      },
+      "MITRE ATT&CK": {
+        "mode": "full",
+        "query_count": 13,
+        "metrics": {
+          "recall_5": 1.0,
+          "recall_10": 1.0,
+          "recall_20": 1.0,
+          "recall_30": 1.0,
+          "precision_5": 0.7692307692307693,
+          "precision_10": 0.38461538461538464,
+          "hit_1": 1.0,
+          "hit_3": 1.0,
+          "hit_5": 1.0,
+          "hit_10": 1.0,
+          "hit_20": 1.0,
+          "hit_30": 1.0,
+          "mrr": 1.0,
+          "ndcg_5": 2.397466294114307,
+          "ndcg_10": 2.397466294114307
+        },
+        "avg_latency_ms": 1728.5042153850484,
+        "per_stage_latency_ms": {
+          "dense_ms": 134.73635386281575,
+          "sparse_ms": 983.0541307500636,
+          "fusion_ms": 0.15551540463303143,
+          "reranker_ms": 714.7513000079646,
+          "total_ms": 1728.5042153850484
+        }
+      },
+      "Malware": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Threat Actor": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Vendor": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Patch": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "IOC": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Ransomware": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "SOC Workflow": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      },
+      "Natural Language": {
+        "mode": "full",
+        "query_count": 0,
+        "metrics": {
+          "recall_5": 0.0,
+          "recall_10": 0.0,
+          "recall_20": 0.0,
+          "recall_30": 0.0,
+          "precision_5": 0.0,
+          "precision_10": 0.0,
+          "hit_1": 0.0,
+          "hit_3": 0.0,
+          "hit_5": 0.0,
+          "hit_10": 0.0,
+          "hit_20": 0.0,
+          "hit_30": 0.0,
+          "mrr": 0.0,
+          "ndcg_5": 0.0,
+          "ndcg_10": 0.0
+        },
+        "avg_latency_ms": 0.0,
+        "per_stage_latency_ms": {
+          "dense_ms": 0.0,
+          "sparse_ms": 0.0,
+          "fusion_ms": 0.0,
+          "reranker_ms": 0.0,
+          "total_ms": 0.0
+        }
+      }
+    }
+  },
+  "groups": [
+    "CVE",
+    "MITRE ATT&CK",
+    "Malware",
+    "Threat Actor",
+    "Vendor",
+    "Patch",
+    "IOC",
+    "Ransomware",
+    "SOC Workflow",
+    "Natural Language"
+  ]
+}

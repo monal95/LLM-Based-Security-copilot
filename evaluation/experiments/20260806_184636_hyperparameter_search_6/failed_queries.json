@@ -1,0 +1,4700 @@
+[
+  {
+    "mode": "dense",
+    "query": "What vulnerabilities target Apache Struts2?",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 458.37490004487336,
+      "sparse_ms": 860.3236000053585,
+      "fusion_ms": 1.7698999727144837,
+      "reranker_ms": 843.1376999942586,
+      "total_ms": 846.9561999663711
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerabilities target Apache Struts2?",
+      "expanded_queries": [
+        "What vulnerabilities target Apache Struts2?"
+      ],
+      "retrieval_wall_ms": 875.5794999888167,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "What vulnerabilities target Apache Struts2?",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 458.37490004487336,
+      "sparse_ms": 860.3236000053585,
+      "fusion_ms": 1.7698999727144837,
+      "reranker_ms": 843.1376999942586,
+      "total_ms": 846.9561999663711
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerabilities target Apache Struts2?",
+      "expanded_queries": [
+        "What vulnerabilities target Apache Struts2?"
+      ],
+      "retrieval_wall_ms": 875.5794999888167,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "What vulnerabilities target Apache Struts2?",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 458.37490004487336,
+      "sparse_ms": 860.3236000053585,
+      "fusion_ms": 1.7698999727144837,
+      "reranker_ms": 843.1376999942586,
+      "total_ms": 846.9561999663711
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerabilities target Apache Struts2?",
+      "expanded_queries": [
+        "What vulnerabilities target Apache Struts2?"
+      ],
+      "retrieval_wall_ms": 875.5794999888167,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "What vulnerabilities target Apache Struts2?",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 458.37490004487336,
+      "sparse_ms": 860.3236000053585,
+      "fusion_ms": 1.7698999727144837,
+      "reranker_ms": 843.1376999942586,
+      "total_ms": 846.9561999663711
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerabilities target Apache Struts2?",
+      "expanded_queries": [
+        "What vulnerabilities target Apache Struts2?"
+      ],
+      "retrieval_wall_ms": 875.5794999888167,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Atlassian Confluence vulnerabilities",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 558.6035000160336,
+      "sparse_ms": 665.2332000667229,
+      "fusion_ms": 29.71809997688979,
+      "reranker_ms": 1904.1365999728441,
+      "total_ms": 1938.9002999523655
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Confluence vulnerabilities"
+      ],
+      "retrieval_wall_ms": 677.6135999243706,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Atlassian Confluence vulnerabilities",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 558.6035000160336,
+      "sparse_ms": 665.2332000667229,
+      "fusion_ms": 29.71809997688979,
+      "reranker_ms": 1904.1365999728441,
+      "total_ms": 1938.9002999523655
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Confluence vulnerabilities"
+      ],
+      "retrieval_wall_ms": 677.6135999243706,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Atlassian Confluence vulnerabilities",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 558.6035000160336,
+      "sparse_ms": 665.2332000667229,
+      "fusion_ms": 29.71809997688979,
+      "reranker_ms": 1904.1365999728441,
+      "total_ms": 1938.9002999523655
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Confluence vulnerabilities"
+      ],
+      "retrieval_wall_ms": 677.6135999243706,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Pulse Secure Pulse Connect Secure VPN vulnerabilities",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 514.7075999993831,
+      "sparse_ms": 1092.8343000123277,
+      "fusion_ms": 0.4200999392196536,
+      "reranker_ms": 1356.7558000795543,
+      "total_ms": 1360.510699916631
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Pulse Secure Pulse Connect Secure VPN vulnerabilities",
+      "expanded_queries": [
+        "Pulse Secure Pulse Connect Secure VPN vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1106.4378999872133,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "full",
+    "query": "F5 BIG-IP TMUI vulnerabilities",
+    "category": "Product lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-5902"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 505.89689996559173,
+      "sparse_ms": 1003.5945000126958,
+      "fusion_ms": 1.2233000015839934,
+      "reranker_ms": 1653.2939999597147,
+      "total_ms": 1657.7829999150708
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "F5 BIG-IP TMUI vulnerabilities",
+      "expanded_queries": [
+        "F5 BIG-IP TMUI vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1018.5165000148118,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Apache Software Foundation critical RCE vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 573.4021998941898,
+      "sparse_ms": 987.2832000255585,
+      "fusion_ms": 0.6373999640345573,
+      "reranker_ms": 1078.5222999984398,
+      "total_ms": 1081.298500066623
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Apache Software Foundation critical RCE vulnerabilities",
+      "expanded_queries": [
+        "Apache Software Foundation critical RCE vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1001.4916999498382,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Apache Software Foundation critical RCE vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 573.4021998941898,
+      "sparse_ms": 987.2832000255585,
+      "fusion_ms": 0.6373999640345573,
+      "reranker_ms": 1078.5222999984398,
+      "total_ms": 1081.298500066623
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Apache Software Foundation critical RCE vulnerabilities",
+      "expanded_queries": [
+        "Apache Software Foundation critical RCE vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1001.4916999498382,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Apache Software Foundation critical RCE vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 573.4021998941898,
+      "sparse_ms": 987.2832000255585,
+      "fusion_ms": 0.6373999640345573,
+      "reranker_ms": 1078.5222999984398,
+      "total_ms": 1081.298500066623
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Apache Software Foundation critical RCE vulnerabilities",
+      "expanded_queries": [
+        "Apache Software Foundation critical RCE vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1001.4916999498382,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Apache Software Foundation critical RCE vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-5638"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 573.4021998941898,
+      "sparse_ms": 987.2832000255585,
+      "fusion_ms": 0.6373999640345573,
+      "reranker_ms": 1078.5222999984398,
+      "total_ms": 1081.298500066623
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Apache Software Foundation critical RCE vulnerabilities",
+      "expanded_queries": [
+        "Apache Software Foundation critical RCE vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1001.4916999498382,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "F5 Networks BIG-IP security advisories",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-5902"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 665.5169000150636,
+      "sparse_ms": 1621.166600030847,
+      "fusion_ms": 2.8926999075338244,
+      "reranker_ms": 1157.8697999939322,
+      "total_ms": 1162.2314000269398
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "F5 Networks BIG-IP security advisories",
+      "expanded_queries": [
+        "F5 Networks BIG-IP security advisories"
+      ],
+      "retrieval_wall_ms": 1642.210999969393,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "F5 Networks BIG-IP security advisories",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-5902"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 665.5169000150636,
+      "sparse_ms": 1621.166600030847,
+      "fusion_ms": 2.8926999075338244,
+      "reranker_ms": 1157.8697999939322,
+      "total_ms": 1162.2314000269398
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "F5 Networks BIG-IP security advisories",
+      "expanded_queries": [
+        "F5 Networks BIG-IP security advisories"
+      ],
+      "retrieval_wall_ms": 1642.210999969393,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "F5 Networks BIG-IP security advisories",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-5902"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 665.5169000150636,
+      "sparse_ms": 1621.166600030847,
+      "fusion_ms": 2.8926999075338244,
+      "reranker_ms": 1157.8697999939322,
+      "total_ms": 1162.2314000269398
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "F5 Networks BIG-IP security advisories",
+      "expanded_queries": [
+        "F5 Networks BIG-IP security advisories"
+      ],
+      "retrieval_wall_ms": 1642.210999969393,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Fortinet security updates and CVEs",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 697.2288000397384,
+      "sparse_ms": 1638.370499946177,
+      "fusion_ms": 3.0225999653339386,
+      "reranker_ms": 577.4790999712422,
+      "total_ms": 582.6126999454573
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Fortinet security updates and CVEs",
+      "expanded_queries": [
+        "Fortinet security updates and CVEs"
+      ],
+      "retrieval_wall_ms": 1686.3163999514654,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Fortinet security updates and CVEs",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 697.2288000397384,
+      "sparse_ms": 1638.370499946177,
+      "fusion_ms": 3.0225999653339386,
+      "reranker_ms": 577.4790999712422,
+      "total_ms": 582.6126999454573
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Fortinet security updates and CVEs",
+      "expanded_queries": [
+        "Fortinet security updates and CVEs"
+      ],
+      "retrieval_wall_ms": 1686.3163999514654,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Fortinet security updates and CVEs",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 697.2288000397384,
+      "sparse_ms": 1638.370499946177,
+      "fusion_ms": 3.0225999653339386,
+      "reranker_ms": 577.4790999712422,
+      "total_ms": 582.6126999454573
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Fortinet security updates and CVEs",
+      "expanded_queries": [
+        "Fortinet security updates and CVEs"
+      ],
+      "retrieval_wall_ms": 1686.3163999514654,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Pulse Secure critical CVE list",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 768.9019000390545,
+      "sparse_ms": 1374.3625999195501,
+      "fusion_ms": 0.3336999798193574,
+      "reranker_ms": 846.1403000401333,
+      "total_ms": 847.8191000176594
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Pulse Secure critical CVE list",
+      "expanded_queries": [
+        "Pulse Secure critical CVE list"
+      ],
+      "retrieval_wall_ms": 1434.9549999460578,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Atlassian Server and Data Center vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 684.8062999779359,
+      "sparse_ms": 1350.5369999911636,
+      "fusion_ms": 0.5067000165581703,
+      "reranker_ms": 776.2410999275744,
+      "total_ms": 777.9103999491781
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Server and Data Center vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Server and Data Center vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1403.5429999930784,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Atlassian Server and Data Center vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 684.8062999779359,
+      "sparse_ms": 1350.5369999911636,
+      "fusion_ms": 0.5067000165581703,
+      "reranker_ms": 776.2410999275744,
+      "total_ms": 777.9103999491781
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Server and Data Center vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Server and Data Center vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1403.5429999930784,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Atlassian Server and Data Center vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 684.8062999779359,
+      "sparse_ms": 1350.5369999911636,
+      "fusion_ms": 0.5067000165581703,
+      "reranker_ms": 776.2410999275744,
+      "total_ms": 777.9103999491781
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Server and Data Center vulnerabilities",
+      "expanded_queries": [
+        "Atlassian Server and Data Center vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1403.5429999930784,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Citrix ADC and Gateway vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 610.2999999420717,
+      "sparse_ms": 952.9527999693528,
+      "fusion_ms": 0.4553999751806259,
+      "reranker_ms": 1215.6387999420986,
+      "total_ms": 1217.7177000558004
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Citrix ADC and Gateway vulnerabilities",
+      "expanded_queries": [
+        "Citrix ADC and Gateway vulnerabilities"
+      ],
+      "retrieval_wall_ms": 970.1780000468716,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Citrix ADC and Gateway vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 610.2999999420717,
+      "sparse_ms": 952.9527999693528,
+      "fusion_ms": 0.4553999751806259,
+      "reranker_ms": 1215.6387999420986,
+      "total_ms": 1217.7177000558004
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Citrix ADC and Gateway vulnerabilities",
+      "expanded_queries": [
+        "Citrix ADC and Gateway vulnerabilities"
+      ],
+      "retrieval_wall_ms": 970.1780000468716,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Citrix ADC and Gateway vulnerabilities",
+    "category": "Vendor lookup",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 610.2999999420717,
+      "sparse_ms": 952.9527999693528,
+      "fusion_ms": 0.4553999751806259,
+      "reranker_ms": 1215.6387999420986,
+      "total_ms": 1217.7177000558004
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Citrix ADC and Gateway vulnerabilities",
+      "expanded_queries": [
+        "Citrix ADC and Gateway vulnerabilities"
+      ],
+      "retrieval_wall_ms": 970.1780000468716,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "What vulnerability did WannaCry use to spread?",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 559.8929999396205,
+      "sparse_ms": 1143.0573998950422,
+      "fusion_ms": 1.591400010511279,
+      "reranker_ms": 711.1100999172777,
+      "total_ms": 714.4008000614122
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerability did WannaCry use to spread?",
+      "expanded_queries": [
+        "What vulnerability did WannaCry use to spread?"
+      ],
+      "retrieval_wall_ms": 1178.3388000912964,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "What vulnerability did WannaCry use to spread?",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 559.8929999396205,
+      "sparse_ms": 1143.0573998950422,
+      "fusion_ms": 1.591400010511279,
+      "reranker_ms": 711.1100999172777,
+      "total_ms": 714.4008000614122
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerability did WannaCry use to spread?",
+      "expanded_queries": [
+        "What vulnerability did WannaCry use to spread?"
+      ],
+      "retrieval_wall_ms": 1178.3388000912964,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "What vulnerability did WannaCry use to spread?",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 559.8929999396205,
+      "sparse_ms": 1143.0573998950422,
+      "fusion_ms": 1.591400010511279,
+      "reranker_ms": 711.1100999172777,
+      "total_ms": 714.4008000614122
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerability did WannaCry use to spread?",
+      "expanded_queries": [
+        "What vulnerability did WannaCry use to spread?"
+      ],
+      "retrieval_wall_ms": 1178.3388000912964,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "What vulnerability did WannaCry use to spread?",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 559.8929999396205,
+      "sparse_ms": 1143.0573998950422,
+      "fusion_ms": 1.591400010511279,
+      "reranker_ms": 711.1100999172777,
+      "total_ms": 714.4008000614122
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What vulnerability did WannaCry use to spread?",
+      "expanded_queries": [
+        "What vulnerability did WannaCry use to spread?"
+      ],
+      "retrieval_wall_ms": 1178.3388000912964,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "NotPetya ransomware exploit payload",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 498.3370000263676,
+      "sparse_ms": 749.9683999922127,
+      "fusion_ms": 2.2163999965414405,
+      "reranker_ms": 1226.7419999698177,
+      "total_ms": 1230.1925000501797
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "NotPetya ransomware exploit payload",
+      "expanded_queries": [
+        "NotPetya ransomware exploit payload"
+      ],
+      "retrieval_wall_ms": 765.9010000061244,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "NotPetya ransomware exploit payload",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 498.3370000263676,
+      "sparse_ms": 749.9683999922127,
+      "fusion_ms": 2.2163999965414405,
+      "reranker_ms": 1226.7419999698177,
+      "total_ms": 1230.1925000501797
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "NotPetya ransomware exploit payload",
+      "expanded_queries": [
+        "NotPetya ransomware exploit payload"
+      ],
+      "retrieval_wall_ms": 765.9010000061244,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "NotPetya ransomware exploit payload",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 498.3370000263676,
+      "sparse_ms": 749.9683999922127,
+      "fusion_ms": 2.2163999965414405,
+      "reranker_ms": 1226.7419999698177,
+      "total_ms": 1230.1925000501797
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "NotPetya ransomware exploit payload",
+      "expanded_queries": [
+        "NotPetya ransomware exploit payload"
+      ],
+      "retrieval_wall_ms": 765.9010000061244,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "NotPetya ransomware exploit payload",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2017-0144"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 498.3370000263676,
+      "sparse_ms": 749.9683999922127,
+      "fusion_ms": 2.2163999965414405,
+      "reranker_ms": 1226.7419999698177,
+      "total_ms": 1230.1925000501797
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "NotPetya ransomware exploit payload",
+      "expanded_queries": [
+        "NotPetya ransomware exploit payload"
+      ],
+      "retrieval_wall_ms": 765.9010000061244,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Ryuk ransomware initial access CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781",
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 545.7030999241397,
+      "sparse_ms": 951.3521998887882,
+      "fusion_ms": 0.9259999496862292,
+      "reranker_ms": 903.7379999645054,
+      "total_ms": 905.7627000147477
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Ryuk ransomware initial access CVEs",
+      "expanded_queries": [
+        "Ryuk ransomware initial access CVEs"
+      ],
+      "retrieval_wall_ms": 974.2822999833152,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Ryuk ransomware initial access CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781",
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 545.7030999241397,
+      "sparse_ms": 951.3521998887882,
+      "fusion_ms": 0.9259999496862292,
+      "reranker_ms": 903.7379999645054,
+      "total_ms": 905.7627000147477
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Ryuk ransomware initial access CVEs",
+      "expanded_queries": [
+        "Ryuk ransomware initial access CVEs"
+      ],
+      "retrieval_wall_ms": 974.2822999833152,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Ryuk ransomware initial access CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781",
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 545.7030999241397,
+      "sparse_ms": 951.3521998887882,
+      "fusion_ms": 0.9259999496862292,
+      "reranker_ms": 903.7379999645054,
+      "total_ms": 905.7627000147477
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Ryuk ransomware initial access CVEs",
+      "expanded_queries": [
+        "Ryuk ransomware initial access CVEs"
+      ],
+      "retrieval_wall_ms": 974.2822999833152,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Ryuk ransomware initial access CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-19781",
+      "CVE-2018-13379"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 545.7030999241397,
+      "sparse_ms": 951.3521998887882,
+      "fusion_ms": 0.9259999496862292,
+      "reranker_ms": 903.7379999645054,
+      "total_ms": 905.7627000147477
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Ryuk ransomware initial access CVEs",
+      "expanded_queries": [
+        "Ryuk ransomware initial access CVEs"
+      ],
+      "retrieval_wall_ms": 974.2822999833152,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Conti ransomware exploited vulnerabilities",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2020-1472",
+      "CVE-2021-34527"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 457.04280002973974,
+      "sparse_ms": 715.6592999817804,
+      "fusion_ms": 1.5611000126227736,
+      "reranker_ms": 1217.540099984035,
+      "total_ms": 1220.1253999955952
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Conti ransomware exploited vulnerabilities",
+      "expanded_queries": [
+        "Conti ransomware exploited vulnerabilities"
+      ],
+      "retrieval_wall_ms": 729.1758999926969,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Conti ransomware exploited vulnerabilities",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2020-1472",
+      "CVE-2021-34527"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 457.04280002973974,
+      "sparse_ms": 715.6592999817804,
+      "fusion_ms": 1.5611000126227736,
+      "reranker_ms": 1217.540099984035,
+      "total_ms": 1220.1253999955952
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Conti ransomware exploited vulnerabilities",
+      "expanded_queries": [
+        "Conti ransomware exploited vulnerabilities"
+      ],
+      "retrieval_wall_ms": 729.1758999926969,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Conti ransomware exploited vulnerabilities",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2020-1472",
+      "CVE-2021-34527"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 457.04280002973974,
+      "sparse_ms": 715.6592999817804,
+      "fusion_ms": 1.5611000126227736,
+      "reranker_ms": 1217.540099984035,
+      "total_ms": 1220.1253999955952
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Conti ransomware exploited vulnerabilities",
+      "expanded_queries": [
+        "Conti ransomware exploited vulnerabilities"
+      ],
+      "retrieval_wall_ms": 729.1758999926969,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Conti ransomware exploited vulnerabilities",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2020-1472",
+      "CVE-2021-34527"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 457.04280002973974,
+      "sparse_ms": 715.6592999817804,
+      "fusion_ms": 1.5611000126227736,
+      "reranker_ms": 1217.540099984035,
+      "total_ms": 1220.1253999955952
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Conti ransomware exploited vulnerabilities",
+      "expanded_queries": [
+        "Conti ransomware exploited vulnerabilities"
+      ],
+      "retrieval_wall_ms": 729.1758999926969,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "LockBit ransomware vulnerability exploitation",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 477.1497000474483,
+      "sparse_ms": 774.4957999093458,
+      "fusion_ms": 0.9807000169530511,
+      "reranker_ms": 1679.2591999983415,
+      "total_ms": 1681.448100018315
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "LockBit ransomware vulnerability exploitation",
+      "expanded_queries": [
+        "LockBit ransomware vulnerability exploitation"
+      ],
+      "retrieval_wall_ms": 794.7968000080436,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "LockBit ransomware vulnerability exploitation",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 477.1497000474483,
+      "sparse_ms": 774.4957999093458,
+      "fusion_ms": 0.9807000169530511,
+      "reranker_ms": 1679.2591999983415,
+      "total_ms": 1681.448100018315
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "LockBit ransomware vulnerability exploitation",
+      "expanded_queries": [
+        "LockBit ransomware vulnerability exploitation"
+      ],
+      "retrieval_wall_ms": 794.7968000080436,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "LockBit ransomware vulnerability exploitation",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 477.1497000474483,
+      "sparse_ms": 774.4957999093458,
+      "fusion_ms": 0.9807000169530511,
+      "reranker_ms": 1679.2591999983415,
+      "total_ms": 1681.448100018315
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "LockBit ransomware vulnerability exploitation",
+      "expanded_queries": [
+        "LockBit ransomware vulnerability exploitation"
+      ],
+      "retrieval_wall_ms": 794.7968000080436,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "LockBit ransomware vulnerability exploitation",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 477.1497000474483,
+      "sparse_ms": 774.4957999093458,
+      "fusion_ms": 0.9807000169530511,
+      "reranker_ms": 1679.2591999983415,
+      "total_ms": 1681.448100018315
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "LockBit ransomware vulnerability exploitation",
+      "expanded_queries": [
+        "LockBit ransomware vulnerability exploitation"
+      ],
+      "retrieval_wall_ms": 794.7968000080436,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "BlackCat ALPHV ransomware entry points",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-26855"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 430.4938999703154,
+      "sparse_ms": 840.7678999938071,
+      "fusion_ms": 3.281000070273876,
+      "reranker_ms": 1244.4158999715,
+      "total_ms": 1248.8897999282926
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "BlackCat ALPHV ransomware entry points",
+      "expanded_queries": [
+        "BlackCat ALPHV ransomware entry points"
+      ],
+      "retrieval_wall_ms": 861.2460000440478,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "BlackCat ALPHV ransomware entry points",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-26855"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 430.4938999703154,
+      "sparse_ms": 840.7678999938071,
+      "fusion_ms": 3.281000070273876,
+      "reranker_ms": 1244.4158999715,
+      "total_ms": 1248.8897999282926
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "BlackCat ALPHV ransomware entry points",
+      "expanded_queries": [
+        "BlackCat ALPHV ransomware entry points"
+      ],
+      "retrieval_wall_ms": 861.2460000440478,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "BlackCat ALPHV ransomware entry points",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-26855"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 430.4938999703154,
+      "sparse_ms": 840.7678999938071,
+      "fusion_ms": 3.281000070273876,
+      "reranker_ms": 1244.4158999715,
+      "total_ms": 1248.8897999282926
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "BlackCat ALPHV ransomware entry points",
+      "expanded_queries": [
+        "BlackCat ALPHV ransomware entry points"
+      ],
+      "retrieval_wall_ms": 861.2460000440478,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "BlackCat ALPHV ransomware entry points",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-26855"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 430.4938999703154,
+      "sparse_ms": 840.7678999938071,
+      "fusion_ms": 3.281000070273876,
+      "reranker_ms": 1244.4158999715,
+      "total_ms": 1248.8897999282926
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "BlackCat ALPHV ransomware entry points",
+      "expanded_queries": [
+        "BlackCat ALPHV ransomware entry points"
+      ],
+      "retrieval_wall_ms": 861.2460000440478,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "REvil Sodinokibi ransomware exploited CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510",
+      "CVE-2019-2725"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 633.9260999811813,
+      "sparse_ms": 1068.5378999914974,
+      "fusion_ms": 1.3913000002503395,
+      "reranker_ms": 1186.6643999237567,
+      "total_ms": 1189.5287999650463
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "REvil Sodinokibi ransomware exploited CVEs",
+      "expanded_queries": [
+        "REvil Sodinokibi ransomware exploited CVEs"
+      ],
+      "retrieval_wall_ms": 1085.910000023432,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "REvil Sodinokibi ransomware exploited CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510",
+      "CVE-2019-2725"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 633.9260999811813,
+      "sparse_ms": 1068.5378999914974,
+      "fusion_ms": 1.3913000002503395,
+      "reranker_ms": 1186.6643999237567,
+      "total_ms": 1189.5287999650463
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "REvil Sodinokibi ransomware exploited CVEs",
+      "expanded_queries": [
+        "REvil Sodinokibi ransomware exploited CVEs"
+      ],
+      "retrieval_wall_ms": 1085.910000023432,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "REvil Sodinokibi ransomware exploited CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510",
+      "CVE-2019-2725"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 633.9260999811813,
+      "sparse_ms": 1068.5378999914974,
+      "fusion_ms": 1.3913000002503395,
+      "reranker_ms": 1186.6643999237567,
+      "total_ms": 1189.5287999650463
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "REvil Sodinokibi ransomware exploited CVEs",
+      "expanded_queries": [
+        "REvil Sodinokibi ransomware exploited CVEs"
+      ],
+      "retrieval_wall_ms": 1085.910000023432,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "REvil Sodinokibi ransomware exploited CVEs",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-11510",
+      "CVE-2019-2725"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 633.9260999811813,
+      "sparse_ms": 1068.5378999914974,
+      "fusion_ms": 1.3913000002503395,
+      "reranker_ms": 1186.6643999237567,
+      "total_ms": 1189.5287999650463
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "REvil Sodinokibi ransomware exploited CVEs",
+      "expanded_queries": [
+        "REvil Sodinokibi ransomware exploited CVEs"
+      ],
+      "retrieval_wall_ms": 1085.910000023432,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "DarkSide ransomware vulnerability vector",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-20016"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 496.77490000613034,
+      "sparse_ms": 785.5211000423878,
+      "fusion_ms": 5.466199945658445,
+      "reranker_ms": 1270.9730000933632,
+      "total_ms": 1277.9158999910578
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "DarkSide ransomware vulnerability vector",
+      "expanded_queries": [
+        "DarkSide ransomware vulnerability vector"
+      ],
+      "retrieval_wall_ms": 804.3893000576645,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "DarkSide ransomware vulnerability vector",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-20016"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 496.77490000613034,
+      "sparse_ms": 785.5211000423878,
+      "fusion_ms": 5.466199945658445,
+      "reranker_ms": 1270.9730000933632,
+      "total_ms": 1277.9158999910578
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "DarkSide ransomware vulnerability vector",
+      "expanded_queries": [
+        "DarkSide ransomware vulnerability vector"
+      ],
+      "retrieval_wall_ms": 804.3893000576645,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "DarkSide ransomware vulnerability vector",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-20016"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 496.77490000613034,
+      "sparse_ms": 785.5211000423878,
+      "fusion_ms": 5.466199945658445,
+      "reranker_ms": 1270.9730000933632,
+      "total_ms": 1277.9158999910578
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "DarkSide ransomware vulnerability vector",
+      "expanded_queries": [
+        "DarkSide ransomware vulnerability vector"
+      ],
+      "retrieval_wall_ms": 804.3893000576645,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "DarkSide ransomware vulnerability vector",
+    "category": "Malware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-20016"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 496.77490000613034,
+      "sparse_ms": 785.5211000423878,
+      "fusion_ms": 5.466199945658445,
+      "reranker_ms": 1270.9730000933632,
+      "total_ms": 1277.9158999910578
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "DarkSide ransomware vulnerability vector",
+      "expanded_queries": [
+        "DarkSide ransomware vulnerability vector"
+      ],
+      "retrieval_wall_ms": 804.3893000576645,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "How does T1190 work?",
+    "category": "ATT&CK techniques",
+    "normalized_category": "MITRE ATT&CK",
+    "expected": [
+      "T1190"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 193.48979997448623,
+      "sparse_ms": 694.5886000758037,
+      "fusion_ms": 3.57230007648468,
+      "reranker_ms": 2250.857700011693,
+      "total_ms": 2268.6086000176147
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "How does T1190 work?",
+      "expanded_queries": [
+        "How does T1190 work?"
+      ],
+      "retrieval_wall_ms": 721.0176999215037,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "CWE-502 Deserialization of Untrusted Data",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 541.413800092414,
+      "sparse_ms": 1179.7489000018686,
+      "fusion_ms": 2.8556999750435352,
+      "reranker_ms": 436.62150006275624,
+      "total_ms": 444.40069992560893
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "CWE-502 Deserialization of Untrusted Data",
+      "expanded_queries": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "retrieval_wall_ms": 1211.111200042069,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "CWE-502 Deserialization of Untrusted Data",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 541.413800092414,
+      "sparse_ms": 1179.7489000018686,
+      "fusion_ms": 2.8556999750435352,
+      "reranker_ms": 436.62150006275624,
+      "total_ms": 444.40069992560893
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "CWE-502 Deserialization of Untrusted Data",
+      "expanded_queries": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "retrieval_wall_ms": 1211.111200042069,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "CWE-502 Deserialization of Untrusted Data",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 541.413800092414,
+      "sparse_ms": 1179.7489000018686,
+      "fusion_ms": 2.8556999750435352,
+      "reranker_ms": 436.62150006275624,
+      "total_ms": 444.40069992560893
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "CWE-502 Deserialization of Untrusted Data",
+      "expanded_queries": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "retrieval_wall_ms": 1211.111200042069,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "CWE-502 Deserialization of Untrusted Data",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 541.413800092414,
+      "sparse_ms": 1179.7489000018686,
+      "fusion_ms": 2.8556999750435352,
+      "reranker_ms": 436.62150006275624,
+      "total_ms": 444.40069992560893
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "CWE-502 Deserialization of Untrusted Data",
+      "expanded_queries": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "retrieval_wall_ms": 1211.111200042069,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Improper Input Validation vulnerabilities RCE",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 488.9816000359133,
+      "sparse_ms": 847.7444999152794,
+      "fusion_ms": 2.779899979941547,
+      "reranker_ms": 1400.123400031589,
+      "total_ms": 1403.9652000647038
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Improper Input Validation vulnerabilities RCE",
+      "expanded_queries": [
+        "Improper Input Validation vulnerabilities RCE"
+      ],
+      "retrieval_wall_ms": 860.7977000065148,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Improper Input Validation vulnerabilities RCE",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 488.9816000359133,
+      "sparse_ms": 847.7444999152794,
+      "fusion_ms": 2.779899979941547,
+      "reranker_ms": 1400.123400031589,
+      "total_ms": 1403.9652000647038
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Improper Input Validation vulnerabilities RCE",
+      "expanded_queries": [
+        "Improper Input Validation vulnerabilities RCE"
+      ],
+      "retrieval_wall_ms": 860.7977000065148,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Improper Input Validation vulnerabilities RCE",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 488.9816000359133,
+      "sparse_ms": 847.7444999152794,
+      "fusion_ms": 2.779899979941547,
+      "reranker_ms": 1400.123400031589,
+      "total_ms": 1403.9652000647038
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Improper Input Validation vulnerabilities RCE",
+      "expanded_queries": [
+        "Improper Input Validation vulnerabilities RCE"
+      ],
+      "retrieval_wall_ms": 860.7977000065148,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Improper Input Validation vulnerabilities RCE",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 488.9816000359133,
+      "sparse_ms": 847.7444999152794,
+      "fusion_ms": 2.779899979941547,
+      "reranker_ms": 1400.123400031589,
+      "total_ms": 1403.9652000647038
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Improper Input Validation vulnerabilities RCE",
+      "expanded_queries": [
+        "Improper Input Validation vulnerabilities RCE"
+      ],
+      "retrieval_wall_ms": 860.7977000065148,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Path Traversal vulnerabilities CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379",
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 611.7249999660999,
+      "sparse_ms": 837.2883000411093,
+      "fusion_ms": 2.3729000240564346,
+      "reranker_ms": 592.4315999727696,
+      "total_ms": 596.5508000226691
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Path Traversal vulnerabilities CVEs",
+      "expanded_queries": [
+        "Path Traversal vulnerabilities CVEs"
+      ],
+      "retrieval_wall_ms": 855.9089000336826,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Path Traversal vulnerabilities CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379",
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 611.7249999660999,
+      "sparse_ms": 837.2883000411093,
+      "fusion_ms": 2.3729000240564346,
+      "reranker_ms": 592.4315999727696,
+      "total_ms": 596.5508000226691
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Path Traversal vulnerabilities CVEs",
+      "expanded_queries": [
+        "Path Traversal vulnerabilities CVEs"
+      ],
+      "retrieval_wall_ms": 855.9089000336826,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Path Traversal vulnerabilities CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379",
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 611.7249999660999,
+      "sparse_ms": 837.2883000411093,
+      "fusion_ms": 2.3729000240564346,
+      "reranker_ms": 592.4315999727696,
+      "total_ms": 596.5508000226691
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Path Traversal vulnerabilities CVEs",
+      "expanded_queries": [
+        "Path Traversal vulnerabilities CVEs"
+      ],
+      "retrieval_wall_ms": 855.9089000336826,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Path Traversal vulnerabilities CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2018-13379",
+      "CVE-2019-11510"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 611.7249999660999,
+      "sparse_ms": 837.2883000411093,
+      "fusion_ms": 2.3729000240564346,
+      "reranker_ms": 592.4315999727696,
+      "total_ms": 596.5508000226691
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Path Traversal vulnerabilities CVEs",
+      "expanded_queries": [
+        "Path Traversal vulnerabilities CVEs"
+      ],
+      "retrieval_wall_ms": 855.9089000336826,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Heap-based buffer overflow vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-31166"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 533.2737000426278,
+      "sparse_ms": 1006.2119000358507,
+      "fusion_ms": 0.6599000189453363,
+      "reranker_ms": 420.44910008553416,
+      "total_ms": 422.51579998992383
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Heap-based buffer overflow vulnerabilities",
+      "expanded_queries": [
+        "Heap-based buffer overflow vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1020.3226000303403,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Heap-based buffer overflow vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-31166"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 533.2737000426278,
+      "sparse_ms": 1006.2119000358507,
+      "fusion_ms": 0.6599000189453363,
+      "reranker_ms": 420.44910008553416,
+      "total_ms": 422.51579998992383
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Heap-based buffer overflow vulnerabilities",
+      "expanded_queries": [
+        "Heap-based buffer overflow vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1020.3226000303403,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Heap-based buffer overflow vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-31166"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 533.2737000426278,
+      "sparse_ms": 1006.2119000358507,
+      "fusion_ms": 0.6599000189453363,
+      "reranker_ms": 420.44910008553416,
+      "total_ms": 422.51579998992383
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Heap-based buffer overflow vulnerabilities",
+      "expanded_queries": [
+        "Heap-based buffer overflow vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1020.3226000303403,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Heap-based buffer overflow vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-31166"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 533.2737000426278,
+      "sparse_ms": 1006.2119000358507,
+      "fusion_ms": 0.6599000189453363,
+      "reranker_ms": 420.44910008553416,
+      "total_ms": 422.51579998992383
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Heap-based buffer overflow vulnerabilities",
+      "expanded_queries": [
+        "Heap-based buffer overflow vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1020.3226000303403,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Server-Side Request Forgery SSRF vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26855",
+      "CVE-2021-34473"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 553.6094000563025,
+      "sparse_ms": 1171.4390000561252,
+      "fusion_ms": 1.9790999358519912,
+      "reranker_ms": 501.92329997662455,
+      "total_ms": 505.411000107415
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Server-Side Request Forgery SSRF vulnerabilities",
+      "expanded_queries": [
+        "Server-Side Request Forgery SSRF vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1189.8702000034973,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Server-Side Request Forgery SSRF vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26855",
+      "CVE-2021-34473"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 553.6094000563025,
+      "sparse_ms": 1171.4390000561252,
+      "fusion_ms": 1.9790999358519912,
+      "reranker_ms": 501.92329997662455,
+      "total_ms": 505.411000107415
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Server-Side Request Forgery SSRF vulnerabilities",
+      "expanded_queries": [
+        "Server-Side Request Forgery SSRF vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1189.8702000034973,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Server-Side Request Forgery SSRF vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26855",
+      "CVE-2021-34473"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 553.6094000563025,
+      "sparse_ms": 1171.4390000561252,
+      "fusion_ms": 1.9790999358519912,
+      "reranker_ms": 501.92329997662455,
+      "total_ms": 505.411000107415
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Server-Side Request Forgery SSRF vulnerabilities",
+      "expanded_queries": [
+        "Server-Side Request Forgery SSRF vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1189.8702000034973,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Server-Side Request Forgery SSRF vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26855",
+      "CVE-2021-34473"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 553.6094000563025,
+      "sparse_ms": 1171.4390000561252,
+      "fusion_ms": 1.9790999358519912,
+      "reranker_ms": 501.92329997662455,
+      "total_ms": 505.411000107415
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Server-Side Request Forgery SSRF vulnerabilities",
+      "expanded_queries": [
+        "Server-Side Request Forgery SSRF vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1189.8702000034973,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "SQL Injection vulnerability CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 538.4472000878304,
+      "sparse_ms": 788.4996000211686,
+      "fusion_ms": 2.1522000897675753,
+      "reranker_ms": 341.177299967967,
+      "total_ms": 344.1930999979377
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "SQL Injection vulnerability CVEs",
+      "expanded_queries": [
+        "SQL Injection vulnerability CVEs"
+      ],
+      "retrieval_wall_ms": 806.608899962157,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "SQL Injection vulnerability CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 538.4472000878304,
+      "sparse_ms": 788.4996000211686,
+      "fusion_ms": 2.1522000897675753,
+      "reranker_ms": 341.177299967967,
+      "total_ms": 344.1930999979377
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "SQL Injection vulnerability CVEs",
+      "expanded_queries": [
+        "SQL Injection vulnerability CVEs"
+      ],
+      "retrieval_wall_ms": 806.608899962157,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "SQL Injection vulnerability CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 538.4472000878304,
+      "sparse_ms": 788.4996000211686,
+      "fusion_ms": 2.1522000897675753,
+      "reranker_ms": 341.177299967967,
+      "total_ms": 344.1930999979377
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "SQL Injection vulnerability CVEs",
+      "expanded_queries": [
+        "SQL Injection vulnerability CVEs"
+      ],
+      "retrieval_wall_ms": 806.608899962157,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "SQL Injection vulnerability CVEs",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 538.4472000878304,
+      "sparse_ms": 788.4996000211686,
+      "fusion_ms": 2.1522000897675753,
+      "reranker_ms": 341.177299967967,
+      "total_ms": 344.1930999979377
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "SQL Injection vulnerability CVEs",
+      "expanded_queries": [
+        "SQL Injection vulnerability CVEs"
+      ],
+      "retrieval_wall_ms": 806.608899962157,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Cryptographic weakness privilege escalation",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472",
+      "CVE-2020-0601"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 524.504299974069,
+      "sparse_ms": 784.2973000369966,
+      "fusion_ms": 3.462799941189587,
+      "reranker_ms": 625.5964000010863,
+      "total_ms": 630.9985999250785
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Cryptographic weakness privilege escalation",
+      "expanded_queries": [
+        "Cryptographic weakness privilege escalation"
+      ],
+      "retrieval_wall_ms": 798.5260999994352,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Cryptographic weakness privilege escalation",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472",
+      "CVE-2020-0601"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 524.504299974069,
+      "sparse_ms": 784.2973000369966,
+      "fusion_ms": 3.462799941189587,
+      "reranker_ms": 625.5964000010863,
+      "total_ms": 630.9985999250785
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Cryptographic weakness privilege escalation",
+      "expanded_queries": [
+        "Cryptographic weakness privilege escalation"
+      ],
+      "retrieval_wall_ms": 798.5260999994352,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Cryptographic weakness privilege escalation",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472",
+      "CVE-2020-0601"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 524.504299974069,
+      "sparse_ms": 784.2973000369966,
+      "fusion_ms": 3.462799941189587,
+      "reranker_ms": 625.5964000010863,
+      "total_ms": 630.9985999250785
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Cryptographic weakness privilege escalation",
+      "expanded_queries": [
+        "Cryptographic weakness privilege escalation"
+      ],
+      "retrieval_wall_ms": 798.5260999994352,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Cryptographic weakness privilege escalation",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472",
+      "CVE-2020-0601"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 524.504299974069,
+      "sparse_ms": 784.2973000369966,
+      "fusion_ms": 3.462799941189587,
+      "reranker_ms": 625.5964000010863,
+      "total_ms": 630.9985999250785
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Cryptographic weakness privilege escalation",
+      "expanded_queries": [
+        "Cryptographic weakness privilege escalation"
+      ],
+      "retrieval_wall_ms": 798.5260999994352,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Use After Free memory corruption vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 591.7253000661731,
+      "sparse_ms": 1039.8336000507697,
+      "fusion_ms": 2.253800048492849,
+      "reranker_ms": 1765.6856999965385,
+      "total_ms": 1768.9737998880446
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Use After Free memory corruption vulnerabilities",
+      "expanded_queries": [
+        "Use After Free memory corruption vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1056.7071000114083,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Use After Free memory corruption vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 591.7253000661731,
+      "sparse_ms": 1039.8336000507697,
+      "fusion_ms": 2.253800048492849,
+      "reranker_ms": 1765.6856999965385,
+      "total_ms": 1768.9737998880446
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Use After Free memory corruption vulnerabilities",
+      "expanded_queries": [
+        "Use After Free memory corruption vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1056.7071000114083,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Use After Free memory corruption vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 591.7253000661731,
+      "sparse_ms": 1039.8336000507697,
+      "fusion_ms": 2.253800048492849,
+      "reranker_ms": 1765.6856999965385,
+      "total_ms": 1768.9737998880446
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Use After Free memory corruption vulnerabilities",
+      "expanded_queries": [
+        "Use After Free memory corruption vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1056.7071000114083,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Use After Free memory corruption vulnerabilities",
+    "category": "CWE",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 591.7253000661731,
+      "sparse_ms": 1039.8336000507697,
+      "fusion_ms": 2.253800048492849,
+      "reranker_ms": 1765.6856999965385,
+      "total_ms": 1768.9737998880446
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Use After Free memory corruption vulnerabilities",
+      "expanded_queries": [
+        "Use After Free memory corruption vulnerabilities"
+      ],
+      "retrieval_wall_ms": 1056.7071000114083,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 653.647500090301,
+      "sparse_ms": 1503.3520999131724,
+      "fusion_ms": 2.2756000980734825,
+      "reranker_ms": 1620.8730000071228,
+      "total_ms": 1623.976600007154
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+      "expanded_queries": [
+        "Netlogon AES-CFB8 zero initialization vector privilege escalation"
+      ],
+      "retrieval_wall_ms": 1531.058100052178,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 653.647500090301,
+      "sparse_ms": 1503.3520999131724,
+      "fusion_ms": 2.2756000980734825,
+      "reranker_ms": 1620.8730000071228,
+      "total_ms": 1623.976600007154
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+      "expanded_queries": [
+        "Netlogon AES-CFB8 zero initialization vector privilege escalation"
+      ],
+      "retrieval_wall_ms": 1531.058100052178,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 653.647500090301,
+      "sparse_ms": 1503.3520999131724,
+      "fusion_ms": 2.2756000980734825,
+      "reranker_ms": 1620.8730000071228,
+      "total_ms": 1623.976600007154
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+      "expanded_queries": [
+        "Netlogon AES-CFB8 zero initialization vector privilege escalation"
+      ],
+      "retrieval_wall_ms": 1531.058100052178,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Microsoft Office MSHTML ActiveX control remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 499.6899999678135,
+      "sparse_ms": 1287.620900082402,
+      "fusion_ms": 1.6910999547690153,
+      "reranker_ms": 636.5103999851272,
+      "total_ms": 639.2251000506803
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Microsoft Office MSHTML ActiveX control remote code execution",
+      "expanded_queries": [
+        "Microsoft Office MSHTML ActiveX control remote code execution"
+      ],
+      "retrieval_wall_ms": 1313.8469000114128,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Microsoft Office MSHTML ActiveX control remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 499.6899999678135,
+      "sparse_ms": 1287.620900082402,
+      "fusion_ms": 1.6910999547690153,
+      "reranker_ms": 636.5103999851272,
+      "total_ms": 639.2251000506803
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Microsoft Office MSHTML ActiveX control remote code execution",
+      "expanded_queries": [
+        "Microsoft Office MSHTML ActiveX control remote code execution"
+      ],
+      "retrieval_wall_ms": 1313.8469000114128,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Microsoft Office MSHTML ActiveX control remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-40444"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 499.6899999678135,
+      "sparse_ms": 1287.620900082402,
+      "fusion_ms": 1.6910999547690153,
+      "reranker_ms": 636.5103999851272,
+      "total_ms": 639.2251000506803
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Microsoft Office MSHTML ActiveX control remote code execution",
+      "expanded_queries": [
+        "Microsoft Office MSHTML ActiveX control remote code execution"
+      ],
+      "retrieval_wall_ms": 1313.8469000114128,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Atlassian Confluence OGNL injection remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.9701000219211,
+      "sparse_ms": 1153.8385999156162,
+      "fusion_ms": 1.3110999716445804,
+      "reranker_ms": 672.4312999285758,
+      "total_ms": 674.9714999459684
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence OGNL injection remote code execution",
+      "expanded_queries": [
+        "Atlassian Confluence OGNL injection remote code execution"
+      ],
+      "retrieval_wall_ms": 1169.3360999925062,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Atlassian Confluence OGNL injection remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.9701000219211,
+      "sparse_ms": 1153.8385999156162,
+      "fusion_ms": 1.3110999716445804,
+      "reranker_ms": 672.4312999285758,
+      "total_ms": 674.9714999459684
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence OGNL injection remote code execution",
+      "expanded_queries": [
+        "Atlassian Confluence OGNL injection remote code execution"
+      ],
+      "retrieval_wall_ms": 1169.3360999925062,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Atlassian Confluence OGNL injection remote code execution",
+    "category": "Exploit descriptions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26084"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.9701000219211,
+      "sparse_ms": 1153.8385999156162,
+      "fusion_ms": 1.3110999716445804,
+      "reranker_ms": 672.4312999285758,
+      "total_ms": 674.9714999459684
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Atlassian Confluence OGNL injection remote code execution",
+      "expanded_queries": [
+        "Atlassian Confluence OGNL injection remote code execution"
+      ],
+      "retrieval_wall_ms": 1169.3360999925062,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "Vulnerabilities used in known ransomware campaigns",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 511.0627000685781,
+      "sparse_ms": 1080.149699933827,
+      "fusion_ms": 3.9582999888807535,
+      "reranker_ms": 1548.3296000165865,
+      "total_ms": 1553.8285999791697
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Vulnerabilities used in known ransomware campaigns",
+      "expanded_queries": [
+        "Vulnerabilities used in known ransomware campaigns"
+      ],
+      "retrieval_wall_ms": 1111.1855000490323,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Vulnerabilities used in known ransomware campaigns",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 511.0627000685781,
+      "sparse_ms": 1080.149699933827,
+      "fusion_ms": 3.9582999888807535,
+      "reranker_ms": 1548.3296000165865,
+      "total_ms": 1553.8285999791697
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Vulnerabilities used in known ransomware campaigns",
+      "expanded_queries": [
+        "Vulnerabilities used in known ransomware campaigns"
+      ],
+      "retrieval_wall_ms": 1111.1855000490323,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "Vulnerabilities used in known ransomware campaigns",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 511.0627000685781,
+      "sparse_ms": 1080.149699933827,
+      "fusion_ms": 3.9582999888807535,
+      "reranker_ms": 1548.3296000165865,
+      "total_ms": 1553.8285999791697
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Vulnerabilities used in known ransomware campaigns",
+      "expanded_queries": [
+        "Vulnerabilities used in known ransomware campaigns"
+      ],
+      "retrieval_wall_ms": 1111.1855000490323,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "Vulnerabilities used in known ransomware campaigns",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472",
+      "CVE-2023-34362"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 511.0627000685781,
+      "sparse_ms": 1080.149699933827,
+      "fusion_ms": 3.9582999888807535,
+      "reranker_ms": 1548.3296000165865,
+      "total_ms": 1553.8285999791697
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Vulnerabilities used in known ransomware campaigns",
+      "expanded_queries": [
+        "Vulnerabilities used in known ransomware campaigns"
+      ],
+      "retrieval_wall_ms": 1111.1855000490323,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "KEV vulnerabilities associated with ransomware use",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.20890004653484,
+      "sparse_ms": 1036.9868000270799,
+      "fusion_ms": 3.4698001109063625,
+      "reranker_ms": 1496.6743000550196,
+      "total_ms": 1502.068900037557
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "KEV vulnerabilities associated with ransomware use",
+      "expanded_queries": [
+        "KEV vulnerabilities associated with ransomware use"
+      ],
+      "retrieval_wall_ms": 1066.024599946104,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "KEV vulnerabilities associated with ransomware use",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.20890004653484,
+      "sparse_ms": 1036.9868000270799,
+      "fusion_ms": 3.4698001109063625,
+      "reranker_ms": 1496.6743000550196,
+      "total_ms": 1502.068900037557
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "KEV vulnerabilities associated with ransomware use",
+      "expanded_queries": [
+        "KEV vulnerabilities associated with ransomware use"
+      ],
+      "retrieval_wall_ms": 1066.024599946104,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "KEV vulnerabilities associated with ransomware use",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.20890004653484,
+      "sparse_ms": 1036.9868000270799,
+      "fusion_ms": 3.4698001109063625,
+      "reranker_ms": 1496.6743000550196,
+      "total_ms": 1502.068900037557
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "KEV vulnerabilities associated with ransomware use",
+      "expanded_queries": [
+        "KEV vulnerabilities associated with ransomware use"
+      ],
+      "retrieval_wall_ms": 1066.024599946104,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "KEV vulnerabilities associated with ransomware use",
+    "category": "Ransomware",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-44228",
+      "CVE-2017-0144",
+      "CVE-2020-1472"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 492.20890004653484,
+      "sparse_ms": 1036.9868000270799,
+      "fusion_ms": 3.4698001109063625,
+      "reranker_ms": 1496.6743000550196,
+      "total_ms": 1502.068900037557
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "KEV vulnerabilities associated with ransomware use",
+      "expanded_queries": [
+        "KEV vulnerabilities associated with ransomware use"
+      ],
+      "retrieval_wall_ms": 1066.024599946104,
+      "result_count": 10
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "Which Exchange vulnerabilities require immediate mitigation?",
+    "category": "Natural language SOC questions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2021-26855",
+      "CVE-2021-34473"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 708.2518000388518,
+      "sparse_ms": 1256.3670999370515,
+      "fusion_ms": 0.965900020673871,
+      "reranker_ms": 617.0257999328896,
+      "total_ms": 619.9894000310451
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "Which Exchange vulnerabilities require immediate mitigation?",
+      "expanded_queries": [
+        "Which Exchange vulnerabilities require immediate mitigation?"
+      ],
+      "retrieval_wall_ms": 1289.8784999269992,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "dense",
+    "query": "What critical RCE vulnerabilities affect Windows RDP?",
+    "category": "Natural language SOC questions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-0708"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 904.8583999974653,
+      "sparse_ms": 1782.3460000799969,
+      "fusion_ms": 0.9307999862357974,
+      "reranker_ms": 646.7820999678224,
+      "total_ms": 661.1460000276566
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What critical RCE vulnerabilities affect Windows RDP?",
+      "expanded_queries": [
+        "What critical RCE vulnerabilities affect Windows RDP?"
+      ],
+      "retrieval_wall_ms": 1824.5414000703022,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "sparse",
+    "query": "What critical RCE vulnerabilities affect Windows RDP?",
+    "category": "Natural language SOC questions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-0708"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 904.8583999974653,
+      "sparse_ms": 1782.3460000799969,
+      "fusion_ms": 0.9307999862357974,
+      "reranker_ms": 646.7820999678224,
+      "total_ms": 661.1460000276566
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What critical RCE vulnerabilities affect Windows RDP?",
+      "expanded_queries": [
+        "What critical RCE vulnerabilities affect Windows RDP?"
+      ],
+      "retrieval_wall_ms": 1824.5414000703022,
+      "result_count": 30
+    }
+  },
+  {
+    "mode": "hybrid",
+    "query": "What critical RCE vulnerabilities affect Windows RDP?",
+    "category": "Natural language SOC questions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-0708"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 904.8583999974653,
+      "sparse_ms": 1782.3460000799969,
+      "fusion_ms": 0.9307999862357974,
+      "reranker_ms": 646.7820999678224,
+      "total_ms": 661.1460000276566
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What critical RCE vulnerabilities affect Windows RDP?",
+      "expanded_queries": [
+        "What critical RCE vulnerabilities affect Windows RDP?"
+      ],
+      "retrieval_wall_ms": 1824.5414000703022,
+      "result_count": 20
+    }
+  },
+  {
+    "mode": "full",
+    "query": "What critical RCE vulnerabilities affect Windows RDP?",
+    "category": "Natural language SOC questions",
+    "normalized_category": "CVE",
+    "expected": [
+      "CVE-2019-0708"
+    ],
+    "metrics": {
+      "recall_5": 0.0,
+      "recall_10": 0.0,
+      "recall_20": 0.0,
+      "recall_30": 0.0,
+      "precision_5": 0.0,
+      "precision_10": 0.0,
+      "hit_1": 0.0,
+      "hit_3": 0.0,
+      "hit_5": 0.0,
+      "hit_10": 0.0,
+      "hit_20": 0.0,
+      "hit_30": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0,
+      "ndcg_10": 0.0
+    },
+    "per_stage_latency_ms": {
+      "dense_ms": 904.8583999974653,
+      "sparse_ms": 1782.3460000799969,
+      "fusion_ms": 0.9307999862357974,
+      "reranker_ms": 646.7820999678224,
+      "total_ms": 661.1460000276566
+    },
+    "retrieval_diagnostics": {
+      "retrieval_query": "What critical RCE vulnerabilities affect Windows RDP?",
+      "expanded_queries": [
+        "What critical RCE vulnerabilities affect Windows RDP?"
+      ],
+      "retrieval_wall_ms": 1824.5414000703022,
+      "result_count": 10
+    }
+  }
+]
