@@ -38,6 +38,7 @@ import logging
 import math
 import re
 import time
+from functools import lru_cache
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -56,6 +57,7 @@ DEFAULT_COLLECTION_NAME = "secure_rag_chunks"
 DEFAULT_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 _CVE_PATTERN = re.compile(r"\bCVE-\d{4}-\d{4,7}\b", re.IGNORECASE)
+_TECHNIQUE_PATTERN = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
 
 
 @dataclass(slots=True)
@@ -76,7 +78,7 @@ class DenseRetrieverConfig:
     chroma_dir: Path = DEFAULT_CHROMA_DIR
     collection_name: str = DEFAULT_COLLECTION_NAME
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
-    top_k: int = 10
+    top_k: int = 30
     device: str = "cpu"
     include_embeddings: bool = True
     query_timeout_seconds: float = 20.0
@@ -140,6 +142,11 @@ def _extract_cve_ids(text: str) -> List[str]:
     return list(dict.fromkeys(m.upper() for m in _CVE_PATTERN.findall(text)))
 
 
+def _extract_technique_ids(text: str) -> List[str]:
+    """Extract unique, uppercased MITRE ATT&CK technique identifiers from *text*."""
+    return list(dict.fromkeys(m.upper() for m in _TECHNIQUE_PATTERN.findall(text)))
+
+
 def _build_metadata_items(
     get_payload: Dict[str, Any],
 ) -> List[DenseRetrievalItem]:
@@ -181,17 +188,30 @@ def _load_sentence_transformer(model_name: str, device: str) -> "SentenceTransfo
     return SentenceTransformer(model_name, device=device)
 
 
-def _load_chroma_collection(chroma_dir: Path, collection_name: str) -> Any:
-    """Load persistent Chroma collection and fail fast if missing."""
-    if not chroma_dir.exists():
-        raise FileNotFoundError(f"ChromaDB directory not found: {chroma_dir}")
+@lru_cache(maxsize=8)
+def _get_sentence_transformer(model_name: str, device: str) -> "SentenceTransformer":
+    """Cache the embedding model so repeated evaluations reuse one instance."""
+    return _load_sentence_transformer(model_name, device)
+
+
+@lru_cache(maxsize=8)
+def _get_chroma_client(chroma_dir: str) -> Any:
+    """Cache the persistent Chroma client so the database is opened once."""
+    chroma_path = Path(chroma_dir)
+    if not chroma_path.exists():
+        raise FileNotFoundError(f"ChromaDB directory not found: {chroma_path}")
 
     try:
         import chromadb  # type: ignore
     except ImportError as exc:
         raise ImportError("chromadb is required for dense retrieval.") from exc
 
-    client = chromadb.PersistentClient(path=str(chroma_dir))
+    return chromadb.PersistentClient(path=str(chroma_path))
+
+
+def _load_chroma_collection(chroma_dir: Path, collection_name: str) -> Any:
+    """Load persistent Chroma collection and fail fast if missing."""
+    client = _get_chroma_client(str(chroma_dir))
     try:
         collection = client.get_collection(name=collection_name)
     except Exception as exc:
@@ -352,19 +372,34 @@ def run(query: str, config: DenseRetrieverConfig | None = None) -> DenseRetrieva
     )
 
     # ------------------------------------------------------------------
-    # CVE-ID fast-path: exact metadata lookup before loading the model
+    # ID fast-path: exact metadata lookup for CVE or Technique IDs
     # ------------------------------------------------------------------
     detected_cves = _extract_cve_ids(normalized_query)
+    detected_techs = _extract_technique_ids(normalized_query)
+    # Reuse the persistent collection instead of reopening the database for each query.
     collection = _load_chroma_collection(runtime_config.chroma_dir, runtime_config.collection_name)
 
-    if detected_cves:
-        LOGGER.info("CVE IDs detected in query: %s – attempting metadata lookup", detected_cves)
+    if detected_cves or detected_techs:
+        LOGGER.info(
+            "Identified IDs in query | CVEs=%s Techniques=%s – attempting metadata lookup",
+            detected_cves,
+            detected_techs,
+        )
         started = time.perf_counter()
 
-        if len(detected_cves) == 1:
-            where_filter: Dict[str, Any] = {"cve_id": {"$eq": detected_cves[0]}}
-        else:
-            where_filter = {"cve_id": {"$in": detected_cves}}
+        filters = []
+        if detected_cves:
+            if len(detected_cves) == 1:
+                filters.append({"cve_id": {"$eq": detected_cves[0]}})
+            else:
+                filters.append({"cve_id": {"$in": detected_cves}})
+        if detected_techs:
+            if len(detected_techs) == 1:
+                filters.append({"technique_id": {"$eq": detected_techs[0]}})
+            else:
+                filters.append({"technique_id": {"$in": detected_techs}})
+
+        where_filter = filters[0] if len(filters) == 1 else {"$or": filters}
 
         try:
             meta_payload = collection.get(
@@ -373,8 +408,9 @@ def run(query: str, config: DenseRetrieverConfig | None = None) -> DenseRetrieva
             )
         except Exception:  # noqa: BLE001
             LOGGER.warning(
-                "Metadata lookup for %s failed; falling back to semantic search",
+                "Metadata lookup for CVEs=%s Techs=%s failed; falling back to semantic search",
                 detected_cves,
+                detected_techs,
                 exc_info=True,
             )
             meta_payload = None
@@ -395,21 +431,23 @@ def run(query: str, config: DenseRetrieverConfig | None = None) -> DenseRetrieva
             )
             _validate_response(response)
             LOGGER.info(
-                "CVE metadata lookup succeeded | results=%d | latency_ms=%.2f",
+                "Metadata lookup succeeded | results=%d | latency_ms=%.2f",
                 response.total_results,
                 response.latency_ms,
             )
             return response
 
         LOGGER.info(
-            "No metadata match for %s; falling back to semantic retrieval",
+            "No metadata match for CVEs=%s Techs=%s; falling back to semantic retrieval",
             detected_cves,
+            detected_techs,
         )
 
     # ------------------------------------------------------------------
     # Standard semantic retrieval pipeline
     # ------------------------------------------------------------------
-    model = _load_sentence_transformer(runtime_config.embedding_model, runtime_config.device)
+    # Reuse the loaded embedding model so the hot path only pays for query encoding.
+    model = _get_sentence_transformer(runtime_config.embedding_model, runtime_config.device)
 
     started = time.perf_counter()
     query_embedding_array = model.encode(

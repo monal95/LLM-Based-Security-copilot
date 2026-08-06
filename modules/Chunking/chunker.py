@@ -198,6 +198,45 @@ def _sanitize_identifier(value: str) -> str:
     return cleaned or "unknown"
 
 
+CVE_ALIAS_MAP: Dict[str, List[str]] = {
+    "CVE-2021-44228": ["Log4Shell", "Apache Log4j RCE"],
+    "CVE-2021-45046": ["Log4Shell", "Apache Log4j"],
+    "CVE-2017-0144": ["EternalBlue", "MS17-010"],
+    "CVE-2020-1472": ["Zerologon", "Netlogon PrivEsc"],
+    "CVE-2021-34527": ["PrintNightmare", "Print Spooler RCE"],
+    "CVE-2021-36934": ["HiveNightmare", "SeriousSam"],
+    "CVE-2014-0160": ["Heartbleed", "OpenSSL Heartbleed"],
+    "CVE-2021-34473": ["ProxyShell", "Exchange SSRF"],
+    "CVE-2021-34523": ["ProxyShell", "Exchange RCE"],
+    "CVE-2021-31207": ["ProxyShell", "Exchange Post-Auth RCE"],
+    "CVE-2019-0708": ["BlueKeep", "Windows RDP RCE"],
+    "CVE-2022-30190": ["Follina", "MSDT RCE"],
+    "CVE-2023-34362": ["MOVEit Transfer SQLi"],
+    "CVE-2020-0601": ["CurveBall", "CryptoAPI Spoofing"],
+    "CVE-2017-5638": ["Apache Struts Jakarta RCE"],
+    "CVE-2021-26084": ["Confluence OGNL RCE"],
+    "CVE-2018-13379": ["Fortinet FortiOS SSL-VPN Path Traversal"],
+    "CVE-2019-11510": ["Pulse Secure VPN Arbitrary File Read"],
+    "CVE-2019-19781": ["Citrix ADC RCE"],
+    "CVE-2020-5902": ["F5 BIG-IP TMUI RCE"],
+}
+
+ATTACK_TYPE_PATTERNS = [
+    ("Remote Code Execution", re.compile(r"\b(remote code execution|rce|execute arbitrary code|arbitrary code execution)\b", re.IGNORECASE)),
+    ("SQL Injection", re.compile(r"\b(sql injection|sqli)\b", re.IGNORECASE)),
+    ("Privilege Escalation", re.compile(r"\b(privilege escalation|elevation of privilege|gain root|gain admin)\b", re.IGNORECASE)),
+    ("Path Traversal", re.compile(r"\b(path traversal|directory traversal|arbitrary file read)\b", re.IGNORECASE)),
+    ("Cross-Site Scripting", re.compile(r"\b(cross-site scripting|xss)\b", re.IGNORECASE)),
+    ("Buffer Overflow", re.compile(r"\b(buffer overflow|heap overflow|stack overflow|memory corruption|over-read)\b", re.IGNORECASE)),
+    ("Server-Side Request Forgery", re.compile(r"\b(server-side request forgery|ssrf)\b", re.IGNORECASE)),
+    ("Denial of Service", re.compile(r"\b(denial of service|dos)\b", re.IGNORECASE)),
+    ("Authentication Bypass", re.compile(r"\b(authentication bypass|auth bypass|bypass authentication)\b", re.IGNORECASE)),
+    ("Information Disclosure", re.compile(r"\b(information disclosure|information leak|sensitive information)\b", re.IGNORECASE)),
+]
+
+_CWE_PATTERN = re.compile(r"\bCWE-\d+\b", re.IGNORECASE)
+
+
 def _format_sequence(values: Sequence[Any]) -> str:
     items = [str(item) for item in values if item not in (None, "")]
     return ", ".join(items) if items else "N/A"
@@ -205,6 +244,8 @@ def _format_sequence(values: Sequence[Any]) -> str:
 
 def _load_kev_lookup(path: Path) -> Dict[str, Dict[str, Any]]:
     lookup: Dict[str, Dict[str, Any]] = {}
+    if not path.exists():
+        return lookup
     for record in _stream_json_array(path):
         cve_id = str(record.get("cve_id", "")).strip()
         if cve_id:
@@ -212,49 +253,133 @@ def _load_kev_lookup(path: Path) -> Dict[str, Dict[str, Any]]:
     return lookup
 
 
+def _load_epss_lookup(path: Path) -> Dict[str, float]:
+    lookup: Dict[str, float] = {}
+    if not path.exists():
+        return lookup
+    try:
+        for record in _stream_json_array(path):
+            cve_id = str(record.get("cve_id", "")).strip()
+            prob = record.get("epss_probability")
+            if cve_id and prob is not None:
+                try:
+                    lookup[cve_id] = float(prob)
+                except (TypeError, ValueError):
+                    pass
+    except Exception as exc:
+        LOGGER.warning("Failed to load EPSS lookup: %s", exc)
+    return lookup
+
+
+def _extract_cwe(text: str) -> Optional[str]:
+    match = _CWE_PATTERN.search(text)
+    return match.group(0).upper() if match else None
+
+
+def _extract_attack_type(text: str) -> Optional[str]:
+    for name, pattern in ATTACK_TYPE_PATTERNS:
+        if pattern.search(text):
+            return name
+    return None
+
+
+def _extract_vendor_product(
+    affected_products: List[Any],
+    explicit_vendor: Optional[str] = None,
+    explicit_product: Optional[str] = None,
+) -> Tuple[Optional[str], Optional[str]]:
+    vendor = explicit_vendor
+    product = explicit_product
+
+    if not vendor or not product:
+        for p in affected_products:
+            p_str = str(p)
+            if p_str.startswith("cpe:2.3:"):
+                parts = p_str.split(":")
+                if len(parts) >= 5:
+                    if not vendor and parts[3] != "*":
+                        vendor = parts[3]
+                    if not product and parts[4] != "*":
+                        product = parts[4]
+            elif " " in p_str and not vendor and not product:
+                parts = p_str.split(" ", 1)
+                vendor = parts[0]
+                product = parts[1]
+
+    return vendor, product
+
+
 def _build_nvd_record(
     record: Dict[str, Any],
     kev_lookup: Dict[str, Dict[str, Any]],
+    epss_lookup: Optional[Dict[str, float]] = None,
 ) -> Optional[Tuple[str, Dict[str, Any]]]:
     cve_id = str(record.get("cve_id", "")).strip()
     if not cve_id:
         return None
 
     kev_record = kev_lookup.get(cve_id)
+    epss_score = (epss_lookup or {}).get(cve_id)
     published = record.get("published_date")
     cvss_score = record.get("cvss_score")
+    severity = record.get("severity")
+    desc = str(record.get("description", "")).strip()
+    affected_prods = _safe_list(record.get("affected_products"))
+
+    vendor, product = _extract_vendor_product(affected_prods)
+    cwe_id = _extract_cwe(desc)
+    attack_type = _extract_attack_type(desc)
+    aliases = CVE_ALIAS_MAP.get(cve_id, [])
 
     metadata: Dict[str, Any] = {
         "source": "nvd",
         "source_record_id": cve_id,
         "cve_id": cve_id,
+        "vendor": vendor,
+        "product": product,
         "cvss": cvss_score,
         "cvss_score": cvss_score,
-        "severity": record.get("severity"),
+        "epss": epss_score,
+        "epss_score": epss_score,
+        "severity": severity,
         "published": published,
         "publication_date": published,
         "last_modified": record.get("last_modified"),
-        "affected_products": _safe_list(record.get("affected_products")),
+        "affected_products": affected_prods,
         "kev": bool(kev_record),
         "kev_flag": bool(kev_record),
-        "epss": None,
-        "epss_score": None,
+        "cwe": cwe_id,
+        "attack_type": attack_type,
+        "aliases": aliases,
+        "exploitability": "Ransomware / KEV" if kev_record else ("HIGH" if (cvss_score and float(cvss_score) >= 8.0) else "MEDIUM"),
     }
 
     if kev_record:
         metadata["kev_date_added"] = kev_record.get("date_added")
         metadata["kev_required_action"] = kev_record.get("required_action")
 
-    text = "\n".join(
+    # Phase 3 — One vulnerability = One logical document with structured headers
+    alias_str = ", ".join(aliases) if aliases else "N/A"
+    products_str = _format_sequence(affected_prods)
+    text = "\n\n".join(
         [
-            f"CVE ID: {cve_id}",
-            f"Description: {record.get('description', '')}",
-            f"CVSS Score: {cvss_score}",
-            f"Severity: {record.get('severity', 'UNKNOWN')}",
-            f"Affected Products: {_format_sequence(record.get('affected_products', []))}",
-            f"Published Date: {published or ''}",
-            f"Last Modified: {record.get('last_modified', '')}",
-            f"In KEV: {bool(kev_record)}",
+            f"# [{cve_id}] {product or 'Vulnerability'} Security Overview\nAliases: {alias_str}",
+            f"## Description\n{desc}",
+            f"## Vulnerability Metrics\n"
+            f"- CVE ID: {cve_id}\n"
+            f"- CVSS Score: {cvss_score or 'N/A'}\n"
+            f"- Severity: {severity or 'UNKNOWN'}\n"
+            f"- EPSS Probability: {epss_score if epss_score is not None else 'N/A'}\n"
+            f"- In CISA KEV: {bool(kev_record)}\n"
+            f"- CWE: {cwe_id or 'N/A'}\n"
+            f"- Attack Classification: {attack_type or 'General Security Vulnerability'}",
+            f"## Affected Products & Scope\n"
+            f"- Vendor: {vendor or 'N/A'}\n"
+            f"- Product: {product or 'N/A'}\n"
+            f"- Affected Products: {products_str}",
+            f"## Dates & Metadata\n"
+            f"- Published: {published or 'N/A'}\n"
+            f"- Last Modified: {record.get('last_modified', 'N/A')}",
         ]
     )
 
@@ -266,16 +391,22 @@ def _build_mitre_record(record: Dict[str, Any]) -> Optional[Tuple[str, Dict[str,
     if not technique_id:
         return None
 
+    name = record.get("name", "")
+    desc = str(record.get("description", "")).strip()
     mitigations = _safe_list(record.get("mitigations"))
     mitigation_names = [
         mitigation.get("name") if isinstance(mitigation, dict) else str(mitigation)
         for mitigation in mitigations
     ]
+    tactics = _safe_list(record.get("tactics"))
+    platforms = _safe_list(record.get("platforms"))
+    attack_type = _extract_attack_type(desc)
 
     metadata: Dict[str, Any] = {
         "source": "mitre",
         "source_record_id": technique_id,
         "technique_id": technique_id,
+        "name": name,
         "cve_id": None,
         "cvss": None,
         "cvss_score": None,
@@ -285,70 +416,97 @@ def _build_mitre_record(record: Dict[str, Any]) -> Optional[Tuple[str, Dict[str,
         "kev_flag": False,
         "epss": None,
         "epss_score": None,
-        "tactics": _safe_list(record.get("tactics")),
-        "platforms": _safe_list(record.get("platforms")),
+        "tactics": tactics,
+        "platforms": platforms,
         "sub_techniques": _safe_list(record.get("sub_techniques")),
         "data_sources": _safe_list(record.get("data_sources")),
         "mitigations": mitigations,
+        "attack_type": attack_type or "Adversary Technique",
         "url": record.get("url"),
     }
 
-    text = "\n".join(
+    text = "\n\n".join(
         [
-            f"Technique ID: {technique_id}",
-            f"Name: {record.get('name', '')}",
-            f"Description: {record.get('description', '')}",
-            f"Tactics: {_format_sequence(record.get('tactics', []))}",
-            f"Platforms: {_format_sequence(record.get('platforms', []))}",
-            f"Sub-techniques: {_format_sequence(record.get('sub_techniques', []))}",
-            f"Data Sources: {_format_sequence(record.get('data_sources', []))}",
-            f"Mitigations: {_format_sequence(mitigation_names)}",
-            f"Reference URL: {record.get('url', '')}",
+            f"# [{technique_id}] MITRE ATT&CK Technique: {name}",
+            f"## Description\n{desc}",
+            f"## Technique Metadata\n"
+            f"- Technique ID: {technique_id}\n"
+            f"- Name: {name}\n"
+            f"- Tactics: {_format_sequence(tactics)}\n"
+            f"- Target Platforms: {_format_sequence(platforms)}\n"
+            f"- Sub-techniques: {_format_sequence(record.get('sub_techniques', []))}\n"
+            f"- Data Sources: {_format_sequence(record.get('data_sources', []))}",
+            f"## Mitigations & Defense\n"
+            f"- Mitigations: {_format_sequence(mitigation_names)}\n"
+            f"- Reference URL: {record.get('url', '')}",
         ]
     )
 
     return text, metadata
 
 
-def _build_kev_record(record: Dict[str, Any]) -> Optional[Tuple[str, Dict[str, Any]]]:
+def _build_kev_record(
+    record: Dict[str, Any],
+    epss_lookup: Optional[Dict[str, float]] = None,
+) -> Optional[Tuple[str, Dict[str, Any]]]:
     cve_id = str(record.get("cve_id", "")).strip()
     if not cve_id:
         return None
 
+    epss_score = (epss_lookup or {}).get(cve_id)
     date_added = record.get("date_added")
+    vendor = record.get("vendor")
+    product = record.get("product")
+    vuln_name = record.get("vulnerability_name", "")
+    desc = str(record.get("short_description", "")).strip()
+
+    cwe_id = _extract_cwe(desc)
+    attack_type = _extract_attack_type(desc)
+    aliases = CVE_ALIAS_MAP.get(cve_id, [])
 
     metadata: Dict[str, Any] = {
         "source": "kev",
         "source_record_id": cve_id,
         "cve_id": cve_id,
+        "vendor": vendor,
+        "product": product,
+        "vulnerability_name": vuln_name,
         "cvss": None,
         "cvss_score": None,
-        "published": None,
+        "epss": epss_score,
+        "epss_score": epss_score,
+        "published": date_added,
         "publication_date": date_added,
         "kev": True,
         "kev_flag": True,
-        "epss": None,
-        "epss_score": None,
-        "vendor": record.get("vendor"),
-        "product": record.get("product"),
         "date_added": date_added,
         "required_action": record.get("required_action"),
         "due_date": record.get("due_date"),
         "known_ransomware_campaign_use": record.get("known_ransomware_campaign_use"),
+        "cwe": cwe_id,
+        "attack_type": attack_type,
+        "aliases": aliases,
+        "exploitability": "Known Ransomware Campaign Use" if record.get("known_ransomware_campaign_use") == "Known" else "Exploited in Wild",
     }
 
-    text = "\n".join(
+    alias_str = ", ".join(aliases) if aliases else "N/A"
+    text = "\n\n".join(
         [
-            f"CVE ID: {cve_id}",
-            f"Vendor: {record.get('vendor', '')}",
-            f"Product: {record.get('product', '')}",
-            f"Vulnerability Name: {record.get('vulnerability_name', '')}",
-            f"Date Added: {date_added or ''}",
-            f"Required Action: {record.get('required_action', '')}",
-            f"Due Date: {record.get('due_date', '')}",
-            f"Known Ransomware Campaign Use: {record.get('known_ransomware_campaign_use', '')}",
-            f"Short Description: {record.get('short_description', '')}",
-            f"Notes: {record.get('notes', '')}",
+            f"# [{cve_id}] CISA Known Exploited Vulnerability: {vuln_name or product or cve_id}\nAliases: {alias_str}",
+            f"## Description\n{desc}",
+            f"## KEV Exploitation Details\n"
+            f"- CVE ID: {cve_id}\n"
+            f"- Vendor: {vendor or 'N/A'}\n"
+            f"- Product: {product or 'N/A'}\n"
+            f"- Vulnerability Name: {vuln_name}\n"
+            f"- Date Added to KEV: {date_added or 'N/A'}\n"
+            f"- EPSS Score: {epss_score if epss_score is not None else 'N/A'}\n"
+            f"- Ransomware Campaign Use: {record.get('known_ransomware_campaign_use', 'Unknown')}\n"
+            f"- Attack Type: {attack_type or 'Exploited Vulnerability'}",
+            f"## Required Remediation & Action\n"
+            f"- Required Action: {record.get('required_action', 'Apply vendor patches immediately')}\n"
+            f"- Mitigation Due Date: {record.get('due_date', 'N/A')}\n"
+            f"- Additional Notes: {record.get('notes', 'N/A')}",
         ]
     )
 
@@ -360,16 +518,17 @@ def _build_chunk_rows(
     source_name: str,
     splitter: RecursiveCharacterTextSplitter,
     kev_lookup: Optional[Dict[str, Dict[str, Any]]] = None,
+    epss_lookup: Optional[Dict[str, float]] = None,
 ) -> List[Dict[str, Any]]:
     chunk_rows: List[Dict[str, Any]] = []
 
     for record_index, record in enumerate(records):
         if source_name == "nvd":
-            built = _build_nvd_record(record, kev_lookup or {})
+            built = _build_nvd_record(record, kev_lookup or {}, epss_lookup)
         elif source_name == "mitre":
             built = _build_mitre_record(record)
         else:
-            built = _build_kev_record(record)
+            built = _build_kev_record(record, epss_lookup)
 
         if built is None:
             continue
@@ -510,6 +669,7 @@ def _source_paths(processed_dir: Path) -> Dict[str, Path]:
         "nvd": processed_dir / "nvd.json",
         "mitre": processed_dir / "mitre.json",
         "kev": processed_dir / "kev.json",
+        "epss": processed_dir / "epss.json",
     }
 
 
@@ -543,6 +703,7 @@ def _process_source(
     chunk_total: int,
     chunk_batch_size: int,
     kev_lookup: Optional[Dict[str, Dict[str, Any]]] = None,
+    epss_lookup: Optional[Dict[str, float]] = None,
 ) -> Tuple[ChunkerCheckpoint, int, int]:
     iterator = _stream_json_array(source_path)
     for _ in range(start_record_index):
@@ -587,7 +748,7 @@ def _process_source(
                 source_total,
             )
 
-            chunk_rows = _build_chunk_rows(batch_records, source_name, splitter, kev_lookup)
+            chunk_rows = _build_chunk_rows(batch_records, source_name, splitter, kev_lookup, epss_lookup)
             new_position = writer.append_batch(chunk_rows)
             chunk_total += len(chunk_rows)
             chunk_bar.update(len(chunk_rows))
@@ -623,7 +784,7 @@ def _process_source(
                 source_total,
             )
 
-            chunk_rows = _build_chunk_rows(batch_records, source_name, splitter, kev_lookup)
+            chunk_rows = _build_chunk_rows(batch_records, source_name, splitter, kev_lookup, epss_lookup)
             new_position = writer.append_batch(chunk_rows)
             chunk_total += len(chunk_rows)
             chunk_bar.update(len(chunk_rows))
@@ -706,6 +867,7 @@ def run(config: Optional[ChunkerConfig] = None) -> Path:
     record_totals = _count_records_by_source(source_paths)
     splitter = _build_text_splitter(runtime_config)
     kev_lookup = _load_kev_lookup(source_paths["kev"])
+    epss_lookup = _load_epss_lookup(source_paths["epss"])
     writer = _ChunkJsonWriter(runtime_config.output_file)
     writer.initialize(checkpoint)
 
@@ -751,6 +913,7 @@ def run(config: Optional[ChunkerConfig] = None) -> Path:
                 chunk_total=total_chunks,
                 chunk_batch_size=runtime_config.chunk_batch_size,
                 kev_lookup=kev_lookup if source_name == "nvd" else None,
+                epss_lookup=epss_lookup,
             )
 
             if source_name != SOURCE_ORDER[-1]:

@@ -41,6 +41,8 @@ import argparse
 import logging
 import math
 import time
+import re
+from functools import lru_cache
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -52,6 +54,8 @@ LOGGER = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+_CVE_PATTERN = re.compile(r"\bCVE-\d{4}-\d{4,7}\b", re.IGNORECASE)
+_TECHNIQUE_PATTERN = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
 
 
 @dataclass(slots=True)
@@ -67,8 +71,8 @@ class RerankerConfig:
     """
 
     model_name: str = DEFAULT_CROSS_ENCODER_MODEL
-    top_k: int = 5
-    input_limit: int = 25
+    top_k: int = 10
+    input_limit: int = 50
     device: str = "cpu"
     score_fusion_alpha: float = 0.85
 
@@ -183,6 +187,12 @@ def _load_model(model_name: str, device: str) -> Any:
         raise RuntimeError(f"Failed to load cross-encoder model '{model_name}'") from exc
 
 
+@lru_cache(maxsize=8)
+def _get_cross_encoder(model_name: str, device: str) -> Any:
+    """Cache the cross-encoder so repeated reranking trials reuse one model instance."""
+    return _load_model(model_name, device)
+
+
 def _predict_scores(model: Any, query: str, items: List[_FusedInputItem]) -> np.ndarray:
     pairs = [(query, item.text) for item in items]
     try:
@@ -279,15 +289,27 @@ def run(
 
     start = time.perf_counter()
     try:
-        model = _load_model(runtime_config.model_name, runtime_config.device)
+        # SentenceTransformers already batches query-document pairs; keep the full batch on one model call.
+        model = _get_cross_encoder(runtime_config.model_name, runtime_config.device)
         rerank_scores = _predict_scores(model=model, query=normalized_query, items=candidates)
         latency_ms = (time.perf_counter() - start) * 1000.0
+
+        query_cves = set(m.upper() for m in _CVE_PATTERN.findall(normalized_query))
+        query_techs = set(m.upper() for m in _TECHNIQUE_PATTERN.findall(normalized_query))
 
         merged: List[tuple[float, _FusedInputItem, float]] = []
         alpha = runtime_config.score_fusion_alpha
         for idx, item in enumerate(candidates):
             rerank_score = float(rerank_scores[idx])
             blended = alpha * rerank_score + (1.0 - alpha) * float(item.retrieval_score)
+
+            # Step 9 — Metadata-aware Reranking Boost
+            meta_cve = str(item.metadata.get("cve_id", "")).upper()
+            meta_tech = str(item.metadata.get("technique_id", "")).upper()
+
+            if (query_cves and meta_cve in query_cves) or (query_techs and meta_tech in query_techs):
+                blended += 100.0
+
             merged.append((blended, item, rerank_score))
 
         merged.sort(key=lambda row: row[0], reverse=True)

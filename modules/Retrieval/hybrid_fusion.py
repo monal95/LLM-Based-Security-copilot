@@ -61,12 +61,16 @@ class HybridFusionConfig:
         top_k: Number of fused results to return.
         dedup_strategy: Deduplication strategy: "chunk_id" or "document".
         min_fusion_score: Drop fused items below this threshold.
+        dense_weight: Weight applied to dense RRF scores.
+        sparse_weight: Weight applied to sparse RRF scores.
     """
 
     rrf_k: int = 60
-    top_k: int = 15
+    top_k: int = 30
     dedup_strategy: str = "chunk_id"
     min_fusion_score: float = 0.0
+    dense_weight: float = 0.7
+    sparse_weight: float = 0.3
 
 
 @dataclass(slots=True)
@@ -229,7 +233,8 @@ def _merge_candidates(
 
     for candidate in list(dense_candidates) + list(sparse_candidates):
         key = _candidate_key(candidate, config.dedup_strategy)
-        rrf_score = _rrf(candidate.rank, config.rrf_k)
+        weight = config.dense_weight if candidate.source == "dense" else config.sparse_weight
+        rrf_score = weight * _rrf(candidate.rank, config.rrf_k)
 
         if key not in accumulator:
             accumulator[key] = HybridFusionItem(

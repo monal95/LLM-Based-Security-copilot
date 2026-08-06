@@ -58,9 +58,16 @@ def _load_chunks(chunks_file: Path) -> List[Dict[str, Any]]:
 
 def _tokenize(text: str) -> List[str]:
     """Tokenize text for sparse retrieval using a deterministic regex-based tokenizer."""
-    normalized = text.lower()
-    tokens = re.findall(r"[a-z0-9]+(?:[-_][a-z0-9]+)*", normalized)
-    return tokens
+    raw_tokens = re.findall(r"[a-z0-9]+(?:[-_][a-z0-9]+)*", text.lower())
+    expanded_tokens: List[str] = []
+    for tok in raw_tokens:
+        expanded_tokens.append(tok)
+        if "-" in tok or "_" in tok:
+            sub_parts = re.split(r"[-_]", tok)
+            for part in sub_parts:
+                if part and part not in expanded_tokens:
+                    expanded_tokens.append(part)
+    return expanded_tokens
 
 
 def _prepare_corpus(chunks: Sequence[Dict[str, Any]]) -> List[List[str]]:

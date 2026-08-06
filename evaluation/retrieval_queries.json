@@ -1,0 +1,502 @@
+[
+  {
+    "category": "Exact CVE lookup",
+    "query": "What is CVE-2021-44228?",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "Details on CVE-2017-0144",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "Explain CVE-2020-1472 vulnerability",
+    "expected": ["CVE-2020-1472"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "Information about CVE-2021-34527",
+    "expected": ["CVE-2021-34527"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "What is CVE-2014-0160?",
+    "expected": ["CVE-2014-0160"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "CVE-2021-26855 impact and severity",
+    "expected": ["CVE-2021-26855"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "Tell me about CVE-2019-0708",
+    "expected": ["CVE-2019-0708"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "CVSS and severity for CVE-2022-30190",
+    "expected": ["CVE-2022-30190"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "CVE-2023-23397 vulnerability breakdown",
+    "expected": ["CVE-2023-23397"]
+  },
+  {
+    "category": "Exact CVE lookup",
+    "query": "What does CVE-2021-40444 affect?",
+    "expected": ["CVE-2021-40444"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "Apache Log4j vulnerability 2021 44228",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "EternalBlue SMB vulnerability 2017 0144",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "Zerologon privilege escalation 2020 1472",
+    "expected": ["CVE-2020-1472"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "PrintSpooler printnightmare 2021 34527",
+    "expected": ["CVE-2021-34527"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "OpenSSL Heartbleed 2014 0160",
+    "expected": ["CVE-2014-0160"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "ProxyShell Exchange SSRF 2021 34473",
+    "expected": ["CVE-2021-34473"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "BlueKeep RDP 2019 0708",
+    "expected": ["CVE-2019-0708"]
+  },
+  {
+    "category": "Partial CVE lookup",
+    "query": "Follina MSDT 2022 30190",
+    "expected": ["CVE-2022-30190"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Which vulnerabilities affect Apache Log4j?",
+    "expected": ["CVE-2021-44228", "CVE-2021-45046", "CVE-2021-45105", "CVE-2021-4104"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Show Windows Print Spooler vulnerabilities",
+    "expected": ["CVE-2021-34527", "CVE-2021-36934"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Microsoft Exchange Server remote code execution vulnerabilities",
+    "expected": ["CVE-2021-26855", "CVE-2021-27065", "CVE-2021-34473", "CVE-2021-34523", "CVE-2021-31207"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "What vulnerabilities target Apache Struts2?",
+    "expected": ["CVE-2017-5638"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Atlassian Confluence vulnerabilities",
+    "expected": ["CVE-2021-26084"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Fortinet FortiOS SSL-VPN vulnerabilities",
+    "expected": ["CVE-2018-13379"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Pulse Secure Pulse Connect Secure VPN vulnerabilities",
+    "expected": ["CVE-2019-11510"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Citrix Application Delivery Controller ADC vulnerabilities",
+    "expected": ["CVE-2019-19781"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "F5 BIG-IP TMUI vulnerabilities",
+    "expected": ["CVE-2020-5902"]
+  },
+  {
+    "category": "Product lookup",
+    "query": "Progress MOVEit Transfer vulnerabilities",
+    "expected": ["CVE-2023-34362"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Show critical Microsoft Exchange vulnerabilities",
+    "expected": ["CVE-2021-26855", "CVE-2021-27065", "CVE-2021-34473"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Apache Software Foundation critical RCE vulnerabilities",
+    "expected": ["CVE-2021-44228", "CVE-2017-5638"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "VMware vCenter Server remote code execution CVEs",
+    "expected": ["CVE-2021-21972"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "F5 Networks BIG-IP security advisories",
+    "expected": ["CVE-2020-5902"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Fortinet security updates and CVEs",
+    "expected": ["CVE-2018-13379"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Pulse Secure critical CVE list",
+    "expected": ["CVE-2019-11510"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Atlassian Server and Data Center vulnerabilities",
+    "expected": ["CVE-2021-26084"]
+  },
+  {
+    "category": "Vendor lookup",
+    "query": "Citrix ADC and Gateway vulnerabilities",
+    "expected": ["CVE-2019-19781"]
+  },
+  {
+    "category": "Malware",
+    "query": "What vulnerability did WannaCry use to spread?",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Malware",
+    "query": "NotPetya ransomware exploit payload",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Malware",
+    "query": "Ryuk ransomware initial access CVEs",
+    "expected": ["CVE-2019-19781", "CVE-2018-13379"]
+  },
+  {
+    "category": "Malware",
+    "query": "Conti ransomware exploited vulnerabilities",
+    "expected": ["CVE-2021-44228", "CVE-2020-1472", "CVE-2021-34527"]
+  },
+  {
+    "category": "Malware",
+    "query": "LockBit ransomware vulnerability exploitation",
+    "expected": ["CVE-2021-44228", "CVE-2023-34362"]
+  },
+  {
+    "category": "Malware",
+    "query": "BlackCat ALPHV ransomware entry points",
+    "expected": ["CVE-2021-44228", "CVE-2021-26855"]
+  },
+  {
+    "category": "Malware",
+    "query": "REvil Sodinokibi ransomware exploited CVEs",
+    "expected": ["CVE-2019-11510", "CVE-2019-2725"]
+  },
+  {
+    "category": "Malware",
+    "query": "DarkSide ransomware vulnerability vector",
+    "expected": ["CVE-2021-20016"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "How does T1190 work?",
+    "expected": ["T1190"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "What is OS Credential Dumping T1003?",
+    "expected": ["T1003"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Explain LSASS Memory dumping sub-technique T1003.001",
+    "expected": ["T1003.001"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Command and Scripting Interpreter T1059 details",
+    "expected": ["T1059"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "What is PowerShell execution technique T1059.001?",
+    "expected": ["T1059.001"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Phishing techniques in MITRE ATT&CK T1566",
+    "expected": ["T1566"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Spearphishing Attachment sub-technique T1566.001",
+    "expected": ["T1566.001"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Process Injection techniques T1055",
+    "expected": ["T1055"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Scheduled Task Job persistence technique T1053",
+    "expected": ["T1053"]
+  },
+  {
+    "category": "ATT&CK techniques",
+    "query": "Brute Force credential access technique T1110",
+    "expected": ["T1110"]
+  },
+  {
+    "category": "CWE",
+    "query": "CWE-502 Deserialization of Untrusted Data",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "CWE",
+    "query": "Improper Input Validation vulnerabilities RCE",
+    "expected": ["CVE-2021-44228", "CVE-2021-40444"]
+  },
+  {
+    "category": "CWE",
+    "query": "Path Traversal vulnerabilities CVEs",
+    "expected": ["CVE-2018-13379", "CVE-2019-11510"]
+  },
+  {
+    "category": "CWE",
+    "query": "Heap-based buffer overflow vulnerabilities",
+    "expected": ["CVE-2021-31166"]
+  },
+  {
+    "category": "CWE",
+    "query": "Server-Side Request Forgery SSRF vulnerabilities",
+    "expected": ["CVE-2021-26855", "CVE-2021-34473"]
+  },
+  {
+    "category": "CWE",
+    "query": "SQL Injection vulnerability CVEs",
+    "expected": ["CVE-2023-34362"]
+  },
+  {
+    "category": "CWE",
+    "query": "Cryptographic weakness privilege escalation",
+    "expected": ["CVE-2020-1472", "CVE-2020-0601"]
+  },
+  {
+    "category": "CWE",
+    "query": "Use After Free memory corruption vulnerabilities",
+    "expected": ["CVE-2021-40444"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "JNDI lookup LDAP remote code execution exploit",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "SMBv1 remote code execution EternalBlue exploit",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Netlogon AES-CFB8 zero initialization vector privilege escalation",
+    "expected": ["CVE-2020-1472"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Windows Print Spooler RCE PrintNightmare exploit",
+    "expected": ["CVE-2021-34527"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "MSDT URL protocol handler remote code execution Follina",
+    "expected": ["CVE-2022-30190"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Microsoft Outlook NTLM credential theft via craft memo email",
+    "expected": ["CVE-2023-23397"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Microsoft Office MSHTML ActiveX control remote code execution",
+    "expected": ["CVE-2021-40444"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Apache Struts Jakarta Multipart parser OGNL expression injection",
+    "expected": ["CVE-2017-5638"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "Atlassian Confluence OGNL injection remote code execution",
+    "expected": ["CVE-2021-26084"]
+  },
+  {
+    "category": "Exploit descriptions",
+    "query": "OpenSSL TLS heartbeat extension buffer over-read",
+    "expected": ["CVE-2014-0160"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "Vulnerabilities used in known ransomware campaigns",
+    "expected": ["CVE-2021-44228", "CVE-2017-0144", "CVE-2020-1472", "CVE-2023-34362"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "KEV vulnerabilities associated with ransomware use",
+    "expected": ["CVE-2021-44228", "CVE-2017-0144", "CVE-2020-1472"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "MOVEit Transfer SQL injection ransomware exploitation",
+    "expected": ["CVE-2023-34362"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "Fortinet SSL-VPN credential disclosure ransomware",
+    "expected": ["CVE-2018-13379"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "Pulse Secure VPN arbitrary file read ransomware",
+    "expected": ["CVE-2019-11510"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "Citrix ADC path traversal RCE ransomware",
+    "expected": ["CVE-2019-19781"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "GoAnywhere MFT remote code execution ransomware",
+    "expected": ["CVE-2023-0669"]
+  },
+  {
+    "category": "Ransomware",
+    "query": "ProxyNotShell Exchange vulnerabilities ransomware",
+    "expected": ["CVE-2022-41040", "CVE-2022-41082"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "What is Log4Shell?",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "query": "Explain EternalBlue",
+    "category": "Vulnerability names",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "What is Zerologon?",
+    "expected": ["CVE-2020-1472"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "Explain PrintNightmare vulnerability",
+    "expected": ["CVE-2021-34527"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "What is Heartbleed?",
+    "expected": ["CVE-2014-0160"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "Explain ProxyShell Exchange vulnerability",
+    "expected": ["CVE-2021-34473", "CVE-2021-34523", "CVE-2021-31207"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "What is BlueKeep RDP vulnerability?",
+    "expected": ["CVE-2019-0708"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "Explain Follina MSDT zero-day",
+    "expected": ["CVE-2022-30190"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "What is CurveBall Windows CryptoAPI vulnerability?",
+    "expected": ["CVE-2020-0601"]
+  },
+  {
+    "category": "Vulnerability names",
+    "query": "Explain HiveNightmare SeriousSam vulnerability",
+    "expected": ["CVE-2021-36934"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "How should we prioritize patching for CVE-2021-44228?",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "Is CVE-2017-0144 currently listed in CISA KEV?",
+    "expected": ["CVE-2017-0144"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "What is the CVSS score and severity of Log4Shell?",
+    "expected": ["CVE-2021-44228"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "Which Exchange vulnerabilities require immediate mitigation?",
+    "expected": ["CVE-2021-26855", "CVE-2021-34473"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "How do adversaries exploit initial access via T1190?",
+    "expected": ["T1190"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "What are the mitigations for OS Credential Dumping T1003?",
+    "expected": ["T1003"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "Compare CVE-2021-44228 and CVE-2021-45046 severity",
+    "expected": ["CVE-2021-44228", "CVE-2021-45046"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "What critical RCE vulnerabilities affect Windows RDP?",
+    "expected": ["CVE-2019-0708"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "Summarize the required actions for Zerologon CVE-2020-1472",
+    "expected": ["CVE-2020-1472"]
+  },
+  {
+    "category": "Natural language SOC questions",
+    "query": "What tactics are associated with MITRE ATT&CK technique T1059?",
+    "expected": ["T1059"]
+  }
+]

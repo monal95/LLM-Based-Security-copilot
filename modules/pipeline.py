@@ -41,7 +41,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from modules.Generation import llm_chain, prompt_template
-from modules.Retrieval import dense_retriever, hybrid_fusion, reranker, sparse_retriever
+from modules.Retrieval import dense_retriever, hybrid_fusion, query_expander, reranker, sparse_retriever
 from modules.Verification import hallucination_guard
 
 LOGGER = logging.getLogger(__name__)
@@ -148,11 +148,17 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
 
     diagnostics: Dict[str, Any] = {}
 
+    expanded_queries = query_expander.expand_query(normalized_query)
+    retrieval_query_text = " ".join(expanded_queries)
+    if len(expanded_queries) > 1:
+        LOGGER.info("Query expanded from '%s' to: %s", normalized_query, expanded_queries)
+        diagnostics["expanded_queries"] = expanded_queries
+
     dense_response = _safe_stage(
         "dense_retrieval",
         dense_retriever.run,
         diagnostics,
-        normalized_query,
+        retrieval_query_text,
         runtime_config.dense_config,
     )
 
@@ -160,7 +166,7 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
         "sparse_retrieval",
         sparse_retriever.run,
         diagnostics,
-        normalized_query,
+        retrieval_query_text,
         runtime_config.sparse_config,
     )
 
