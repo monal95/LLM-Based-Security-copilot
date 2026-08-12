@@ -1,0 +1,211 @@
+{
+  "evaluation_name": "Phase 6 Priority Scoring Evaluation",
+  "sample_size": 60,
+  "weights_used": {
+    "cvss_weight": 0.3,
+    "epss_weight": 0.5,
+    "kev_weight": 0.2
+  },
+  "ground_truth_metric": "CISA KEV addition date (date_added)",
+  "spearman_rho": -0.3923,
+  "spearman_pvalue": 0.0019357887547522964,
+  "kendall_tau": -0.278,
+  "kendall_pvalue": 0.0017013935440814837,
+  "top5_overlap": 0.0,
+  "top10_overlap": 0.0,
+  "category_ordering_accuracy": 1.0,
+  "category_ordering_notes": "Category B (KEV exploited) all ranked higher priority than Category A (non-KEV)",
+  "timestamp_utc": "2026-08-12T18:13:57.979722+00:00",
+  "top_ranked_samples": [
+    {
+      "cve_id": "CVE-2026-10520",
+      "cvss_score": 10.0,
+      "epss_score": 0.99041,
+      "kev_flag": 1,
+      "priority_score": 0.9952049999999999,
+      "rank_signals": {
+        "cvss_component": 0.3,
+        "epss_component": 0.495205,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 1
+    },
+    {
+      "cve_id": "CVE-2008-4250",
+      "cvss_score": 9.8,
+      "epss_score": 0.98751,
+      "kev_flag": 1,
+      "priority_score": 0.9877549999999999,
+      "rank_signals": {
+        "cvss_component": 0.29400000000000004,
+        "epss_component": 0.493755,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 2
+    },
+    {
+      "cve_id": "CVE-2026-35273",
+      "cvss_score": 9.8,
+      "epss_score": 0.9233,
+      "kev_flag": 1,
+      "priority_score": 0.9556500000000001,
+      "rank_signals": {
+        "cvss_component": 0.29400000000000004,
+        "epss_component": 0.46165,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 3
+    },
+    {
+      "cve_id": "CVE-2026-20182",
+      "cvss_score": 10.0,
+      "epss_score": 0.88496,
+      "kev_flag": 1,
+      "priority_score": 0.94248,
+      "rank_signals": {
+        "cvss_component": 0.3,
+        "epss_component": 0.44248,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 4
+    },
+    {
+      "cve_id": "CVE-2026-20253",
+      "cvss_score": 9.8,
+      "epss_score": 0.88171,
+      "kev_flag": 1,
+      "priority_score": 0.934855,
+      "rank_signals": {
+        "cvss_component": 0.29400000000000004,
+        "epss_component": 0.440855,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 5
+    },
+    {
+      "cve_id": "CVE-2026-42208",
+      "cvss_score": 9.8,
+      "epss_score": 0.86607,
+      "kev_flag": 1,
+      "priority_score": 0.927035,
+      "rank_signals": {
+        "cvss_component": 0.29400000000000004,
+        "epss_component": 0.433035,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 6
+    },
+    {
+      "cve_id": "CVE-2010-0249",
+      "cvss_score": 8.8,
+      "epss_score": 0.91885,
+      "kev_flag": 1,
+      "priority_score": 0.9234249999999999,
+      "rank_signals": {
+        "cvss_component": 0.264,
+        "epss_component": 0.459425,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 7
+    },
+    {
+      "cve_id": "CVE-2026-9082",
+      "cvss_score": 9.8,
+      "epss_score": 0.84631,
+      "kev_flag": 1,
+      "priority_score": 0.9171549999999999,
+      "rank_signals": {
+        "cvss_component": 0.29400000000000004,
+        "epss_component": 0.423155,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 8
+    },
+    {
+      "cve_id": "CVE-2026-0257",
+      "cvss_score": 9.1,
+      "epss_score": 0.86678,
+      "kev_flag": 1,
+      "priority_score": 0.90639,
+      "rank_signals": {
+        "cvss_component": 0.27299999999999996,
+        "epss_component": 0.43339,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 9
+    },
+    {
+      "cve_id": "CVE-2009-3459",
+      "cvss_score": 8.8,
+      "epss_score": 0.86583,
+      "kev_flag": 1,
+      "priority_score": 0.8969149999999999,
+      "rank_signals": {
+        "cvss_component": 0.264,
+        "epss_component": 0.432915,
+        "kev_component": 0.2,
+        "weights": {
+          "cvss_weight": 0.3,
+          "kev_weight": 0.2,
+          "epss_weight": 0.5
+        },
+        "missing_sources": []
+      },
+      "rank": 10
+    }
+  ]
+}
