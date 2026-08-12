@@ -3,7 +3,6 @@ langchain-community
 chromadb
 sentence-transformers
 ollama
-streamlit
 ragas
 requests
 pandas
@@ -20,3 +19,7 @@ accelerate
 tqdm
 datasets
 evaluate
+fastapi
+uvicorn
+python-dotenv
+pytest

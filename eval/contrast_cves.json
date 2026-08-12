@@ -1,0 +1,68 @@
+﻿{
+    "category_a":  [
+                       {
+                           "cve_id":  "CVE-2026-44523",
+                           "cvss_score":  10,
+                           "epss_probability":  0.00124,
+                           "kev_flag":  false
+                       },
+                       {
+                           "cve_id":  "CVE-2023-6339",
+                           "cvss_score":  10,
+                           "epss_probability":  0.00178,
+                           "kev_flag":  false
+                       },
+                       {
+                           "cve_id":  "CVE-2026-48772",
+                           "cvss_score":  10,
+                           "epss_probability":  0.00185,
+                           "kev_flag":  false
+                       },
+                       {
+                           "cve_id":  "CVE-2025-48611",
+                           "cvss_score":  10,
+                           "epss_probability":  0.00193,
+                           "kev_flag":  false
+                       }
+                   ],
+    "category_b":  [
+                       {
+                           "cve_id":  "CVE-2024-21893",
+                           "cvss_score":  8.2,
+                           "epss_probability":  0.99999,
+                           "kev_flag":  true
+                       },
+                       {
+                           "cve_id":  "CVE-2014-0160",
+                           "cvss_score":  7.5,
+                           "epss_probability":  0.99999,
+                           "kev_flag":  true
+                       },
+                       {
+                           "cve_id":  "CVE-2023-44487",
+                           "cvss_score":  7.5,
+                           "epss_probability":  0.99999,
+                           "kev_flag":  true
+                       },
+                       {
+                           "cve_id":  "CVE-2023-0669",
+                           "cvss_score":  7.2,
+                           "epss_probability":  0.99999,
+                           "kev_flag":  true
+                       }
+                   ],
+    "category_c":  [
+                       {
+                           "cve_id":  "CVE-2004-0572",
+                           "cvss_score":  10,
+                           "epss_probability":  0.49951,
+                           "kev_flag":  false
+                       },
+                       {
+                           "cve_id":  "CVE-2022-31126",
+                           "cvss_score":  10,
+                           "epss_probability":  0.49937,
+                           "kev_flag":  false
+                       }
+                   ]
+}
