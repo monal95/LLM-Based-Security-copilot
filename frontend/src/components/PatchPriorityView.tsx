@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  ListOrdered,
   Flame,
-  ShieldAlert,
   Search,
-  Filter,
   Info,
   Clock,
   CheckCircle,
+  AlertTriangle,
+  TrendingUp,
+  Zap,
 } from 'lucide-react';
 import { fetchPriorityRankings } from '../services/api';
-import { PriorityItem } from '../types';
+import type { PriorityItem } from '../types';
 
 export const PatchPriorityView: React.FC = () => {
   const [items, setItems] = useState<PriorityItem[]>([]);

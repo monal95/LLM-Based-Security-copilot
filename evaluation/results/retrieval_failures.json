@@ -1,0 +1,392 @@
+{
+  "dense": [
+    {
+      "id": "IR_021",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute initial containment steps for an intrusion utilizing MITRE ATT&CK technique T1012?",
+      "expected": [
+        "CVE-2025-67038"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1012\nName: Query Registry\nDescription: Adversaries may interact with the Windows Registry to gather information about the system, confi"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1012\nName: Query Registry\nDescription: Adversaries may interact with the Windows Registry to gather information about the system, confi"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_022",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute forensic triage procedure for an intrusion utilizing MITRE ATT&CK technique T1014?",
+      "expected": [
+        "CVE-2026-34910"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1014\nName: Rootkit\nDescription: Adversaries may use rootkits to hide the presence of programs, files, network connections, services, dr"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1014\nName: Rootkit\nDescription: Adversaries may use rootkits to hide the presence of programs, files, network connections, services, dr"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_023",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute eradication protocol for an intrusion utilizing MITRE ATT&CK technique T1016?",
+      "expected": [
+        "CVE-2026-34909"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1016\nName: System Network Configuration Discovery\nDescription: Adversaries may look for details about the network configuration and set"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1016\nName: System Network Configuration Discovery\nDescription: Adversaries may look for details about the network configuration and set"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_024",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute recovery workflow for an intrusion utilizing MITRE ATT&CK technique T1016.001?",
+      "expected": [
+        "CVE-2026-34908"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1016.001\nName: Internet Connection Discovery\nDescription: Adversaries may check for Internet connectivity on compromised systems. This "
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1016.001\nName: Internet Connection Discovery\nDescription: Adversaries may check for Internet connectivity on compromised systems. This "
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_025",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute evidence preservation checklist for an intrusion utilizing MITRE ATT&CK technique T1016.002?",
+      "expected": [
+        "CVE-2026-20253"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1016.002\nName: Wi-Fi Discovery\nDescription: Adversaries may search for information about Wi-Fi networks, such as network names and pass",
+        "Tactics: Discovery\nPlatforms: Linux, Windows, macOS\nSub-techniques: N/A\nData Sources: N/A\nMitigations: N/A\nReference URL: https://attack.mitre.org/tec"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1016.002\nName: Wi-Fi Discovery\nDescription: Adversaries may search for information about Wi-Fi networks, such as network names and pass",
+        "Tactics: Discovery\nPlatforms: Linux, Windows, macOS\nSub-techniques: N/A\nData Sources: N/A\nMitigations: N/A\nReference URL: https://attack.mitre.org/tec"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_026",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute notification sequence per NIST CSF 2.0 for an intrusion utilizing MITRE ATT&CK technique T1018?",
+      "expected": [
+        "CVE-2026-48907"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1018\nName: Remote System Discovery\nDescription: Adversaries may attempt to get a listing of other systems by IP address, hostname, or o"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1018\nName: Remote System Discovery\nDescription: Adversaries may attempt to get a listing of other systems by IP address, hostname, or o"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_027",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute threat hunting rule definition for an intrusion utilizing MITRE ATT&CK technique T1020?",
+      "expected": [
+        "CVE-2026-54420"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1020\nName: Automated Exfiltration\nDescription: Adversaries may exfiltrate data, such as sensitive documents, through the use of automat"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1020\nName: Automated Exfiltration\nDescription: Adversaries may exfiltrate data, such as sensitive documents, through the use of automat"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_028",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute SIEM log analysis strategy for an intrusion utilizing MITRE ATT&CK technique T1020.001?",
+      "expected": [
+        "CVE-2026-20262"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1020.001\nName: Traffic Duplication\nDescription: Adversaries may leverage traffic mirroring in order to automate data exfiltration over "
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1020.001\nName: Traffic Duplication\nDescription: Adversaries may leverage traffic mirroring in order to automate data exfiltration over "
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_029",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute EDR isolation playbook for an intrusion utilizing MITRE ATT&CK technique T1021?",
+      "expected": [
+        "CVE-2026-35273"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021\nName: Remote Services\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to log into a s",
+        "Legitimate applications (such as [Software Deployment Tools](https://attack.mitre.org/techniques/T1072) and other administrative programs) may utilize"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021\nName: Remote Services\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to log into a s",
+        "Legitimate applications (such as [Software Deployment Tools](https://attack.mitre.org/techniques/T1072) and other administrative programs) may utilize"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_030",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute patch prioritization priority for an intrusion utilizing MITRE ATT&CK technique T1021.001?",
+      "expected": [
+        "CVE-2026-10520"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.001\nName: Remote Desktop Protocol\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to "
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.001\nName: Remote Desktop Protocol\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to "
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_031",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute initial containment steps for an intrusion utilizing MITRE ATT&CK technique T1021.002?",
+      "expected": [
+        "CVE-2026-11645"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.002\nName: SMB/Windows Admin Shares\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.002\nName: SMB/Windows Admin Shares\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_032",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute forensic triage procedure for an intrusion utilizing MITRE ATT&CK technique T1021.003?",
+      "expected": [
+        "CVE-2026-7473"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.003\nName: Distributed Component Object Model\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques",
+        "Through DCOM, adversaries operating in the context of an appropriately privileged user can remotely obtain arbitrary and even direct shellcode executi"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.003\nName: Distributed Component Object Model\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques",
+        "Through DCOM, adversaries operating in the context of an appropriately privileged user can remotely obtain arbitrary and even direct shellcode executi"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_033",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute eradication protocol for an intrusion utilizing MITRE ATT&CK technique T1021.004?",
+      "expected": [
+        "CVE-2026-20245"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.004\nName: SSH\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to log into remote mach"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.004\nName: SSH\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to log into remote mach"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_034",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute recovery workflow for an intrusion utilizing MITRE ATT&CK technique T1021.005?",
+      "expected": [
+        "CVE-2026-42271"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.005\nName: VNC\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely control mac"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.005\nName: VNC\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely control mac"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_035",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute evidence preservation checklist for an intrusion utilizing MITRE ATT&CK technique T1021.006?",
+      "expected": [
+        "CVE-2026-50751"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.006\nName: Windows Remote Management\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) t"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.006\nName: Windows Remote Management\nDescription: Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) t"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_036",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute notification sequence per NIST CSF 2.0 for an intrusion utilizing MITRE ATT&CK technique T1021.007?",
+      "expected": [
+        "CVE-2026-28318"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.007\nName: Cloud Services\nDescription: Adversaries may log into accessible cloud services within a compromised environment using [V"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.007\nName: Cloud Services\nDescription: Adversaries may log into accessible cloud services within a compromised environment using [V"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_037",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute threat hunting rule definition for an intrusion utilizing MITRE ATT&CK technique T1021.008?",
+      "expected": [
+        "CVE-2026-45247"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1021.008\nName: Direct Cloud VM Connections\nDescription: Adversaries may leverage [Valid Accounts](https://attack.mitre.org/techniques/T"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1021.008\nName: Direct Cloud VM Connections\nDescription: Adversaries may leverage [Valid Accounts](https://attack.mitre.org/techniques/T"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_038",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute SIEM log analysis strategy for an intrusion utilizing MITRE ATT&CK technique T1025?",
+      "expected": [
+        "CVE-2022-0492"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1025\nName: Data from Removable Media\nDescription: Adversaries may search connected removable media on computers they have compromised t"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1025\nName: Data from Removable Media\nDescription: Adversaries may search connected removable media on computers they have compromised t"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_039",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute EDR isolation playbook for an intrusion utilizing MITRE ATT&CK technique T1027?",
+      "expected": [
+        "CVE-2025-48595"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1027\nName: Obfuscated Files or Information\nDescription: Adversaries may attempt to make an executable or file difficult to discover or ",
+        "Adversaries may also abuse [Command Obfuscation](https://attack.mitre.org/techniques/T1027/010) to obscure commands executed from payloads or directly"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1027\nName: Obfuscated Files or Information\nDescription: Adversaries may attempt to make an executable or file difficult to discover or ",
+        "Adversaries may also abuse [Command Obfuscation](https://attack.mitre.org/techniques/T1027/010) to obscure commands executed from payloads or directly"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    },
+    {
+      "id": "IR_040",
+      "category": "incident_response",
+      "query": "How should a SOC analyst execute patch prioritization priority for an intrusion utilizing MITRE ATT&CK technique T1027.001?",
+      "expected": [
+        "CVE-2024-21182"
+      ],
+      "retrieved_top_5": [
+        "Technique ID: T1027.001\nName: Binary Padding\nDescription: Adversaries may use binary padding to add junk data and change the on-disk representation of"
+      ],
+      "retrieved_top_10": [
+        "Technique ID: T1027.001\nName: Binary Padding\nDescription: Adversaries may use binary padding to add junk data and change the on-disk representation of"
+      ],
+      "rank_of_correct": null,
+      "retrieval_mode": "dense",
+      "recall_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_5": 0.0
+    }
+  ]
+}

@@ -1,146 +1,80 @@
-# SecureRAG CTI Processing Pipeline
+# SecureRAG: SOC Analyst Threat Intelligence Platform
 
-## Project Status
+SecureRAG is a full-stack cyber threat intelligence (CTI) retrieval and answer-generation system designed for SOC analysts. It ingests structured threat feeds, builds a searchable knowledge base, evaluates retrieval quality, and exposes a production-oriented API and frontend for analyst workflows.
 
-- Phase 1 (CTI Ingestion): Completed
-- Phase 2 (Knowledge Base and Indexing): Completed
-- Phase 4 (Retrieval, Generation, Verification Pipeline): Completed
+This project spans the full lifecycle from raw CTI ingestion to retrieval benchmarking and deployment documentation:
 
-This repository implements a comprehensive pipeline for ingesting, processing, and indexing cyber threat intelligence (CTI) data for retrieval-augmented generation (RAG) applications. The pipeline consists of two main modules:
+- Phase I: CTI ingestion and normalization
+- Phase II: knowledge base construction and indexing
+- Phase III: retrieval and answer generation groundwork
+- Phase IV: end-to-end secure RAG pipeline and verification
+- Phase V: prioritization, runbooks, and analyst decision support
+- Phase VI: evaluation, benchmarking, frontend integration, and reproducible reporting
 
-## Modules Overview
+---
 
-### Module 1: CTI Ingestion
+## 1. Project Overview
 
-Ingests and normalizes threat intelligence from four sources:
+The system combines four major CTI sources:
 
-- NVD CVEs (National Vulnerability Database Common Vulnerabilities and Exposures)
-- MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge)
-- CISA KEV (Cybersecurity and Infrastructure Security Agency Known Exploited Vulnerabilities)
-- EPSS (Exploit Prediction Scoring System)
+- NVD: CVE metadata and vulnerability descriptions
+- MITRE ATT&CK: adversary tactics and techniques
+- CISA KEV: actively exploited vulnerabilities
+- EPSS: exploit prediction scores
 
-### Module 2: CTI Processing & Indexing
+These sources are normalized, chunked, embedded, indexed, and then queried through a retrieval pipeline. The project supports both analyst-facing API interaction and benchmark-based evaluation against a 300-query test set.
 
-Processes the ingested CTI data through a pipeline that:
+The architecture is organized around five functional layers:
 
-1. **Chunks** the CTI documents into retrievable passages
-2. **Embeds** the chunks using sentence transformers for semantic search
-3. **Indexes** the embeddings in a vector database (ChromaDB) for similarity search
-4. **Indexes** the chunks in a BM25 index for keyword search
-5. **Verifies** the quality and completeness of the generated artifacts
+1. Data ingestion
+2. Knowledge base construction
+3. Retrieval and fusion
+4. Answer generation and validation
+5. Evaluation and reporting
 
-### Phase 4: Secure Retrieval and Verified Generation
+---
 
-Implements the complete secure answer pipeline for SOC analysts:
+## 2. Complete Workflow Across Phases
 
-1. **Dense Retrieval** from ChromaDB using semantic embeddings
-2. **Sparse Retrieval** from BM25 index using keyword matching
-3. **Hybrid Fusion** using Reciprocal Rank Fusion (RRF)
-4. **Cross-Encoder Reranking** for final evidence prioritization
-5. **Prompt Construction** with strict grounding policy
-6. **Mistral via Ollama** for grounded response generation
-7. **Hallucination Guard** to verify claims against retrieved evidence
+## Phase I — CTI Data Ingestion
 
-## Retrieval Evaluation Workflow
+Goal: collect and normalize vulnerability and adversary intelligence from external sources.
 
-The evaluation framework writes reproducible experiment outputs under `evaluation/experiments/`.
+### Components
 
-Run the main evaluation suite:
+- [modules/ingestion/ingest_nvd.py](modules/ingestion/ingest_nvd.py)
+- [modules/ingestion/ingest_mitre.py](modules/ingestion/ingest_mitre.py)
+- [modules/ingestion/ingest_kev.py](modules/ingestion/ingest_kev.py)
+- [modules/ingestion/epss_fetcher.py](modules/ingestion/epss_fetcher.py)
+- [modules/ingestion/verify_sources.py](modules/ingestion/verify_sources.py)
 
-```bash
-py -3 evaluation/evaluate_retrieval.py --mode all --print-table
-```
+### What happens
 
-Compare saved experiments:
+- NVD CVE records are fetched and normalized into a local dataset
+- MITRE ATT&CK techniques are ingested and mapped to tactic/technique metadata
+- KEV data is imported to flag actively exploited vulnerabilities
+- EPSS scores are downloaded and stored for exploit likelihood ranking
+- Source verification checks the health and completeness of ingested data
 
-```bash
-py -3 evaluation/compare_results.py
-```
+### Output locations
 
-Generate plots for recall, precision, MRR, nDCG, and latency:
+- [data/raw](data/raw)
+- [data/processed](data/processed)
 
-```bash
-py -3 evaluation/visualize_results.py
-```
+Examples:
 
-Run hyperparameter tuning and save the best configuration:
+- [data/processed/nvd.json](data/processed/nvd.json)
+- [data/processed/mitre.json](data/processed/mitre.json)
+- [data/processed/kev.json](data/processed/kev.json)
+- [data/processed/epss.json](data/processed/epss.json)
 
-```bash
-py -3 evaluation/hyperparameter_search.py
-```
-
-The compatibility entrypoints `evaluation/run_full_evaluation.py` and `evaluation/tune_rrf.py` are still available if you prefer the older scripts.
-
-## Project Layout
-
-```
-├── data/
-│   ├── chunks/                   # Chunked CTI documents (JSON)
-│   ├── embeddings/               # Embedded chunks and BM25 index (pickle files)
-│   ├── processed/                # Normalized JSON output from ingestion
-│   └── raw/                      # Raw downloaded source data
-├── embeddings/
-│   └── chroma_db/                # Persistent ChromaDB vector store
-├── modules/
-│   ├── Chunking/                 # Module 2: Processing and indexing
-│   │   ├── chunker.py            # CTI chunking (Module 2.1)
-│   │   ├── embedder.py           # Dense embedding generation (Module 2.2)
-│   │   ├── vector_store.py       # ChromaDB vector storage (Module 2.3)
-│   │   ├── bm25_index.py         # BM25 keyword indexing (Module 2.4)
-│   │   ├── verify_embeddings.py  # Verification of outputs (Module 2.5)
-│   │   └── build_knowledge_base.py # Module 2 pipeline orchestration
-│   ├── Retrieval/                # Module 3: Retrieval
-│   │   ├── dense_retriever.py    # Module 3.1
-│   │   ├── sparse_retriever.py   # Module 3.2
-│   │   ├── hybrid_fusion.py      # Module 3.3
-│   │   └── reranker.py           # Module 3.4
-│   ├── Generation/               # Module 4: Generation
-│   │   ├── prompt_template.py    # Module 4.1
-│   │   └── llm_chain.py          # Module 4.2
-│   ├── Verification/             # Module 4: Verification
-│   │   └── hallucination_guard.py # Module 4.3
-│   ├── pipeline.py               # End-to-end SecureRAG orchestration
-│   └── ingestion/                # Module 1: CTI ingestion
-│       ├── __init__.py
-│       ├── __main__.py           # Entry point for `python -m modules.ingestion`
-│       ├── epss_fetcher.py       # EPSS ingestion
-│       ├── ingest_kev.py         # CISA KEV ingestion
-│       ├── ingest_mitre.py       # MITRE ATT&CK ingestion
-│       ├── ingest_nvd.py         # NVD CVE ingestion
-│       └── verify_sources.py     # Ingestion validation
-├── tests/                        # Test files
-└── eval/                         # Evaluation scripts
-```
-
-## Requirements
-
-- Python 3.13 (recommended)
-- pip
-- See `requirements.txt` for Python package dependencies
-
-## Installation
-
-Create and activate a virtual environment, then install the package requirements:
+### Run commands
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+py -3 -m modules.ingestion
 ```
 
-If `python` is not available on your PATH, use the Python Launcher:
-
-```bash
-py -3 -m venv .venv
-.venv\Scripts\activate
-py -3 -m pip install -r requirements.txt
-```
-
-## Module 1: CTI Ingestion
-
-### How To Ingest Data
-
-Run each ingestion script from the repository root:
+or manually:
 
 ```bash
 py -3 modules/ingestion/ingest_nvd.py
@@ -149,262 +83,394 @@ py -3 modules/ingestion/ingest_kev.py
 py -3 modules/ingestion/epss_fetcher.py
 ```
 
-**Recommended order:**
+### Result
 
-1. NVD
-2. MITRE
-3. KEV
-4. EPSS
+The project obtains a normalized CTI corpus for downstream retrieval and analyst workflows.
 
-You can also run all ingestions sequentially using the module entry point:
+---
 
-```bash
-py -3 -m modules.ingestion
-```
+## Phase II — Knowledge Base Building and Indexing
 
-This will run all ingestions and then verify the generated datasets.
+Goal: convert raw CTI into searchable, retrievable knowledge artifacts.
 
-### Importing as a Package
+### Components
 
-```python
-from modules.ingestion import fetch_all_cves, ingest_mitre, ingest_kev, fetch_epss, verify_sources
+- [modules/Chunking/chunker.py](modules/Chunking/chunker.py)
+- [modules/Chunking/embedder.py](modules/Chunking/embedder.py)
+- [modules/Chunking/vector_store.py](modules/Chunking/vector_store.py)
+- [modules/Chunking/bm25_index.py](modules/Chunking/bm25_index.py)
+- [modules/Chunking/verify_embeddings.py](modules/Chunking/verify_embeddings.py)
+- [modules/Chunking/build_knowledge_base.py](modules/Chunking/build_knowledge_base.py)
 
-fetch_all_cves()
-ingest_mitre()
-ingest_kev()
-fetch_epss()
-verify_sources()
-```
+### What happens
 
-### Source Behavior
+- CTI documents are chunked into manageable retrieval units
+- Text chunks are embedded with sentence-transformers
+- Dense embeddings are stored in ChromaDB
+- BM25 indexes are created for keyword search
+- Output files and index integrity are verified
 
-- **NVD**: Uses the NVD API 2.0 with pagination and local page caching
-- **MITRE**: Downloads the ATT&CK Enterprise STIX 2.1 JSON bundle from GitHub
-- **CISA KEV**: Downloads the official KEV JSON feed
-- **EPSS**: Uses the bulk gzipped CSV download as primary source, falls back to FIRST.org API
+### Key artifacts
 
-### NVD API Key
+- [data/chunks/chunks.json](data/chunks/chunks.json)
+- [embeddings/chroma_db](embeddings/chroma_db)
+- [data/embeddings](data/embeddings)
 
-The NVD ingester reads `NVD_API_KEY` from the environment:
-
-```bash
-set NVD_API_KEY=your_api_key_here
-```
-
-If the key is not set, the script still works but runs more slowly due to stricter rate limiting.
-
-### Outputs
-
-Each script writes two files:
-
-- `data/raw/<source>_raw.json` - raw downloaded data
-- `data/processed/<source>.json` - normalized JSON output
-
-The NVD ingester also uses temporary page cache files under `data/raw/nvd_pages/`.
-
-## Module 2: CTI Processing & Indexing
-
-Module 2 processes the output from Module 1 to create a searchable knowledge base.
-
-### Running the Full Module 2 Pipeline
-
-To run the complete processing pipeline (chunking → embedding → vector storage → BM25 indexing → verification):
+### Run command
 
 ```bash
 py -3 modules/Chunking/build_knowledge_base.py
 ```
 
-### Individual Module Steps
+### Result
 
-You can also run each step independently:
+The project becomes a searchable evidence base for CVE, MITRE, and IR analyst queries.
 
-#### Step 1: Chunking (Module 2.1)
+---
 
-```bash
-py -3 modules/Chunking/chunker.py
+## Phase III — Retrieval Foundation and Analyst Query Handling
+
+Goal: support retrieval operations beyond static indexing and prepare the application for end-to-end answer generation.
+
+### Retrieval modules
+
+- [modules/Retrieval/dense_retriever.py](modules/Retrieval/dense_retriever.py)
+- [modules/Retrieval/sparse_retriever.py](modules/Retrieval/sparse_retriever.py)
+- [modules/Retrieval/hybrid_fusion.py](modules/Retrieval/hybrid_fusion.py)
+- [modules/Retrieval/reranker.py](modules/Retrieval/reranker.py)
+
+### Retrieval stack
+
+- Dense retrieval: semantic search over ChromaDB embeddings
+- Sparse retrieval: BM25 keyword matching
+- Hybrid fusion: reciprocal rank fusion to combine signals
+- Reranking: cross-encoder prioritization of evidence
+
+### Result
+
+The system can take analyst questions and retrieve relevant CTI evidence with ranked ordering.
+
+---
+
+## Phase IV — SecureRAG End-to-End Pipeline
+
+Goal: transform retrieval results into grounded, verified responses with hallucination checks.
+
+### Main orchestration
+
+- [modules/pipeline.py](modules/pipeline.py)
+- [modules/Generation/prompt_template.py](modules/Generation/prompt_template.py)
+- [modules/Generation/llm_chain.py](modules/Generation/llm_chain.py)
+- [modules/Verification/hallucination_guard.py](modules/Verification/hallucination_guard.py)
+
+### End-to-end flow
+
+```text
+User query
+  -> Dense retrieval
+  -> Sparse retrieval
+  -> Hybrid fusion
+  -> Cross-encoder reranking
+  -> Prompt construction
+  -> Ollama LLM generation
+  -> Hallucination guard
+  -> Final verified answer
 ```
 
-Creates `data/chunks/chunks.json` with chunked CTI documents.
-
-#### Step 2: Embedding Generation (Module 2.2)
-
-```bash
-py -3 modules/Chunking/embedder.py
-```
-
-Generates embeddings and saves to `data/embeddings/embedded_chunks.pkl`.
-
-#### Step 3: Vector Storage (Module 2.3)
-
-```bash
-py -3 modules/Chunking/vector_store.py
-```
-
-Builds persistent ChromaDB vector store in `embeddings/chroma_db/`.
-
-#### Step 4: BM25 Indexing (Module 2.4)
-
-```bash
-py -3 modules/Chunking/bm25_index.py
-```
-
-Creates BM25 index (`data/embeddings/bm25.pkl`) and tokenized corpus (`data/embeddings/corpus.pkl`).
-
-#### Step 5: Verification (Module 2.5)
-
-```bash
-py -3 modules/Chunking/verify_embeddings.py
-```
-
-Verifies the generated artifacts and reports on their quality.
-
-### Accessing the Processed Data
-
-#### Vector Store (ChromaDB)
-
-```python
-import chromadb
-from sentence_transformers import SentenceTransformer
-
-# Load the persistent client and collection
-client = chromadb.PersistentClient(path="embeddings/chroma_db")
-collection = client.get_collection(name="secure_rag_chunks")
-
-# Example query
-query_text = "Log4Shell remote code execution vulnerability"
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-query_embedding = model.encode([query_text])
-
-results = collection.query(
-    query_embeddings=query_embedding,
-    n_results=5,
-    include=["documents", "metadatas", "distances"]
-)
-```
-
-#### BM25 Index
-
-```python
-import pickle
-from rank_bm25 import BM25Okapi
-
-# Load the BM25 index and tokenized corpus
-with open("data/embeddings/bm25.pkl", "rb") as f:
-    bm25 = pickle.load(f)
-
-with open("data/embeddings/corpus.pkl", "rb") as f:
-    corpus = pickle.load(f)
-
-# Example query
-query = "Log4Shell RCE"
-tokenized_query = query.lower().split()
-scores = bm25.get_scores(tokenized_query)
-top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:5]
-```
-
-## Verification
-
-After running the pipeline, you can verify the outputs using:
-
-```bash
-py -3 modules/Chunking/verify_embeddings.py
-```
-
-This will check:
-
-- File existence and sizes
-- Embedding dimension (should be 384)
-- ChromaDB collection count and sample data
-- Semantic search capability (testing for Log4Shell CVE-2021-44228)
-- BM25 index functionality
-
-## Pipeline Orchestration
-
-For end-to-end execution of both modules:
-
-```bash
-# Step 1: Ingest all CTI data
-py -3 -m modules.ingestion
-
-# Step 2: Process and index the ingested data
-py -3 modules/Chunking/build_knowledge_base.py
-```
-
-Or run the individual steps as needed based on your workflow requirements.
-
-## Phase 4: Retrieval and Verified Generation
-
-### End-to-End SecureRAG Flow
-
-```
-User Query
-    -> Dense Retrieval (ChromaDB)
-    -> Sparse Retrieval (BM25)
-    -> Hybrid Fusion (RRF)
-    -> Cross-Encoder Reranking
-    -> Prompt Builder
-    -> Mistral (Ollama)
-    -> Hallucination Guard
-    -> Final Verified Answer
-```
-
-### Run Complete SecureRAG Pipeline
+### Run command
 
 ```bash
 py -3 modules/pipeline.py "How should we prioritize CVE-2021-44228?"
 ```
 
-### Run Phase 4 Modules Individually
+### Safety model
 
-Dense retrieval:
+- Retrieved evidence is used as grounding context
+- Unsupported claims are filtered or rejected
+- The system falls back cleanly if retrieval fails
+- Final output includes diagnostics and verification metadata
+
+---
+
+## Phase V — CVE Prioritization and Analyst Support
+
+Goal: move from generic retrieval to SOC decision support.
+
+### Analyst support modules
+
+- [modules/priority_scorer.py](modules/priority_scorer.py)
+- [modules/runbook_generator.py](modules/runbook_generator.py)
+- [modules/patch_explainer.py](modules/patch_explainer.py)
+- [modules/retriever.py](modules/retriever.py)
+
+### Capabilities
+
+- Score and rank CVEs using CVSS, EPSS, KEV and exploit context
+- Explain prioritization logic
+- Generate IR response runbooks
+- Surface relevant evidence and remediation guidance
+
+### Backend endpoints
+
+The live API is defined in [backend/main.py](backend/main.py), with endpoints for:
+
+- /api/health
+- /api/chat
+- /api/retrieve
+- /api/cve/{cve_id}
+- /api/mitre/{technique_id}
+- /api/priority
+- /api/evaluation
+- /api/evaluation/baseline-vs-final
+- /api/runbook/{incident_type}
+
+### Example health check
 
 ```bash
-py -3 modules/Retrieval/dense_retriever.py "CVE-2021-44228"
+.
+.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-Sparse retrieval:
+---
+
+## Phase VI — Evaluation, Benchmarking, Frontend, and Reporting
+
+Goal: validate the system rigorously and package the project for reproducible evaluation and deployment.
+
+### Core evaluation files
+
+- [evaluation/validate_phase6_dataset.py](evaluation/validate_phase6_dataset.py)
+- [evaluation/phase6_retrieval_evaluation.py](evaluation/phase6_retrieval_evaluation.py)
+- [evaluation/phase6_ragas.py](evaluation/phase6_ragas.py)
+- [evaluation/phase6_priority_evaluation.py](eval/phase6_priority_evaluation.py)
+- [evaluation/phase6_baseline_vs_final.py](evaluation/phase6_baseline_vs_final.py)
+- [evaluation/generate_paper_results.py](evaluation/generate_paper_results.py)
+- [evaluation/phase6_failure_analysis.py](evaluation/phase6_failure_analysis.py)
+
+### Evaluation dataset
+
+The benchmark uses a 300-query dataset built from:
+
+- 100 CVE explanation queries
+- 100 MITRE ATT&CK mapping queries
+- 100 IR / incident-response queries
+
+Validation includes:
+
+- dataset size and split checks
+- ground truth completeness checks
+- source coverage checks for CVE, KEV, and MITRE entities
+
+### Evaluation workflow
+
+Run the full benchmark suite:
 
 ```bash
-py -3 modules/Retrieval/sparse_retriever.py "CVE-2021-44228"
+.
+.venv\Scripts\python.exe evaluation/validate_phase6_dataset.py
+.
+.venv\Scripts\python.exe -m evaluation.phase6_retrieval_evaluation --mode all
+.
+.venv\Scripts\python.exe evaluation/phase6_ragas.py
+.
+.venv\Scripts\python.exe eval/phase6_priority_evaluation.py
+.
+.venv\Scripts\python.exe evaluation/phase6_baseline_vs_final.py
+.
+.venv\Scripts\python.exe evaluation/phase6_failure_analysis.py
+.
+.venv\Scripts\python.exe evaluation/generate_paper_results.py
 ```
 
-Hybrid fusion:
+### Verification and test coverage
+
+The regression test suite is in [tests/test_phase6.py](tests/test_phase6.py). It checks:
+
+- dataset integrity
+- MRR and NDCG calculations
+- priority scoring behavior
+- backend endpoints
+
+Verified result from the project run:
+
+- 7/7 tests passed
+
+### Frontend
+
+The frontend is in [frontend](frontend). It uses Vite and provides the analyst UI for browsing CVEs, MITRE mappings, priorities, evaluations, and runbooks.
+
+Run it with:
 
 ```bash
-py -3 modules/Retrieval/hybrid_fusion.py "CVE-2021-44228"
+cd frontend
+npm install
+npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Cross-encoder reranking:
+### Production-relevant result
+
+The final dense comparison script produced a reproducible benchmark artifact showing strong retrieval quality with much lower latency:
+
+- recall@5: 0.9333 -> 0.9333
+- MRR: 0.9333 -> 0.9333
+- NDCG@5: 1.4033 -> 1.4033
+- average latency: 631.01 ms -> 166.54 ms
+- improvement: ~73.61% latency reduction
+
+The final comparison artifacts are in:
+
+- [evaluation/results/baseline_vs_final.json](evaluation/results/baseline_vs_final.json)
+- [evaluation/results/baseline_vs_final.csv](evaluation/results/baseline_vs_final.csv)
+- [evaluation/results/baseline_vs_final.png](evaluation/results/baseline_vs_final.png)
+
+### Phase VI summary documents
+
+- [PHASE6_FINAL_SUMMARY.md](PHASE6_FINAL_SUMMARY.md)
+- [PHASE6_COMPLETION_SUMMARY.md](PHASE6_COMPLETION_SUMMARY.md)
+- [evaluation/PHASE6_README.md](evaluation/PHASE6_README.md)
+- [evaluation/PHASE6_AUDIT.md](evaluation/PHASE6_AUDIT.md)
+- [evaluation/results/PAPER_RESULTS.md](evaluation/results/PAPER_RESULTS.md)
+- [evaluation/FAILURE_ANALYSIS.md](evaluation/FAILURE_ANALYSIS.md)
+
+---
+
+## 3. Project Structure
+
+```text
+SOC_Analyst/
+├── README.md
+├── LICENSE
+├── requirements.txt
+├── backend/
+│   └── main.py
+├── data/
+│   ├── chunks/
+│   ├── embeddings/
+│   ├── processed/
+│   └── raw/
+├── embeddings/
+│   └── chroma_db/
+├── eval/
+│   ├── phase6_priority_evaluation.py
+│   ├── validate_prioritizer.py
+│   └── ...
+├── evaluation/
+│   ├── phase6_baseline_vs_final.py
+│   ├── phase6_failure_analysis.py
+│   ├── phase6_retrieval_evaluation.py
+│   ├── phase6_ragas.py
+│   ├── validate_phase6_dataset.py
+│   ├── PHASE6_README.md
+│   ├── PHASE6_AUDIT.md
+│   └── results/
+├── frontend/
+│   ├── package.json
+│   ├── src/
+│   ├── public/
+│   └── vite.config.ts
+├── modules/
+│   ├── Chunking/
+│   ├── Generation/
+│   ├── Retrieval/
+│   ├── Verification/
+│   ├── ingestion/
+│   ├── pipeline.py
+│   ├── priority_scorer.py
+│   ├── patch_explainer.py
+│   ├── retriever.py
+│   ├── runbook_generator.py
+│   └── ...
+├── tests/
+│   └── test_phase6.py
+└── ...
+```
+
+---
+
+## 4. Setup and Local Development
+
+### Requirements
+
+- Python 3.13 recommended
+- Node.js 18+ or newer
+- pip
+- access to Ollama for LLM generation if running the full pipeline
+
+### Environment setup
 
 ```bash
-py -3 modules/Retrieval/reranker.py "CVE-2021-44228"
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-Prompt construction:
+### Backend startup
 
 ```bash
-py -3 modules/Generation/prompt_template.py "CVE-2021-44228"
+.
+.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-LLM chain (Ollama Mistral):
+### Frontend startup
 
 ```bash
-py -3 modules/Generation/llm_chain.py "CVE-2021-44228"
+cd frontend
+npm install
+npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Hallucination guard:
+### API docs
 
-```bash
-py -3 modules/Verification/hallucination_guard.py "CVE-2021-44228"
-```
+Open:
 
-### Security and Reliability Notes
+- http://127.0.0.1:8000/docs
+- http://127.0.0.1:5173
 
-- The generated answer is always post-processed by the hallucination guard.
-- Unsupported claims are removed or replaced with explicit non-verified text.
-- If context is insufficient, the system returns: `Not found in retrieved evidence.`
-- Retrieval and generation stages implement failure-safe fallbacks and structured diagnostics.
+---
 
-## License
+## 5. What the Project Delivers
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project provides a complete CTI intelligence workflow for analyst use cases:
+
+- ingest vulnerability and ATT&CK data
+- build a persistent retrieval index from that data
+- answer security questions with grounded evidence
+- rank vulnerabilities by strategic priority
+- generate runbooks for incident response scenarios
+- benchmark retrieval quality across a reproducible 300-query dataset
+- expose the work through both an API and a frontend interface
+
+---
+
+## 6. Realistic Assessment of Current Status
+
+The project is functionally complete for the core secure SOC analytics workflow:
+
+- ingestion pipeline works
+- knowledge base indexing works
+- end-to-end retrieval and generation pipeline works
+- priority scoring and responder support work
+- Phase VI evaluation is reproducible
+- tests pass
+- benchmarking artifacts have been generated
+
+The honest limitation recognized in the evaluation reports is that some IR / cross-domain queries still benefit from further optimization, especially around chunking and hybrid retrieval strategies. This is documented in the Phase VI analysis files rather than hidden.
+
+---
+
+## 7. Final Summary
+
+SecureRAG is a complete CTI retrieval and analyst decision-support system that starts from raw threat intelligence feeds and ends with a working secure retrieval pipeline, API, frontend, evaluation framework, and final reporting artifacts.
+
+Its full lifecycle can be understood as follows:
+
+1. Ingest and normalize CTI data
+2. Build the searchable knowledge base
+3. Retrieve semantically relevant evidence
+4. Fuse retrieval signals and rerank the best results
+5. Generate grounded analyst answers
+6. Score and prioritize vulnerabilities for triage
+7. Validate with reproducible benchmarks and tests
+8. Package everything into a usable product and report
+
+This README now reflects that complete workflow from Phase I through Phase VI using the real project structure and verified execution state.

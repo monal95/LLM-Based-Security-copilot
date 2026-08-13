@@ -118,6 +118,17 @@ def _fallback_answer() -> str:
     )
 
 
+def _fallback_response(model: str, reason: str) -> LLMChainResponse:
+    return LLMChainResponse(
+        model=model,
+        answer=_fallback_answer(),
+        token_usage={},
+        latency_ms=0.0,
+        generated_at_utc=datetime.now(timezone.utc).isoformat(),
+        raw_response={"error": reason},
+    )
+
+
 def run(prompt_response: Any, config: LLMChainConfig | None = None) -> LLMChainResponse:
     """Generate a grounded response via Ollama chat.
 
@@ -137,7 +148,8 @@ def run(prompt_response: Any, config: LLMChainConfig | None = None) -> LLMChainR
     try:
         import ollama  # type: ignore
     except ImportError as exc:
-        raise ImportError("ollama package is required for LLM chain") from exc
+        LOGGER.warning("Ollama package unavailable; returning fallback answer")
+        return _fallback_response(runtime_config.model, f"ollama import failed: {exc}")
 
     options: Dict[str, Any] = {
         "temperature": runtime_config.temperature,

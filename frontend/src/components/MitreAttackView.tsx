@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  ShieldAlert,
   Search,
-  ExternalLink,
-  Layers,
-  CheckSquare,
+  Shield,
   Globe,
   Clock,
+  ShieldAlert,
+  Layers,
 } from 'lucide-react';
 import { fetchMitreTechnique } from '../services/api';
-import { MitreTechnique } from '../types';
+import type { MitreTechnique } from '../types';
 
 export const MitreAttackView: React.FC = () => {
   const [techId, setTechId] = useState('T1190');

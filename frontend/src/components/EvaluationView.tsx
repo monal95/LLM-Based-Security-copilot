@@ -8,19 +8,17 @@ import {
   Award,
 } from 'lucide-react';
 import { fetchBaselineVsFinal, fetchEvaluationResults } from '../services/api';
-import { EvaluationResults } from '../types';
+import type { EvaluationResults } from '../types';
 
 export const EvaluationView: React.FC = () => {
   const [evalData, setEvalData] = useState<EvaluationResults | null>(null);
   const [bvfData, setBvfData] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-    setLoading(true);
     try {
       const [eRes, bRes] = await Promise.allSettled([
         fetchEvaluationResults(),
@@ -30,8 +28,6 @@ export const EvaluationView: React.FC = () => {
       if (bRes.status === 'fulfilled') setBvfData(bRes.value);
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 

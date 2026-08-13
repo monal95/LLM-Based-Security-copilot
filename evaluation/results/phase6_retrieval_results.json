@@ -1,0 +1,52 @@
+{
+  "dense": {
+    "mode": "dense",
+    "status": "SUCCESS",
+    "total_queries": 300,
+    "queries_completed": 300,
+    "recall_5": 0.9333,
+    "recall_10": 0.9333,
+    "precision_5": 0.3453,
+    "precision_10": 0.1803,
+    "mrr": 0.9333,
+    "ndcg_5": 1.4033,
+    "ndcg_10": 1.4287,
+    "hit_1": 0.9333,
+    "hit_3": 0.9333,
+    "hit_5": 0.9333,
+    "hit_10": 0.9333,
+    "avg_latency_ms": 162.32,
+    "category_breakdown": {
+      "cve_explanation": {
+        "count": 100,
+        "recall_5": 1.0,
+        "recall_10": 1.0,
+        "precision_5": 0.442,
+        "precision_10": 0.234,
+        "mrr": 1.0,
+        "ndcg_5": 1.7259,
+        "ndcg_10": 1.7689
+      },
+      "mitre_mapping": {
+        "count": 100,
+        "recall_5": 1.0,
+        "recall_10": 1.0,
+        "precision_5": 0.244,
+        "precision_10": 0.122,
+        "mrr": 1.0,
+        "ndcg_5": 1.1375,
+        "ndcg_10": 1.1375
+      },
+      "incident_response": {
+        "count": 100,
+        "recall_5": 0.8,
+        "recall_10": 0.8,
+        "precision_5": 0.35,
+        "precision_10": 0.185,
+        "mrr": 0.8,
+        "ndcg_5": 1.3465,
+        "ndcg_10": 1.3796
+      }
+    }
+  }
+}

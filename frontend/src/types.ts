@@ -1,6 +1,6 @@
 export interface ClaimReport {
   claim_id: number;
-  claim_text: str;
+  claim_text: string;
   status: 'Verified' | 'Partially Verified' | 'Unsupported';
   support_score: number;
   matched_evidence_indices: number[];
