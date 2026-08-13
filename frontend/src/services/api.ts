@@ -1,4 +1,4 @@
-import {
+import type {
   ChatResponse,
   CveDetails,
   EvaluationResults,
@@ -8,7 +8,19 @@ import {
   RunbookResponse,
 } from '../types';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = (import.meta.env.VITE_API_BASE_URL?.trim() || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
+
+async function safeErrorMessage(res: Response, fallback: string): Promise<string> {
+  try {
+    const data = await res.json();
+    if (data && typeof data.detail === 'string' && data.detail.trim()) {
+      return data.detail;
+    }
+  } catch {
+    // Response body may not be JSON; fall back to generic message.
+  }
+  return fallback;
+}
 
 export async function checkHealth(): Promise<any> {
   const res = await fetch(`${API_BASE}/health`);
@@ -23,8 +35,7 @@ export async function sendChatMessage(query: string): Promise<ChatResponse> {
     body: JSON.stringify({ query }),
   });
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || 'Chat execution failed');
+    throw new Error(await safeErrorMessage(res, 'Chat execution failed'));
   }
   return res.json();
 }
@@ -43,8 +54,7 @@ export async function fetchEvidence(query: string, top_k = 5): Promise<Retrieval
 export async function fetchCveDetails(cveId: string): Promise<CveDetails> {
   const res = await fetch(`${API_BASE}/cve/${encodeURIComponent(cveId)}`);
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || `CVE ${cveId} not found`);
+    throw new Error(await safeErrorMessage(res, `CVE ${cveId} not found`));
   }
   return res.json();
 }
@@ -52,8 +62,7 @@ export async function fetchCveDetails(cveId: string): Promise<CveDetails> {
 export async function fetchMitreTechnique(techniqueId: string): Promise<MitreTechnique> {
   const res = await fetch(`${API_BASE}/mitre/${encodeURIComponent(techniqueId)}`);
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || `Technique ${techniqueId} not found`);
+    throw new Error(await safeErrorMessage(res, `Technique ${techniqueId} not found`));
   }
   return res.json();
 }
@@ -84,8 +93,7 @@ export async function fetchBaselineVsFinal(): Promise<any> {
 export async function generateRunbook(incidentType: string): Promise<RunbookResponse> {
   const res = await fetch(`${API_BASE}/runbook/${encodeURIComponent(incidentType)}`);
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || 'Runbook generation failed');
+    throw new Error(await safeErrorMessage(res, 'Runbook generation failed'));
   }
   return res.json();
 }

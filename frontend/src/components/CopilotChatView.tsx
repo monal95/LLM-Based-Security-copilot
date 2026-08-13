@@ -6,20 +6,18 @@ import {
   FileText,
   Clock,
   Sparkles,
-  ChevronRight,
   Database,
   CheckCircle,
   HelpCircle,
 } from 'lucide-react';
 import { sendChatMessage } from '../services/api';
-import { ChatResponse } from '../types';
+import type { ChatResponse } from '../types';
 
 export const CopilotChatView: React.FC = () => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [chatResponse, setChatResponse] = useState<ChatResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showEvidence, setShowEvidence] = useState(false);
 
   const sampleQueries = [
     'What is CVE-2021-44228?',

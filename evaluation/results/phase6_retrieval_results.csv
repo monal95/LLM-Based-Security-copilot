@@ -1,0 +1,2 @@
+Mode,Recall@5,Recall@10,Precision@5,Precision@10,MRR,NDCG@5,NDCG@10,Hit@1,Hit@3,Hit@5,Hit@10,Avg Latency (ms)
+dense,0.9333,0.9333,0.3453,0.1803,0.9333,1.4033,1.4287,0.9333,0.9333,0.9333,0.9333,162.32

@@ -30,7 +30,8 @@ def _call_ollama(model: str, system_prompt: str, user_prompt: str) -> str:
     try:
         import ollama  # type: ignore
     except ImportError as exc:
-        raise ImportError("ollama package is required for patch explanation generation") from exc
+        LOGGER.warning("Ollama package unavailable for patch explanation; using deterministic fallback")
+        return f"LLM explanation unavailable: {exc}. Use CVSS, EPSS, and KEV fields for manual prioritization."
 
     try:
         payload = ollama.chat(
@@ -41,7 +42,11 @@ def _call_ollama(model: str, system_prompt: str, user_prompt: str) -> str:
             ],
         )
     except Exception as exc:
-        raise RuntimeError(f"Ollama chat failed for model '{model}'") from exc
+        LOGGER.warning("Ollama chat failed for patch explanation; using deterministic fallback")
+        return (
+            "LLM explanation unavailable due to Ollama runtime error. "
+            "Prioritize based on CVSS severity, EPSS probability, and KEV exploitation status."
+        )
 
     if not isinstance(payload, dict):
         return str(payload).strip()

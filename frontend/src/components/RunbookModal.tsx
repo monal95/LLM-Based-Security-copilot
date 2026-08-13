@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  BookOpen,
-  Download,
-  Shield,
-  Clock,
-  CheckCircle2,
   X,
+  Download,
+  AlertTriangle,
+  BookOpen,
+  CheckCircle,
+  Clock,
+  Zap,
 } from 'lucide-react';
 import { generateRunbook } from '../services/api';
-import { RunbookResponse } from '../types';
+import type { RunbookResponse } from '../types';
 
 interface RunbookModalProps {
   isOpen: boolean;
@@ -136,7 +137,7 @@ ${runbook.phases.notification.map((s, i) => `${i + 1}. ${s}`).join('\n')}
             {/* Action Bar */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span className="badge badge-green">
-                <CheckCircle2 size={14} /> NIST CSF 2.0 Compliant
+                <CheckCircle size={14} /> NIST CSF 2.0 Compliant
               </span>
 
               <button className="btn-primary" onClick={handleDownloadMarkdown}>

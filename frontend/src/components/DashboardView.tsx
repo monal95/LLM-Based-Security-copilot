@@ -52,7 +52,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate }) => {
       <div className="glass-panel" style={{ padding: '36px', background: 'linear-gradient(135deg, rgba(17,22,34,0.9), rgba(121,40,202,0.15))', border: '1px solid rgba(0, 242, 254, 0.25)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', right: '-40px', top: '-40px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0,242,254,0.15) 0%, rgba(0,0,0,0) 70%)', pointerEvents: 'none' }} />
         
-        <div style={{ maxW: '800px' }}>
+        <div style={{ maxWidth: '800px' }}>
           <span className="badge badge-cyan" style={{ marginBottom: '12px' }}>
             <Zap size={13} /> SecureRAG Phase VI Production Engine
           </span>

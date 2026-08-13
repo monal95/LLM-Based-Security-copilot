@@ -112,7 +112,7 @@ def execute_mode_retrieval(query_text: str, mode: str, config: EvaluationConfig)
     return results, latency_ms
 
 
-def evaluate_mode(queries: List[Dict[str, Any]], mode: str, config: EvaluationConfig) -> Dict[str, Any]:
+def evaluate_mode(queries: List[Dict[str, Any]], mode: str, config: EvaluationConfig) -> tuple[Dict[str, Any], List[Dict[str, Any]]]:
     LOGGER.info("Evaluating retrieval mode: %s across %d queries...", mode, len(queries))
 
     latencies: List[float] = []
@@ -120,58 +120,90 @@ def evaluate_mode(queries: List[Dict[str, Any]], mode: str, config: EvaluationCo
     category_results: Dict[str, List[Dict[str, float]]] = {}
     failed_queries: List[Dict[str, Any]] = []
 
-    for q in queries:
-        q_id = q["id"]
-        cat = q["category"]
-        q_text = q["query"]
-        expected = [str(x).upper() for x in q.get("expected_documents", [])]
+    try:
+        for q in queries:
+            q_id = q["id"]
+            cat = q["category"]
+            q_text = q["query"]
+            expected = [str(x).upper() for x in q.get("expected_documents", [])]
 
-        results, latency = execute_mode_retrieval(q_text, mode, config)
-        latencies.append(latency)
+            try:
+                results, latency = execute_mode_retrieval(q_text, mode, config)
+                latencies.append(latency)
 
-        # Extract predicted entity IDs per ranked chunk
-        ranked_identifiers = [_extract_identifiers(item) for item in results]
+                # Extract predicted entity IDs per ranked chunk
+                ranked_identifiers = [_extract_identifiers(item) for item in results]
 
-        # Deduplicate entity hits across chunks so entity-level relevance is evaluated
-        metrics = _compute_metrics(expected, ranked_identifiers)
-        all_metrics.append(metrics)
+                # Deduplicate entity hits across chunks so entity-level relevance is evaluated
+                metrics = _compute_metrics(expected, ranked_identifiers)
+                all_metrics.append(metrics)
 
-        if cat not in category_results:
-            category_results[cat] = []
-        category_results[cat].append(metrics)
+                if cat not in category_results:
+                    category_results[cat] = []
+                category_results[cat].append(metrics)
 
-        # Record failures (hit@5 == 0 or recall@5 == 0)
-        if metrics.get("hit_5", 0) == 0:
-            top_5_items = [str(getattr(item, "document", getattr(item, "text", "")))[:150] for item in results[:5]]
-            top_10_items = [str(getattr(item, "document", getattr(item, "text", "")))[:150] for item in results[:10]]
+                # Record failures (hit@5 == 0 or recall@5 == 0)
+                if metrics.get("hit_5", 0) == 0:
+                    top_5_items = [str(getattr(item, "document", getattr(item, "text", "")))[:150] for item in results[:5]]
+                    top_10_items = [str(getattr(item, "document", getattr(item, "text", "")))[:150] for item in results[:10]]
 
-            # Determine rank of correct document
-            correct_rank = None
-            for r_idx, ids in enumerate(ranked_identifiers, start=1):
-                if any(exp in ids for exp in expected):
-                    correct_rank = r_idx
-                    break
+                    # Determine rank of correct document
+                    correct_rank = None
+                    for r_idx, ids in enumerate(ranked_identifiers, start=1):
+                        if any(exp in ids for exp in expected):
+                            correct_rank = r_idx
+                            break
 
-            failed_queries.append({
-                "id": q_id,
-                "category": cat,
-                "query": q_text,
-                "expected": expected,
-                "retrieved_top_5": top_5_items,
-                "retrieved_top_10": top_10_items,
-                "rank_of_correct": correct_rank,
-                "retrieval_mode": mode,
-                "recall_5": metrics.get("recall_5", 0.0),
-                "mrr": metrics.get("mrr", 0.0),
-                "ndcg_5": metrics.get("ndcg_5", 0.0),
-            })
+                    failed_queries.append({
+                        "id": q_id,
+                        "category": cat,
+                        "query": q_text,
+                        "expected": expected,
+                        "retrieved_top_5": top_5_items,
+                        "retrieved_top_10": top_10_items,
+                        "rank_of_correct": correct_rank,
+                        "retrieval_mode": mode,
+                        "recall_5": metrics.get("recall_5", 0.0),
+                        "mrr": metrics.get("mrr", 0.0),
+                        "ndcg_5": metrics.get("ndcg_5", 0.0),
+                    })
+            except Exception as query_err:
+                LOGGER.warning(f"Query {q_id} failed in mode {mode}: {query_err}")
+                failed_queries.append({
+                    "id": q_id,
+                    "category": cat,
+                    "query": q_text,
+                    "error": str(query_err),
+                    "retrieval_mode": mode,
+                })
+
+    except MemoryError as me:
+        LOGGER.error(f"MemoryError in mode {mode}: {me}. Mode will be skipped.")
+        return {
+            "mode": mode,
+            "status": "FAILED",
+            "error": "MemoryError: Chunks file too large to fit in memory",
+            "total_queries": len(queries),
+            "queries_completed": len(all_metrics),
+        }, failed_queries
+    except Exception as e:
+        LOGGER.error(f"Fatal error in mode {mode}: {e}")
+        return {
+            "mode": mode,
+            "status": "FAILED",
+            "error": str(e),
+            "total_queries": len(queries),
+            "queries_completed": len(all_metrics),
+        }, failed_queries
 
     def avg(key: str, metric_list: List[Dict[str, float]]) -> float:
         return round(sum(m.get(key, 0.0) for m in metric_list) / max(1, len(metric_list)), 4)
 
     mode_summary = {
         "mode": mode,
+        "status": "SUCCESS",
         "total_queries": len(queries),
+        "queries_completed": len(all_metrics),
         "recall_5": avg("recall_5", all_metrics),
         "recall_10": avg("recall_10", all_metrics),
         "precision_5": avg("precision_5", all_metrics),
