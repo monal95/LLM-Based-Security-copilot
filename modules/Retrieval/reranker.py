@@ -176,15 +176,36 @@ def _extract_fused_items(fused_response: Any, input_limit: int) -> List[_FusedIn
 
 
 def _load_model(model_name: str, device: str) -> Any:
+    """Load the cross-encoder, preferring the local Hugging Face cache.
+
+    A cached model is loaded without contacting the Hub; the network-capable
+    load is only attempted when the model is missing locally.
+    """
     try:
         from sentence_transformers import CrossEncoder  # type: ignore
     except ImportError as exc:
         raise ImportError("sentence-transformers is required for reranking") from exc
 
+    started = time.perf_counter()
     try:
-        return CrossEncoder(model_name, device=device)
-    except Exception as exc:
-        raise RuntimeError(f"Failed to load cross-encoder model '{model_name}'") from exc
+        model = CrossEncoder(model_name, device=device, local_files_only=True)
+        source = "local cache"
+    except Exception:
+        try:
+            LOGGER.info("Cross-encoder not in local cache; fetching: %s", model_name)
+            model = CrossEncoder(model_name, device=device)
+            source = "hub"
+        except Exception as exc:
+            raise RuntimeError(f"Failed to load cross-encoder model '{model_name}'") from exc
+
+    LOGGER.info(
+        "Loaded cross-encoder: %s (device=%s, source=%s, %.0f ms)",
+        model_name,
+        device,
+        source,
+        (time.perf_counter() - started) * 1000.0,
+    )
+    return model
 
 
 @lru_cache(maxsize=8)
@@ -247,6 +268,22 @@ def _validate_response(response: RerankerResponse) -> None:
         if math.isnan(item.rerank_score) or math.isinf(item.rerank_score):
             raise RuntimeError("Reranker validation failed: invalid rerank score")
         expected_rank += 1
+
+
+def warmup(config: RerankerConfig | None = None) -> Dict[str, float]:
+    """Preload the cross-encoder into the process cache.
+
+    Args:
+        config: Optional configuration override; defaults are used otherwise.
+
+    Returns:
+        Mapping of warmup stage name to elapsed milliseconds.
+    """
+    runtime_config = config or RerankerConfig()
+
+    started = time.perf_counter()
+    _get_cross_encoder(runtime_config.model_name, runtime_config.device)
+    return {"cross_encoder_ms": round((time.perf_counter() - started) * 1000.0, 2)}
 
 
 def run(

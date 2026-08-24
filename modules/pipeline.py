@@ -119,12 +119,21 @@ def _claim_report_to_dict(report: hallucination_guard.ClaimReport) -> Dict[str, 
 
 
 def _safe_stage(stage_name: str, func: Any, diagnostics: Dict[str, Any], *args: Any, **kwargs: Any) -> Any:
+    """Run one pipeline stage, recording its wall-clock cost.
+
+    Timings land in diagnostics["stage_timings_ms"] so the API can report where
+    a request actually spent its time. Failed stages are still timed.
+    """
+    timings = diagnostics.setdefault("stage_timings_ms", {})
+    started = time.perf_counter()
     try:
         return func(*args, **kwargs)
     except Exception as exc:
         LOGGER.exception("Pipeline stage failed: %s", stage_name)
         diagnostics[stage_name] = str(exc)
         return None
+    finally:
+        timings[stage_name] = round((time.perf_counter() - started) * 1000.0, 2)
 
 
 def _fallback_answer_for_no_retrieval() -> str:
@@ -362,6 +371,7 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
         diagnostics=diagnostics,
     )
 
+    stage_timings = diagnostics.get("stage_timings_ms", {})
     LOGGER.info(
         "SecureRAG pipeline completed | dense=%d sparse=%d fused=%d reranked=%d confidence=%.4f total_latency_ms=%.2f",
         response.dense_results_count,
@@ -369,6 +379,11 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
         response.fused_results_count,
         response.reranked_results_count,
         response.confidence_score,
+        response.total_latency_ms,
+    )
+    LOGGER.info(
+        "Stage timings (ms) | %s | total=%.2f",
+        " ".join(f"{name}={value:.1f}" for name, value in stage_timings.items()),
         response.total_latency_ms,
     )
     return response

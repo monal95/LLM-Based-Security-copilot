@@ -14,6 +14,7 @@ import json
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -28,6 +29,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 load_dotenv(PROJECT_ROOT / ".env")
 
+from backend import warmup
 from modules import patch_explainer, pipeline, priority_scorer, retriever, runbook_generator
 
 LOGGER = logging.getLogger("secure_rag.backend")
@@ -49,6 +51,23 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Set SECURERAG_SKIP_WARMUP=1 to keep startup lazy (useful for CLI-style runs
+# that only touch the metadata endpoints).
+SKIP_WARMUP = os.getenv("SECURERAG_SKIP_WARMUP", "").strip().lower() in {"1", "true", "yes"}
+
+
+@app.on_event("startup")
+def preload_retrieval_stack() -> None:
+    """Load models and indexes once, off the request path.
+
+    Runs on a background thread so the server accepts connections immediately;
+    /api/health reports progress while it completes.
+    """
+    if SKIP_WARMUP:
+        LOGGER.info("Warmup skipped (SECURERAG_SKIP_WARMUP set); components load on first query")
+        return
+    warmup.start_background_warmup()
 
 
 # Request Models
@@ -82,6 +101,8 @@ def get_health() -> Dict[str, Any]:
             "llm": "mistral (via Ollama)",
         },
         "database": "ChromaDB + BM25",
+        # Real measurements recorded during startup warmup, not estimates.
+        "warmup": warmup.get_state(),
     }
 
 
@@ -108,6 +129,8 @@ def post_chat(req: ChatRequest) -> Dict[str, Any]:
                 "reranked": res.reranked_results_count,
             },
             "total_latency_ms": res.total_latency_ms,
+            "stage_timings_ms": res.diagnostics.get("stage_timings_ms", {}),
+            "warm": warmup.is_ready(),
             "generated_at_utc": res.generated_at_utc,
         }
     except Exception as exc:
@@ -118,11 +141,23 @@ def post_chat(req: ChatRequest) -> Dict[str, Any]:
 @app.post("/api/retrieve")
 def post_retrieve(req: RetrieveRequest) -> Dict[str, Any]:
     try:
+        started = time.perf_counter()
         results = retriever.retrieve(req.query, top_k=req.top_k)
+        latency_ms = round((time.perf_counter() - started) * 1000.0, 2)
+
+        LOGGER.info(
+            "Retrieve completed | top_k=%d results=%d latency_ms=%.2f warm=%s",
+            req.top_k,
+            len(results),
+            latency_ms,
+            warmup.is_ready(),
+        )
         return {
             "query": req.query,
             "top_k": req.top_k,
             "total_results": len(results),
+            "latency_ms": latency_ms,
+            "warm": warmup.is_ready(),
             "results": results,
         }
     except Exception as exc:

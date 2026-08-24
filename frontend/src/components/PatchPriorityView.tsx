@@ -1,207 +1,298 @@
-import { useEffect, useState } from 'react';
-import {
-  Flame,
-  Search,
-  Info,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  TrendingUp,
-  Zap,
-} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Info, RefreshCw } from 'lucide-react';
 import { fetchPriorityRankings } from '../services/api';
 import type { PriorityItem } from '../types';
+import { Modal } from './Modal';
+import {
+  Badge,
+  BarChart,
+  EmptyState,
+  ErrorNote,
+  Grid,
+  KevBadge,
+  LoadingRow,
+  PageHeader,
+  Section,
+  SeverityBadge,
+  StatCard,
+  Spinner,
+} from './ui';
+import {
+  NA,
+  fmtFixed,
+  fmtInt,
+  fmtPct,
+  severityFromCvss,
+} from '../lib/format';
 
-export const PatchPriorityView: React.FC = () => {
+/** Starting watchlist. Every score shown is computed by the backend for these IDs. */
+const DEFAULT_WATCHLIST = [
+  'CVE-2021-44228',
+  'CVE-2017-0144',
+  'CVE-2020-1472',
+  'CVE-2023-34362',
+  'CVE-2021-34527',
+  'CVE-2014-0160',
+  'CVE-2021-26855',
+  'CVE-2019-0708',
+  'CVE-2022-30190',
+  'CVE-2018-13379',
+  'CVE-2019-11510',
+  'CVE-2019-19781',
+];
+
+/**
+ * Remediation window suggested by the console from the returned signals.
+ * This is a presentation rule, not a value produced by the scoring model.
+ */
+function suggestedWindow(item: PriorityItem): string {
+  if (item.kev_flag === 1) return 'Emergency — KEV, per CISA BOD 22-01';
+  if (item.cvss_score >= 9.0) return 'Within 7 days';
+  if (item.cvss_score >= 7.0) return 'Next patch cycle';
+  return 'Scheduled maintenance';
+}
+
+export function PatchPriorityView() {
+  const [watchlist, setWatchlist] = useState(DEFAULT_WATCHLIST);
+  const [draft, setDraft] = useState(DEFAULT_WATCHLIST.join('\n'));
   const [items, setItems] = useState<PriorityItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState('');
   const [kevOnly, setKevOnly] = useState(false);
-  const [selectedExplanation, setSelectedExplanation] = useState<PriorityItem | null>(null);
-
-  const defaultCveList = [
-    'CVE-2021-44228',
-    'CVE-2017-0144',
-    'CVE-2020-1472',
-    'CVE-2023-34362',
-    'CVE-2021-34527',
-    'CVE-2014-0160',
-    'CVE-2021-26855',
-    'CVE-2019-0708',
-    'CVE-2022-30190',
-    'CVE-2018-13379',
-    'CVE-2019-11510',
-    'CVE-2019-19781',
-  ];
+  const [editing, setEditing] = useState(false);
+  const [explaining, setExplaining] = useState<PriorityItem | null>(null);
 
   useEffect(() => {
-    loadRankings(defaultCveList);
-  }, []);
-
-  const loadRankings = async (cves: string[]) => {
+    let cancelled = false;
     setLoading(true);
-    try {
-      const data = await fetchPriorityRankings(cves);
-      setItems(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+    setError(null);
+
+    fetchPriorityRankings(watchlist)
+      .then((data) => {
+        if (!cancelled) setItems(data);
+      })
+      .catch((err: Error) => {
+        if (!cancelled) {
+          setError(err.message);
+          setItems([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [watchlist]);
+
+  const filtered = useMemo(
+    () =>
+      items.filter((item) => {
+        const matchesText = item.cve_id.toLowerCase().includes(filter.trim().toLowerCase());
+        return matchesText && (kevOnly ? item.kev_flag === 1 : true);
+      }),
+    [items, filter, kevOnly],
+  );
+
+  const kevCount = items.filter((item) => item.kev_flag === 1).length;
+  const criticalCount = items.filter((item) => item.cvss_score >= 9.0).length;
+  const topScore = items.length ? Math.max(...items.map((item) => item.priority_score)) : null;
+
+  const applyWatchlist = () => {
+    const parsed = Array.from(
+      new Set(
+        draft
+          .split(/[\s,]+/)
+          .map((token) => token.trim().toUpperCase())
+          .filter((token) => token.startsWith('CVE-')),
+      ),
+    );
+    if (parsed.length) {
+      setWatchlist(parsed);
+      setEditing(false);
     }
   };
 
-  const filteredItems = items.filter((item) => {
-    const matchesSearch = item.cve_id.toLowerCase().includes(search.toLowerCase());
-    const matchesKev = kevOnly ? item.kev_flag === 1 : true;
-    return matchesSearch && matchesKev;
-  });
-
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Header */}
-      <div>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '6px' }}>
-          Patch Priority Ranking Table
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
-          Vulnerability prioritization formula: Priority = (CVSS/10 × 0.3) + (EPSS × 0.5) + (KEV Flag × 0.2)
-        </p>
-      </div>
+    <div className="view-stack">
+      <PageHeader
+        title="Vulnerability prioritization"
+        description="Priority = (CVSS / 10 x 0.3) + (EPSS x 0.5) + (KEV flag x 0.2). Scores are computed by the backend for the CVEs on the watchlist."
+        actions={
+          <>
+            <button type="button" className="btn" onClick={() => setEditing(true)}>
+              Edit watchlist
+            </button>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setWatchlist([...watchlist])}
+              disabled={loading}
+            >
+              {loading ? <Spinner /> : <RefreshCw size={14} aria-hidden="true" />}
+              Re-score
+            </button>
+          </>
+        }
+      />
 
-      {/* Controls Bar */}
-      <div className="glass-panel" style={{ padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '280px' }}>
-          <Search size={18} color="var(--text-muted)" />
-          <input
-            type="text"
-            className="input-field"
-            placeholder="Filter by CVE ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ padding: '8px 12px' }}
-          />
-        </div>
+      {error && <ErrorNote message={error} />}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+      <Grid min={200}>
+        <StatCard label="CVEs scored" value={fmtInt(items.length)} sub="Current watchlist" />
+        <StatCard label="Known exploited" value={fmtInt(kevCount)} sub="Present in the CISA KEV catalogue" />
+        <StatCard label="CVSS critical" value={fmtInt(criticalCount)} sub="Base score at or above 9.0" />
+        <StatCard label="Highest priority score" value={fmtFixed(topScore, 3)} sub="Top of the ranked list" />
+      </Grid>
+
+      <Section
+        title="Ranked vulnerabilities"
+        description="Ordered by priority score, highest first."
+        actions={
+          <>
+            <label className="sr-only" htmlFor="priority-filter">
+              Filter by CVE identifier
+            </label>
             <input
-              type="checkbox"
-              checked={kevOnly}
-              onChange={(e) => setKevOnly(e.target.checked)}
+              id="priority-filter"
+              className="input input-mono"
+              style={{ width: 190 }}
+              type="search"
+              placeholder="Filter CVE ID"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
             />
-            Show CISA KEV Only
-          </label>
-
-          <button className="btn-secondary" onClick={() => loadRankings(defaultCveList)}>
-            <Clock size={16} /> Re-score All
-          </button>
-        </div>
-      </div>
-
-      {/* Priority Table */}
-      <div className="glass-panel" style={{ overflow: 'hidden' }}>
+            <label className="checkbox-row">
+              <input type="checkbox" checked={kevOnly} onChange={(event) => setKevOnly(event.target.checked)} />
+              KEV only
+            </label>
+          </>
+        }
+        flush
+      >
         {loading ? (
-          <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>
-            Calculating weighted priority scores and generating LLM explanations...
-          </div>
+          <LoadingRow message="Scoring vulnerabilities…" />
+        ) : filtered.length === 0 ? (
+          <EmptyState
+            title="No vulnerabilities match"
+            message={items.length ? 'Adjust the filter to see scored results.' : 'No scores were returned for this watchlist.'}
+          />
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>CVE ID</th>
-                <th>CVSS Score</th>
-                <th>EPSS Prob (30d)</th>
-                <th>KEV Status</th>
-                <th>Priority Score</th>
-                <th>Recommended Action</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item) => (
-                <tr key={item.cve_id}>
-                  <td className="font-mono" style={{ fontWeight: 700, color: 'var(--accent-cyan)' }}>
-                    #{item.rank}
-                  </td>
-                  <td className="font-mono" style={{ fontWeight: 600, color: '#fff' }}>
-                    {item.cve_id}
-                  </td>
-                  <td>
-                    <span style={{ fontWeight: 600, color: item.cvss_score >= 9.0 ? 'var(--accent-red)' : 'var(--accent-amber)' }}>
-                      {item.cvss_score.toFixed(1)}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="font-mono">{(item.epss_score * 100).toFixed(1)}%</span>
-                  </td>
-                  <td>
-                    {item.kev_flag === 1 ? (
-                      <span className="badge badge-red">
-                        <Flame size={12} /> CONFIRMED EXPLOITED
-                      </span>
-                    ) : (
-                      <span className="badge" style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)' }}>
-                        Not in KEV
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    <div style={{ fontWeight: 800, color: 'var(--accent-cyan)', fontSize: '1rem' }}>
-                      {item.priority_score.toFixed(3)}
-                    </div>
-                  </td>
-                  <td style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                    {item.kev_flag === 1
-                      ? 'Emergency 24-hr remediation (CISA BOD)'
-                      : item.cvss_score >= 9.0
-                      ? 'Priority patch cycle within 7 days'
-                      : 'Standard scheduled maintenance patch'}
-                  </td>
-                  <td>
-                    <button
-                      className="btn-secondary"
-                      style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-                      onClick={() => setSelectedExplanation(item)}
-                    >
-                      <Info size={14} /> Explain
-                    </button>
-                  </td>
+          <div className="table-scroll">
+            <table className="table">
+              <caption className="sr-only">Vulnerabilities ranked by priority score</caption>
+              <thead>
+                <tr>
+                  <th scope="col" className="align-right" style={{ width: 52 }}>Rank</th>
+                  <th scope="col">CVE</th>
+                  <th scope="col" className="align-right">Priority</th>
+                  <th scope="col" className="align-right">CVSS</th>
+                  <th scope="col">Severity</th>
+                  <th scope="col" className="align-right">EPSS</th>
+                  <th scope="col">KEV</th>
+                  <th scope="col">Suggested window</th>
+                  <th scope="col" style={{ width: 96 }}>Rationale</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {/* Explanation Modal */}
-      {selectedExplanation && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '20px' }}>
-          <div className="glass-panel-glow" style={{ maxWidth: '600px', width: '100%', padding: '28px', background: 'var(--bg-surface)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#fff' }}>
-                Priority Rationale: {selectedExplanation.cve_id}
-              </h3>
-              <button
-                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.4rem', cursor: 'pointer' }}
-                onClick={() => setSelectedExplanation(null)}
-              >
-                &times;
-              </button>
-            </div>
-
-            <div style={{ background: 'rgba(10,13,20,0.6)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '20px', lineHeight: 1.6, fontSize: '0.92rem' }}>
-              {selectedExplanation.explanation || 'No explanation generated.'}
-            </div>
-
-            <div style={{ textAlign: 'right' }}>
-              <button className="btn-primary" onClick={() => setSelectedExplanation(null)}>
-                Close Rationale
-              </button>
-            </div>
+              </thead>
+              <tbody>
+                {filtered.map((item) => (
+                  <tr key={item.cve_id}>
+                    <td className="align-right num" style={{ color: 'var(--text-muted)' }}>{item.rank}</td>
+                    <td className="mono" style={{ fontWeight: 500 }}>{item.cve_id}</td>
+                    <td className="align-right num" style={{ fontWeight: 600 }}>{fmtFixed(item.priority_score, 3)}</td>
+                    <td className="align-right num">{fmtFixed(item.cvss_score, 1)}</td>
+                    <td><SeverityBadge severity={severityFromCvss(item.cvss_score)} /></td>
+                    <td className="align-right num">{fmtPct(item.epss_score, 2)}</td>
+                    <td><KevBadge kev={item.kev_flag === 1} /></td>
+                    <td style={{ color: 'var(--text-secondary)' }}>{suggestedWindow(item)}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        onClick={() => setExplaining(item)}
+                        disabled={!item.explanation}
+                        title={item.explanation ? 'View the generated rationale' : 'No rationale returned for this CVE'}
+                      >
+                        <Info size={13} aria-hidden="true" />
+                        Explain
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+        )}
+      </Section>
+
+      {!loading && items.length > 0 && (
+        <Section title="Priority score distribution" description="Top ten CVEs on the watchlist.">
+          <BarChart
+            data={items.slice(0, 10).map((item) => ({ label: item.cve_id, value: item.priority_score }))}
+            max={1}
+            formatValue={(value) => value.toFixed(3)}
+            labelWidth={138}
+          />
+        </Section>
       )}
+
+      <Section title="Scoring signals" description="Signals used by the deployed scoring model.">
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          <Badge tone="info">CVSS — weight 0.3</Badge>
+          <Badge tone="info">EPSS — weight 0.5</Badge>
+          <Badge tone="info">KEV — weight 0.2</Badge>
+        </div>
+        <p className="meta" style={{ marginTop: 8 }}>
+          The suggested remediation window is derived in this console from KEV status and the CVSS band. It is not part of
+          the score returned by POST /api/priority.
+        </p>
+      </Section>
+
+      <Modal
+        open={editing}
+        title="Edit watchlist"
+        description="One CVE identifier per line. Non-CVE tokens are ignored."
+        onClose={() => setEditing(false)}
+        footer={
+          <>
+            <button type="button" className="btn" onClick={() => setEditing(false)}>
+              Cancel
+            </button>
+            <button type="button" className="btn btn-primary" onClick={applyWatchlist}>
+              Score watchlist
+            </button>
+          </>
+        }
+      >
+        <label className="sr-only" htmlFor="watchlist-input">
+          CVE identifiers
+        </label>
+        <textarea
+          id="watchlist-input"
+          className="input input-mono"
+          rows={12}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+        />
+      </Modal>
+
+      <Modal
+        open={explaining !== null}
+        title={explaining ? `Rationale — ${explaining.cve_id}` : ''}
+        description="Generated from the retrieved evidence for this CVE."
+        onClose={() => setExplaining(null)}
+        footer={
+          <button type="button" className="btn" onClick={() => setExplaining(null)}>
+            Close
+          </button>
+        }
+      >
+        <p style={{ fontSize: '0.8125rem', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+          {explaining?.explanation ?? `${NA} — no rationale was returned for this CVE.`}
+        </p>
+      </Modal>
     </div>
   );
-};
+}

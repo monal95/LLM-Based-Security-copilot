@@ -1,191 +1,206 @@
 import { useState } from 'react';
-import {
-  X,
-  Download,
-  AlertTriangle,
-  BookOpen,
-  CheckCircle,
-  Clock,
-  Zap,
-} from 'lucide-react';
+import { Download } from 'lucide-react';
 import { generateRunbook } from '../services/api';
-import type { RunbookResponse } from '../types';
+import type { RunbookPhase, RunbookResponse } from '../types';
+import { Modal } from './Modal';
+import {
+  EmptyState,
+  ErrorNote,
+  LoadingRow,
+  Spinner,
+} from './ui';
+import {
+  NA,
+  fmtText,
+} from '../lib/format';
 
 interface RunbookModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const RunbookModal: React.FC<RunbookModalProps> = ({ isOpen, onClose }) => {
+const INCIDENT_TYPES = ['ransomware', 'phishing', 'data_breach', 'supply_chain'];
+
+const PHASES: Array<{ id: keyof RunbookPhase; label: string }> = [
+  { id: 'containment', label: 'Containment' },
+  { id: 'eradication', label: 'Eradication' },
+  { id: 'recovery', label: 'Recovery' },
+  { id: 'evidence', label: 'Evidence' },
+  { id: 'notification', label: 'Notification' },
+];
+
+export function RunbookModal({ isOpen, onClose }: RunbookModalProps) {
   const [incidentType, setIncidentType] = useState('ransomware');
   const [runbook, setRunbook] = useState<RunbookResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activePhase, setActivePhase] = useState<'containment' | 'eradication' | 'recovery' | 'evidence' | 'notification'>('containment');
+  const [activePhase, setActivePhase] = useState<keyof RunbookPhase>('containment');
 
-  if (!isOpen) return null;
-
-  const handleGenerate = async (typeToGen?: string) => {
-    const targetType = typeToGen || incidentType;
+  const handleGenerate = async (type?: string) => {
+    const target = type ?? incidentType;
+    setIncidentType(target);
     setLoading(true);
     setError(null);
+
     try {
-      const data = await generateRunbook(targetType);
-      setRunbook(data);
-    } catch (err: any) {
-      setError(err.message || 'Runbook generation failed');
+      setRunbook(await generateRunbook(target));
+      setActivePhase('containment');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Runbook generation failed');
+      setRunbook(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDownloadMarkdown = () => {
+  const handleDownload = () => {
     if (!runbook) return;
-    const content = `# Incident Response Playbook: ${runbook.incident_type.toUpperCase()}
-Generated: ${runbook.timestamp}
-Framework: NIST CSF 2.0 Aligned
 
-## 1. CONTAINMENT
-${runbook.phases.containment.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+    const section = (title: string, steps: string[]) =>
+      `## ${title}\n${steps.map((step, index) => `${index + 1}. ${step}`).join('\n')}\n`;
 
-## 2. ERADICATION
-${runbook.phases.eradication.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+    const content = [
+      `# Incident Response Runbook: ${runbook.incident_type.toUpperCase()}`,
+      `Generated: ${runbook.timestamp}`,
+      'Framework: NIST CSF 2.0',
+      '',
+      ...PHASES.map((phase) => section(phase.label, runbook.phases[phase.id] ?? [])),
+    ].join('\n');
 
-## 3. RECOVERY
-${runbook.phases.recovery.map((s, i) => `${i + 1}. ${s}`).join('\n')}
-
-## 4. EVIDENCE PRESERVATION
-${runbook.phases.evidence.map((s, i) => `${i + 1}. ${s}`).join('\n')}
-
-## 5. NOTIFICATION
-${runbook.phases.notification.map((s, i) => `${i + 1}. ${s}`).join('\n')}
-`;
-
-    const blob = new Blob([content], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `IR_Runbook_${runbook.incident_type}_NIST_CSF2.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const url = URL.createObjectURL(new Blob([content], { type: 'text/markdown' }));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `IR_Runbook_${runbook.incident_type}.md`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
   };
 
+  const steps = runbook?.phases?.[activePhase] ?? [];
+
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: '20px' }}>
-      <div className="glass-panel-glow" style={{ maxWidth: '850px', width: '100%', maxHeight: '90vh', overflowY: 'auto', padding: '32px', background: 'var(--bg-surface)' }}>
-        {/* Modal Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px', marginBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <BookOpen size={24} color="var(--accent-cyan)" />
-            <div>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff' }}>
-                Incident Response Runbook Generator
-              </h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                NIST CSF 2.0 Aligned Playbook Synthesized from Retrieved Evidence
-              </p>
-            </div>
-          </div>
-
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <X size={24} />
+    <Modal
+      open={isOpen}
+      title="Incident response runbook"
+      description="NIST CSF 2.0 aligned procedure generated from retrieved evidence."
+      onClose={onClose}
+      width={760}
+      footer={
+        <>
+          <button type="button" className="btn" onClick={onClose}>
+            Close
           </button>
-        </div>
+          <button type="button" className="btn btn-primary" onClick={handleDownload} disabled={!runbook}>
+            <Download size={14} aria-hidden="true" />
+            Download Markdown
+          </button>
+        </>
+      }
+    >
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+        {INCIDENT_TYPES.map((type) => (
+          <button
+            key={type}
+            type="button"
+            className={type === incidentType ? 'btn btn-sm btn-primary' : 'btn btn-sm'}
+            onClick={() => handleGenerate(type)}
+            disabled={loading}
+          >
+            {type.replace(/_/g, ' ')}
+          </button>
+        ))}
+      </div>
 
-        {/* Type selector bar */}
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
-          {['ransomware', 'phishing', 'data_breach', 'supply_chain'].map((type) => (
-            <button
-              key={type}
-              onClick={() => {
-                setIncidentType(type);
-                handleGenerate(type);
-              }}
-              style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                border: incidentType === type ? '1px solid var(--accent-cyan)' : '1px solid var(--border-color)',
-                background: incidentType === type ? 'rgba(0, 242, 254, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                color: incidentType === type ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                fontWeight: incidentType === type ? 600 : 400,
-                cursor: 'pointer',
-                textTransform: 'capitalize',
-              }}
-            >
-              {type.replace('_', ' ')}
+      {error && <ErrorNote message={error} />}
+
+      {loading && <LoadingRow message="Generating runbook…" />}
+
+      {!loading && !runbook && !error && (
+        <EmptyState
+          title="No runbook generated"
+          message="Select an incident type to generate a procedure from the retrieved evidence."
+          action={
+            <button type="button" className="btn" onClick={() => handleGenerate()} disabled={loading}>
+              {loading ? <Spinner /> : null}
+              Generate {incidentType.replace(/_/g, ' ')} runbook
             </button>
-          ))}
-        </div>
+          }
+        />
+      )}
 
-        {loading && (
-          <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>
-            <Clock size={24} className="spin" style={{ marginBottom: '12px' }} />
-            <div>Synthesizing NIST CSF 2.0 Runbook via Ollama Mistral...</div>
-          </div>
-        )}
-
-        {error && (
-          <div style={{ padding: '16px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.15)', color: 'var(--accent-red)', marginBottom: '20px' }}>
-            {error}
-          </div>
-        )}
-
-        {/* Runbook Output */}
-        {runbook && !loading && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Action Bar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span className="badge badge-green">
-                <CheckCircle size={14} /> NIST CSF 2.0 Compliant
-              </span>
-
-              <button className="btn-primary" onClick={handleDownloadMarkdown}>
-                <Download size={16} /> Download IR Runbook (.md)
-              </button>
-            </div>
-
-            {/* Phase Tabs */}
-            <div style={{ display: 'flex', gap: '6px', borderBottom: '1px solid var(--border-color)' }}>
-              {(['containment', 'eradication', 'recovery', 'evidence', 'notification'] as const).map((phase) => (
+      {runbook && !loading && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div role="tablist" aria-label="Runbook phases" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--border)', flexWrap: 'wrap' }}>
+            {PHASES.map((phase) => {
+              const isActive = phase.id === activePhase;
+              return (
                 <button
-                  key={phase}
-                  onClick={() => setActivePhase(phase)}
+                  key={phase.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActivePhase(phase.id)}
                   style={{
-                    padding: '8px 12px',
-                    borderBottom: activePhase === phase ? '2px solid var(--accent-cyan)' : '2px solid transparent',
-                    color: activePhase === phase ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                    padding: '7px 11px',
+                    fontFamily: 'inherit',
+                    fontSize: '0.8125rem',
+                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
                     background: 'none',
-                    borderLeft: 'none',
-                    borderRight: 'none',
-                    borderTop: 'none',
-                    fontWeight: activePhase === phase ? 600 : 400,
-                    fontSize: '0.85rem',
+                    border: 'none',
+                    borderBottom: `2px solid ${isActive ? 'var(--accent)' : 'transparent'}`,
                     cursor: 'pointer',
-                    textTransform: 'capitalize',
+                    marginBottom: -1,
                   }}
                 >
-                  {phase}
+                  {phase.label}
                 </button>
-              ))}
-            </div>
-
-            {/* Phase Content */}
-            <div style={{ background: 'rgba(10, 13, 20, 0.6)', padding: '20px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-              <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none' }}>
-                {runbook.phases[activePhase].map((step, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem', color: 'var(--text-primary)' }}>
-                    <span className="font-mono" style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>
-                      {i + 1}.
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              );
+            })}
           </div>
-        )}
-      </div>
-    </div>
+
+          {steps.length ? (
+            <ol style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {steps.map((step, index) => (
+                <li key={index} style={{ fontSize: '0.8125rem', lineHeight: 1.6 }}>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="meta">{NA} — no steps were generated for this phase.</p>
+          )}
+
+          {runbook.context_sources?.length ? (
+            <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10 }}>
+              <p className="label" style={{ marginBottom: 6 }}>
+                Evidence used ({runbook.context_sources.length} chunks)
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {runbook.context_sources.map((source) => (
+                  <span
+                    key={source.chunk_id}
+                    className="mono"
+                    style={{
+                      fontSize: '0.6875rem',
+                      border: '1px solid var(--border)',
+                      background: 'var(--surface-sunken)',
+                      borderRadius: 3,
+                      padding: '2px 6px',
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
+                    [{source.rank}] {fmtText(source.source ?? source.chunk_id)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <p className="meta">Generated {fmtText(runbook.timestamp)}</p>
+        </div>
+      )}
+    </Modal>
   );
-};
+}

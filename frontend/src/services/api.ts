@@ -8,7 +8,7 @@ import type {
   RunbookResponse,
 } from '../types';
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL?.trim() || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL?.trim() || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 
 async function safeErrorMessage(res: Response, fallback: string): Promise<string> {
   try {

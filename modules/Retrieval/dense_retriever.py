@@ -176,7 +176,12 @@ def _build_metadata_items(
 
 
 def _load_sentence_transformer(model_name: str, device: str) -> "SentenceTransformer":
-    """Load sentence-transformers model for query embedding."""
+    """Load sentence-transformers model for query embedding.
+
+    Prefers the local Hugging Face cache so a warm install performs no network
+    round-trips. Falls back to the standard (network-capable) load only when the
+    model is not cached yet, which keeps first-time installs working.
+    """
     try:
         from sentence_transformers import SentenceTransformer  # type: ignore
     except ImportError as exc:
@@ -184,8 +189,23 @@ def _load_sentence_transformer(model_name: str, device: str) -> "SentenceTransfo
             "sentence-transformers is required for dense retrieval. Install project dependencies."
         ) from exc
 
-    LOGGER.info("Loading embedding model: %s (device=%s)", model_name, device)
-    return SentenceTransformer(model_name, device=device)
+    started = time.perf_counter()
+    try:
+        model = SentenceTransformer(model_name, device=device, local_files_only=True)
+        source = "local cache"
+    except Exception:
+        LOGGER.info("Embedding model not in local cache; fetching: %s", model_name)
+        model = SentenceTransformer(model_name, device=device)
+        source = "hub"
+
+    LOGGER.info(
+        "Loaded embedding model: %s (device=%s, source=%s, %.0f ms)",
+        model_name,
+        device,
+        source,
+        (time.perf_counter() - started) * 1000.0,
+    )
+    return model
 
 
 @lru_cache(maxsize=8)
@@ -342,6 +362,33 @@ def _validate_response(response: DenseRetrievalResponse) -> None:
         if not isinstance(item.metadata, dict):
             raise RuntimeError("Dense retrieval response validation failed: metadata is not a dictionary")
         expected_rank += 1
+
+
+def warmup(config: DenseRetrieverConfig | None = None) -> Dict[str, float]:
+    """Preload the embedding model and Chroma collection into the process cache.
+
+    Calling this at application startup moves the one-off import, model load and
+    database open off the first analyst query. Both resources are held by the
+    same ``lru_cache`` entries the retrieval path uses, so ``run`` reuses them.
+
+    Args:
+        config: Optional configuration override; defaults are used otherwise.
+
+    Returns:
+        Mapping of warmup stage name to elapsed milliseconds.
+    """
+    runtime_config = config or DenseRetrieverConfig()
+    timings: Dict[str, float] = {}
+
+    started = time.perf_counter()
+    _get_sentence_transformer(runtime_config.embedding_model, runtime_config.device)
+    timings["embedding_model_ms"] = round((time.perf_counter() - started) * 1000.0, 2)
+
+    started = time.perf_counter()
+    _load_chroma_collection(runtime_config.chroma_dir, runtime_config.collection_name)
+    timings["chroma_collection_ms"] = round((time.perf_counter() - started) * 1000.0, 2)
+
+    return timings
 
 
 def run(query: str, config: DenseRetrieverConfig | None = None) -> DenseRetrievalResponse:

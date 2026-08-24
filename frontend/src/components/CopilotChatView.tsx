@@ -1,242 +1,285 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { CheckCircle2, CircleSlash, TriangleAlert } from 'lucide-react';
+import { fetchEvidence, sendChatMessage } from '../services/api';
+import type { ChatResponse, ClaimReport, RetrievalItem } from '../types';
+import { EvidenceList } from './EvidenceList';
 import {
-  Send,
-  ShieldCheck,
-  AlertTriangle,
-  FileText,
-  Clock,
-  Sparkles,
-  Database,
-  CheckCircle,
-  HelpCircle,
-} from 'lucide-react';
-import { sendChatMessage } from '../services/api';
-import type { ChatResponse } from '../types';
+  Badge,
+  EmptyState,
+  ErrorNote,
+  Grid,
+  KeyValues,
+  LoadingRow,
+  PageHeader,
+  QuickPicks,
+  SearchBar,
+  Section,
+  Spinner,
+  StatCard,
+} from './ui';
+import {
+  NA,
+  fmtInt,
+  fmtMs,
+  fmtPct,
+} from '../lib/format';
+import type { BadgeTone } from '../lib/format';
 
-export const CopilotChatView: React.FC = () => {
+const EXAMPLE_QUERIES = [
+  'What is CVE-2021-44228?',
+  'Explain MITRE ATT&CK technique T1190.',
+  'How should Log4Shell be prioritised against Zerologon?',
+];
+
+const CLAIM_STYLES: Record<ClaimReport['status'], { tone: BadgeTone; icon: typeof CheckCircle2 }> = {
+  Verified: { tone: 'low', icon: CheckCircle2 },
+  'Partially Verified': { tone: 'medium', icon: TriangleAlert },
+  Unsupported: { tone: 'critical', icon: CircleSlash },
+};
+
+export function CopilotChatView() {
   const [query, setQuery] = useState('');
+  const [submitted, setSubmitted] = useState('');
+  const [response, setResponse] = useState<ChatResponse | null>(null);
   const [loading, setLoading] = useState(false);
-  const [chatResponse, setChatResponse] = useState<ChatResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const sampleQueries = [
-    'What is CVE-2021-44228?',
-    'How should we prioritize Log4Shell vs Zerologon?',
-    'Explain MITRE ATT&CK technique T1190.',
-    'What containment steps should a SOC analyst execute during a ransomware attack?',
-  ];
+  const [evidence, setEvidence] = useState<RetrievalItem[] | null>(null);
+  const [evidenceLoading, setEvidenceLoading] = useState(false);
+  const [evidenceError, setEvidenceError] = useState<string | null>(null);
 
-  const handleSend = async (textToSend?: string) => {
-    const qText = (textToSend || query).trim();
-    if (!qText) return;
+  const runQuery = async (text?: string) => {
+    const value = (text ?? query).trim();
+    if (!value) return;
 
+    setQuery(value);
+    setSubmitted(value);
     setLoading(true);
     setError(null);
+    setEvidence(null);
+    setEvidenceError(null);
+
     try {
-      const res = await sendChatMessage(qText);
-      setChatResponse(res);
-    } catch (err: any) {
-      setError(err.message || 'Failed to communicate with SecureRAG pipeline');
+      setResponse(await sendChatMessage(value));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'The SecureRAG pipeline did not return an answer');
+      setResponse(null);
     } finally {
       setLoading(false);
     }
   };
 
+  const loadEvidence = async () => {
+    if (!submitted) return;
+    setEvidenceLoading(true);
+    setEvidenceError(null);
+    try {
+      setEvidence(await fetchEvidence(submitted, 5));
+    } catch (err) {
+      setEvidenceError(err instanceof Error ? err.message : 'Evidence retrieval failed');
+    } finally {
+      setEvidenceLoading(false);
+    }
+  };
+
+  const verification = response?.verification_report;
+
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Header & Quick Chips */}
-      <div>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '6px' }}>
-          SOC Copilot Chat
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginBottom: '16px' }}>
-          Ask vulnerability, threat intelligence, or incident response questions with automated hallucination verification.
-        </p>
+    <div className="view-stack">
+      <PageHeader
+        title="Analyst console"
+        description="Answers are generated only from retrieved threat intelligence and are checked claim by claim against that evidence before being shown."
+      />
 
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Sparkles size={14} color="var(--accent-cyan)" /> Try:
-          </span>
-          {sampleQueries.map((sample, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                setQuery(sample);
-                handleSend(sample);
-              }}
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '20px',
-                padding: '4px 12px',
-                fontSize: '0.78rem',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              {sample}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Input Box */}
-      <div className="glass-panel" style={{ padding: '20px' }}>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <input
-            type="text"
-            className="input-field"
-            placeholder="Ask SecureRAG (e.g., 'What is CVE-2021-44228 and how to patch it?')..."
+      <Section title="Query">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <SearchBar
+            id="analyst-query"
+            label="Analyst query"
+            placeholder="Ask SecureRAG about a CVE, technique or response procedure…"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            disabled={loading}
+            onChange={setQuery}
+            onSubmit={() => runQuery()}
+            busy={loading}
+            submitLabel="Run query"
+            maxWidth={720}
           />
-          <button className="btn-primary" onClick={() => handleSend()} disabled={loading}>
-            {loading ? <Clock size={18} className="spin" /> : <Send size={18} />}
-            {loading ? 'Analyzing...' : 'Query Copilot'}
-          </button>
+          <QuickPicks label="Examples" items={EXAMPLE_QUERIES} onPick={(text) => runQuery(text)} />
         </div>
-      </div>
+      </Section>
 
-      {/* Error Alert */}
-      {error && (
-        <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: 'var(--accent-red)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <AlertTriangle size={20} />
-          <span>{error}</span>
+      {error && <ErrorNote message={error} />}
+
+      {loading && (
+        <div className="card">
+          <LoadingRow message="Running retrieval, generation and verification… (first query after startup is slower while models load)" />
         </div>
       )}
 
-      {/* Response Panel */}
-      {chatResponse && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '24px' }}>
-          {/* Main Answer Column */}
-          <div className="glass-panel" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Header / Query Bar */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
-              <div>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Analyst Query
-                </span>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff' }}>
-                  "{chatResponse.query}"
-                </h3>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span className="badge badge-green">
-                  <ShieldCheck size={14} /> {(chatResponse.confidence_score * 100).toFixed(1)}% Confidence
-                </span>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  {chatResponse.total_latency_ms.toFixed(0)} ms
-                </span>
-              </div>
-            </div>
-
-            {/* Answer Content */}
-            <div style={{ background: 'rgba(10, 13, 20, 0.5)', padding: '20px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-              <h4 style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <FileText size={16} /> Verified Technical Answer
-              </h4>
-
-              <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-                {chatResponse.final_answer}
-              </div>
-            </div>
-
-            {/* Claim Verification Reports */}
-            {chatResponse.claim_reports.length > 0 && (
-              <div>
-                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
-                  Claim-Level Grounding Verification
-                </h4>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {chatResponse.claim_reports.map((claim) => (
-                    <div
-                      key={claim.claim_id}
-                      style={{
-                        padding: '12px 16px',
-                        borderRadius: '8px',
-                        background: 'rgba(255, 255, 255, 0.02)',
-                        border: '1px solid var(--border-color)',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '12px',
-                      }}
-                    >
-                      {claim.status === 'Verified' ? (
-                        <CheckCircle size={18} color="var(--accent-green)" style={{ marginTop: '2px' }} />
-                      ) : claim.status === 'Partially Verified' ? (
-                        <AlertTriangle size={18} color="var(--accent-amber)" style={{ marginTop: '2px' }} />
-                      ) : (
-                        <HelpCircle size={18} color="var(--accent-red)" style={{ marginTop: '2px' }} />
-                      )}
-
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 500, color: '#fff', marginBottom: '4px' }}>
-                          {claim.claim_text}
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                          Status: <strong style={{ color: claim.status === 'Verified' ? 'var(--accent-green)' : 'var(--accent-amber)' }}>{claim.status}</strong> | Support Score: {(claim.support_score * 100).toFixed(0)}%
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Diagnostics Side Drawer */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Counts Panel */}
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Database size={16} color="var(--accent-cyan)" /> Evidence Pipeline Counts
-              </h4>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  { label: 'Dense Chunks (ChromaDB)', count: chatResponse.counts.dense },
-                  { label: 'Sparse Chunks (BM25)', count: chatResponse.counts.sparse },
-                  { label: 'Fused Chunks (RRF)', count: chatResponse.counts.fused },
-                  { label: 'Reranked Chunks (Cross-Encoder)', count: chatResponse.counts.reranked },
-                ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', paddingBottom: '8px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>{item.label}</span>
-                    <span className="font-mono" style={{ fontWeight: 600, color: 'var(--accent-cyan)' }}>{item.count}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Verification Summary Panel */}
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>
-                Verification Summary
-              </h4>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent-green)' }}>
-                    {chatResponse.verification_report.verified}
-                  </div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Verified Claims</div>
-                </div>
-
-                <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent-red)' }}>
-                    {chatResponse.verification_report.unsupported}
-                  </div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Unsupported</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {!loading && !response && !error && (
+        <div className="card">
+          <EmptyState
+            title="No query run yet"
+            message="Submit a question to retrieve grounded evidence and a verified answer."
+          />
         </div>
+      )}
+
+      {response && !loading && (
+        <>
+          <Grid min={200}>
+            <StatCard label="Confidence" value={fmtPct(response.confidence_score, 1)} sub="Share of claims supported by evidence" />
+            <StatCard label="Claims checked" value={fmtInt(verification?.total_claims)} sub="Extracted from the generated answer" />
+            <StatCard label="Unsupported claims" value={fmtInt(verification?.unsupported)} sub="Not matched to retrieved evidence" />
+            <StatCard label="End-to-end latency" value={fmtMs(response.total_latency_ms)} sub="Retrieval, generation and verification" />
+          </Grid>
+
+          <Section
+            title="Answer"
+            description={`Query: ${response.query}`}
+            actions={<span className="meta">{response.generated_at_utc}</span>}
+          >
+            <p style={{ whiteSpace: 'pre-wrap', fontSize: '0.8125rem', lineHeight: 1.65 }}>{response.final_answer}</p>
+          </Section>
+
+          <div className="main-side">
+            <Section
+              title="Claim verification"
+              description="Each claim in the answer, checked against the retrieved evidence."
+              flush
+            >
+              {response.claim_reports.length ? (
+                <div className="table-scroll">
+                  <table className="table">
+                    <caption className="sr-only">Claim-level grounding verification results</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" style={{ width: 40 }}>#</th>
+                        <th scope="col">Claim</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" className="align-right">Support</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {response.claim_reports.map((claim) => {
+                        const style = CLAIM_STYLES[claim.status] ?? { tone: 'neutral' as BadgeTone, icon: TriangleAlert };
+                        const Icon = style.icon;
+                        return (
+                          <tr key={claim.claim_id}>
+                            <td className="num" style={{ color: 'var(--text-muted)' }}>{claim.claim_id}</td>
+                            <td style={{ minWidth: 280 }}>
+                              {claim.claim_text}
+                              {claim.rationale && (
+                                <div className="meta" style={{ marginTop: 3 }}>{claim.rationale}</div>
+                              )}
+                            </td>
+                            <td>
+                              <Badge tone={style.tone}>
+                                <Icon size={11} aria-hidden="true" />
+                                {claim.status}
+                              </Badge>
+                            </td>
+                            <td className="align-right num">{fmtPct(claim.support_score, 0)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <EmptyState title="No claims extracted" message="The verifier found no individual claims in this answer." />
+              )}
+            </Section>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <Section title="Verification summary">
+                <KeyValues
+                  rows={[
+                    { key: 'Verified', value: fmtInt(verification?.verified), mono: true },
+                    { key: 'Partially verified', value: fmtInt(verification?.partially_verified), mono: true },
+                    { key: 'Unsupported', value: fmtInt(verification?.unsupported), mono: true },
+                    { key: 'Confidence', value: fmtPct(verification?.confidence_score, 1), mono: true },
+                  ]}
+                />
+              </Section>
+
+              <Section title="Retrieval counts" description="Chunks at each pipeline stage.">
+                <KeyValues
+                  rows={[
+                    { key: 'Dense (ChromaDB)', value: fmtInt(response.counts?.dense), mono: true },
+                    { key: 'Sparse (BM25)', value: fmtInt(response.counts?.sparse), mono: true },
+                    { key: 'Fused (RRF)', value: fmtInt(response.counts?.fused), mono: true },
+                    { key: 'Reranked', value: fmtInt(response.counts?.reranked), mono: true },
+                  ]}
+                />
+              </Section>
+            </div>
+          </div>
+
+          {response.stage_timings_ms && Object.keys(response.stage_timings_ms).length > 0 && (
+            <Section
+              title="Stage timings"
+              description="Wall-clock milliseconds measured by the backend for this request."
+              actions={
+                response.warm === false ? (
+                  <Badge tone="medium">COLD — startup warmup had not finished</Badge>
+                ) : undefined
+              }
+              flush
+            >
+              <div className="table-scroll">
+                <table className="table">
+                  <caption className="sr-only">Per-stage latency for this query</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Stage</th>
+                      <th scope="col" className="align-right">Latency</th>
+                      <th scope="col" className="align-right">Share of total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(response.stage_timings_ms).map(([stage, ms]) => (
+                      <tr key={stage}>
+                        <td>{stage.replace(/_/g, ' ')}</td>
+                        <td className="align-right num">{fmtMs(ms)}</td>
+                        <td className="align-right num">
+                          {response.total_latency_ms > 0 ? fmtPct(ms / response.total_latency_ms, 1) : NA}
+                        </td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td style={{ fontWeight: 600 }}>total</td>
+                      <td className="align-right num" style={{ fontWeight: 600 }}>{fmtMs(response.total_latency_ms)}</td>
+                      <td className="align-right num">—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </Section>
+          )}
+
+          <Section
+            title="Evidence"
+            description="Chunks retrieved for this query from the indexed knowledge base."
+            actions={
+              <button type="button" className="btn btn-sm" onClick={loadEvidence} disabled={evidenceLoading}>
+                {evidenceLoading ? <Spinner /> : null}
+                {evidence ? 'Reload evidence' : 'Retrieve evidence'}
+              </button>
+            }
+          >
+            {evidenceError && <ErrorNote message={evidenceError} />}
+            {evidenceLoading && <LoadingRow message="Retrieving evidence…" />}
+            {!evidenceLoading && evidence && <EvidenceList items={evidence} />}
+            {!evidenceLoading && !evidence && !evidenceError && (
+              <p className="meta">
+                The chat endpoint reports evidence counts only. Retrieve the chunks themselves to inspect what the answer
+                was grounded in.
+              </p>
+            )}
+          </Section>
+        </>
       )}
     </div>
   );
-};
+}
