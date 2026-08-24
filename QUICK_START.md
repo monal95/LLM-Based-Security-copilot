@@ -49,8 +49,8 @@ npm run build
 ### Deploy Backend
 
 ```bash
-cd d:\Project\SOC_Analyst
-.\.venv\Scripts\uvicorn backend.main:app --host 0.0.0.0 --port 8000
+cd d:\Project\SOC_Analystuvicorn backend.main:app --host 0.0.0.0 --port 8000
+.\.venv\Scripts\
 ```
 
 ### Serve Frontend

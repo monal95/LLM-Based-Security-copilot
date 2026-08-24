@@ -265,6 +265,34 @@ def _validate_response(response: SparseRetrievalResponse) -> None:
         expected_rank += 1
 
 
+def warmup(config: SparseRetrieverConfig | None = None) -> Dict[str, float]:
+    """Preload the BM25 index, tokenized corpus and chunk payload.
+
+    These are large on-disk artefacts; loading them at startup keeps the first
+    sparse query from paying the unpickling and JSON parsing cost. The same
+    ``lru_cache`` entries back ``run``.
+
+    Args:
+        config: Optional configuration override; defaults are used otherwise.
+
+    Returns:
+        Mapping of warmup stage name to elapsed milliseconds.
+    """
+    runtime_config = config or SparseRetrieverConfig()
+    timings: Dict[str, float] = {}
+
+    for label, loader, source in (
+        ("bm25_index_ms", _get_bm25_index, runtime_config.bm25_file),
+        ("tokenized_corpus_ms", _get_tokenized_corpus, runtime_config.corpus_file),
+        ("chunks_ms", _get_chunks, runtime_config.chunks_file),
+    ):
+        started = time.perf_counter()
+        loader(str(source))
+        timings[label] = round((time.perf_counter() - started) * 1000.0, 2)
+
+    return timings
+
+
 def run(query: str, config: SparseRetrieverConfig | None = None) -> SparseRetrievalResponse:
     """Run sparse BM25 retrieval for analyst query.
 

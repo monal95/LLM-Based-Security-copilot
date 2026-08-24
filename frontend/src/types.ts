@@ -28,7 +28,27 @@ export interface ChatResponse {
     reranked: number;
   };
   total_latency_ms: number;
+  /** Real per-stage wall-clock timings recorded by the backend pipeline. */
+  stage_timings_ms?: Record<string, number>;
+  /** True when the backend had finished startup warmup before this query. */
+  warm?: boolean;
   generated_at_utc: string;
+}
+
+export interface WarmupState {
+  status: 'not_started' | 'running' | 'ready' | 'failed';
+  elapsed_ms: number | null;
+  stages: Record<string, number>;
+  error: string | null;
+}
+
+export interface HealthResponse {
+  status?: string;
+  service?: string;
+  version?: string;
+  models?: Record<string, string>;
+  database?: string;
+  warmup?: WarmupState;
 }
 
 export interface RetrievalItem {

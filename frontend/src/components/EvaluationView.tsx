@@ -1,158 +1,482 @@
-import React, { useEffect, useState } from 'react';
-import {
-  BarChart3,
-  CheckCircle,
-  TrendingUp,
-  Clock,
-  Layers,
-  Award,
-} from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { fetchBaselineVsFinal, fetchEvaluationResults } from '../services/api';
 import type { EvaluationResults } from '../types';
+import {
+  categoryLabel,
+  hasUnnormalisedNdcg,
+  headlineMode,
+  isEmptyPayload,
+  listModes,
+  modeLabel,
+} from '../lib/evaluation';
+import type { ModeSummary, PrioritySummary } from '../lib/evaluation';
+import {
+  Badge,
+  BarChart,
+  ErrorNote,
+  Grid,
+  KeyValues,
+  LoadingRow,
+  NotAvailable,
+  PageHeader,
+  Section,
+  StatCard,
+} from './ui';
+import {
+  NA,
+  fmtFixed,
+  fmtInt,
+  fmtMs,
+  fmtPct,
+  fmtText,
+} from '../lib/format';
 
-export const EvaluationView: React.FC = () => {
-  const [evalData, setEvalData] = useState<EvaluationResults | null>(null);
-  const [bvfData, setBvfData] = useState<any | null>(null);
+interface MetricDelta {
+  baseline?: number;
+  final?: number;
+  absolute_improvement?: number;
+  percentage_improvement?: number;
+}
+
+interface ModeComparison {
+  status?: string;
+  baseline_status?: string;
+  final_status?: string;
+  baseline_error?: string | null;
+  final_error?: string | null;
+  [metric: string]: unknown;
+}
+
+interface BaselineVsFinal {
+  timestamp_utc?: string;
+  query_count?: number;
+  baseline_config?: Record<string, unknown>;
+  final_config?: Record<string, unknown>;
+  metrics_by_mode?: Record<string, ModeComparison>;
+}
+
+const COMPARISON_META_KEYS = new Set(['status', 'baseline_status', 'final_status', 'baseline_error', 'final_error']);
+
+const METRIC_LABELS: Record<string, string> = {
+  recall_5: 'Recall@5',
+  recall_10: 'Recall@10',
+  precision_5: 'Precision@5',
+  precision_10: 'Precision@10',
+  mrr: 'MRR',
+  ndcg_5: 'NDCG@5',
+  ndcg_10: 'NDCG@10',
+  avg_latency_ms: 'Mean latency (ms)',
+};
+
+/** Quality metrics only — latency is excluded from the "no change" check. */
+const QUALITY_METRICS = ['recall_5', 'recall_10', 'precision_5', 'precision_10', 'mrr', 'ndcg_5', 'ndcg_10'];
+
+export function EvaluationView() {
+  const [evaluation, setEvaluation] = useState<EvaluationResults | null>(null);
+  const [comparison, setComparison] = useState<BaselineVsFinal | null>(null);
+  const [evalError, setEvalError] = useState<string | null>(null);
+  const [comparisonError, setComparisonError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadData();
+    let cancelled = false;
+
+    Promise.allSettled([fetchEvaluationResults(), fetchBaselineVsFinal()]).then(([evalResult, bvfResult]) => {
+      if (cancelled) return;
+
+      if (evalResult.status === 'fulfilled') setEvaluation(evalResult.value);
+      else setEvalError(evalResult.reason instanceof Error ? evalResult.reason.message : 'Evaluation results unavailable');
+
+      if (bvfResult.status === 'fulfilled') setComparison(bvfResult.value);
+      else
+        setComparisonError(
+          bvfResult.reason instanceof Error ? bvfResult.reason.message : 'Baseline comparison unavailable',
+        );
+
+      setLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const loadData = async () => {
-    try {
-      const [eRes, bRes] = await Promise.allSettled([
-        fetchEvaluationResults(),
-        fetchBaselineVsFinal(),
-      ]);
-      if (eRes.status === 'fulfilled') setEvalData(eRes.value);
-      if (bRes.status === 'fulfilled') setBvfData(bRes.value);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const modes = listModes(evaluation?.retrieval as Record<string, unknown> | undefined);
+  const headline = headlineMode(modes);
+  const priority = (evaluation?.priority ?? {}) as PrioritySummary;
+  const ragas = evaluation?.ragas as Record<string, number> | undefined;
+  const ndcgSuspect = hasUnnormalisedNdcg(modes);
 
-  const ragasMetrics = [
-    { label: 'Faithfulness', score: evalData?.ragas?.faithfulness ?? 0.885, desc: 'Factual alignment with retrieved evidence' },
-    { label: 'Answer Relevancy', score: evalData?.ragas?.answer_relevancy ?? 0.862, desc: 'Relevance of generated answer to analyst query' },
-    { label: 'Context Precision', score: evalData?.ragas?.context_precision ?? 0.814, desc: 'Signal-to-noise ratio in retrieved context' },
-    { label: 'Context Recall', score: evalData?.ragas?.context_recall ?? 0.793, desc: 'Proportion of ground truth retrieved' },
-  ];
+  if (loading) {
+    return (
+      <div className="view-stack">
+        <PageHeader title="Evaluation" description="Benchmark results served from the evaluation result files." />
+        <div className="card">
+          <LoadingRow message="Loading evaluation results…" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      {/* Header */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          <div>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '6px' }}>
-              Phase 6 Scientific Evaluation Dashboard
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
-              Standardized benchmark results across 300 queries (100 CVE, 100 ATT&CK, 100 IR).
+    <div className="view-stack">
+      <PageHeader
+        title="Evaluation"
+        description="Retrieval, generation and prioritization results as produced by the evaluation scripts. Every figure is read from a result file; nothing on this page is estimated."
+      />
+
+      {evalError && <ErrorNote message={`Evaluation results: ${evalError}`} />}
+
+      <Grid min={200}>
+        <StatCard label="Queries evaluated" value={fmtInt(headline?.total_queries)} sub={headline ? modeLabel(headline.mode) : undefined} />
+        <StatCard label="Recall@5" value={fmtPct(headline?.recall_5, 2)} sub="Top-5 retrieval" />
+        <StatCard label="MRR" value={fmtFixed(headline?.mrr, 4)} sub="Mean reciprocal rank" />
+        <StatCard label="Mean latency" value={fmtMs(headline?.avg_latency_ms)} sub="Per query" />
+      </Grid>
+
+      {/* -------------------- Retrieval -------------------- */}
+
+      <Section
+        title="Retrieval performance"
+        description={
+          modes.length
+            ? `${modes.length} of 4 retrieval modes present in the results file.`
+            : 'No retrieval results were returned by the API.'
+        }
+        flush
+      >
+        {modes.length ? (
+          <div className="table-scroll">
+            <table className="table">
+              <caption className="sr-only">Retrieval metrics by mode</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Mode</th>
+                  <th scope="col" className="align-right">Queries</th>
+                  <th scope="col" className="align-right">Recall@5</th>
+                  <th scope="col" className="align-right">Recall@10</th>
+                  <th scope="col" className="align-right">P@5</th>
+                  <th scope="col" className="align-right">P@10</th>
+                  <th scope="col" className="align-right">MRR</th>
+                  <th scope="col" className="align-right">NDCG@5</th>
+                  <th scope="col" className="align-right">NDCG@10</th>
+                  <th scope="col" className="align-right">Hit@1</th>
+                  <th scope="col" className="align-right">Latency</th>
+                </tr>
+              </thead>
+              <tbody>
+                {modes.map((mode: ModeSummary) => (
+                  <tr key={mode.mode}>
+                    <td style={{ fontWeight: 500 }}>
+                      {modeLabel(mode.mode)}
+                      {mode.status && mode.status !== 'SUCCESS' && (
+                        <span style={{ marginLeft: 6 }}>
+                          <Badge tone="medium">{mode.status}</Badge>
+                        </span>
+                      )}
+                    </td>
+                    <td className="align-right num">{fmtInt(mode.total_queries)}</td>
+                    <td className="align-right num">{fmtFixed(mode.recall_5, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.recall_10, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.precision_5, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.precision_10, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.mrr, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.ndcg_5, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.ndcg_10, 4)}</td>
+                    <td className="align-right num">{fmtFixed(mode.hit_1, 4)}</td>
+                    <td className="align-right num">{fmtMs(mode.avg_latency_ms)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="card-body">
+            <NotAvailable what="no retrieval evaluation results are present" reason="Run evaluation/phase6_retrieval_evaluation.py to produce phase6_retrieval_results.json." />
+          </div>
+        )}
+      </Section>
+
+      {ndcgSuspect && (
+        <div
+          role="note"
+          style={{
+            border: '1px solid var(--medium-border)',
+            background: 'var(--medium-bg)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '10px 12px',
+            fontSize: '0.8125rem',
+          }}
+        >
+          <strong style={{ color: 'var(--medium)' }}>NDCG values exceed 1.0.</strong>{' '}
+          <span>
+            NDCG is bounded by 1 by definition. In the current results the ideal DCG is computed from the single expected
+            document while DCG counts every matching chunk, so these figures are unnormalised DCG. Treat them as DCG until
+            the normalisation in evaluation/evaluation_engine.py is corrected.
+          </span>
+        </div>
+      )}
+
+      {modes.length > 0 && (
+        <Section title="Recall@5 by retrieval mode">
+          <BarChart
+            data={modes.map((mode) => ({ label: modeLabel(mode.mode), value: mode.recall_5 }))}
+            max={1}
+            formatValue={(value) => value.toFixed(4)}
+          />
+        </Section>
+      )}
+
+      {headline?.category_breakdown && (
+        <Section title="Performance by query category" description={`${modeLabel(headline.mode)} retrieval.`} flush>
+          <div className="table-scroll">
+            <table className="table">
+              <caption className="sr-only">Retrieval metrics by benchmark query category</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Category</th>
+                  <th scope="col" className="align-right">Queries</th>
+                  <th scope="col" className="align-right">Recall@5</th>
+                  <th scope="col" className="align-right">Recall@10</th>
+                  <th scope="col" className="align-right">P@5</th>
+                  <th scope="col" className="align-right">MRR</th>
+                  <th scope="col" className="align-right">NDCG@5</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(headline.category_breakdown).map(([category, metrics]) => (
+                  <tr key={category}>
+                    <td>{categoryLabel(category)}</td>
+                    <td className="align-right num">{fmtInt(metrics.count)}</td>
+                    <td className="align-right num">{fmtFixed(metrics.recall_5, 4)}</td>
+                    <td className="align-right num">{fmtFixed(metrics.recall_10, 4)}</td>
+                    <td className="align-right num">{fmtFixed(metrics.precision_5, 4)}</td>
+                    <td className="align-right num">{fmtFixed(metrics.mrr, 4)}</td>
+                    <td className="align-right num">{fmtFixed(metrics.ndcg_5, 4)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Section>
+      )}
+
+      {/* -------------------- RAGAS -------------------- */}
+
+      <Section title="RAG generation quality (RAGAS)" description="Faithfulness, relevancy and context metrics.">
+        {isEmptyPayload(ragas) ? (
+          <NotAvailable
+            what="no RAGAS results are available from the API"
+            reason="GET /api/evaluation reads evaluation/results/phase6_ragas_results.json; that file is not present, so no generation-quality figures are shown."
+          />
+        ) : (
+          <Grid min={200}>
+            <StatCard label="Faithfulness" value={fmtFixed(ragas?.faithfulness, 4)} sub="Answer grounded in context" />
+            <StatCard label="Answer relevancy" value={fmtFixed(ragas?.answer_relevancy, 4)} sub="Answer addresses the query" />
+            <StatCard label="Context precision" value={fmtFixed(ragas?.context_precision, 4)} sub="Signal in retrieved context" />
+            <StatCard label="Context recall" value={fmtFixed(ragas?.context_recall, 4)} sub="Ground truth covered" />
+          </Grid>
+        )}
+      </Section>
+
+      {/* -------------------- Prioritization -------------------- */}
+
+      <Section
+        title="Prioritization performance"
+        description={fmtText(priority.evaluation_name) !== NA ? String(priority.evaluation_name) : 'Priority scoring validation.'}
+      >
+        {isEmptyPayload(priority) ? (
+          <NotAvailable
+            what="no prioritization validation results are available"
+            reason="Run eval/phase6_priority_evaluation.py to produce phase6_priority_results.json."
+          />
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+            <KeyValues
+              rows={[
+                { key: 'Spearman rho', value: fmtFixed(priority.spearman_rho, 4), mono: true },
+                { key: 'Spearman p-value', value: priority.spearman_pvalue?.toExponential(3) ?? NA, mono: true },
+                { key: 'Kendall tau', value: fmtFixed(priority.kendall_tau, 4), mono: true },
+                { key: 'Kendall p-value', value: priority.kendall_pvalue?.toExponential(3) ?? NA, mono: true },
+              ]}
+            />
+            <KeyValues
+              rows={[
+                { key: 'Sample size', value: fmtInt(priority.sample_size), mono: true },
+                { key: 'Top-5 overlap', value: fmtFixed(priority.top5_overlap, 4), mono: true },
+                { key: 'Top-10 overlap', value: fmtFixed(priority.top10_overlap, 4), mono: true },
+                { key: 'Category ordering accuracy', value: fmtPct(priority.category_ordering_accuracy, 1), mono: true },
+              ]}
+            />
+          </div>
+        )}
+
+        {!isEmptyPayload(priority) && (
+          <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+            <p className="meta">
+              Ground truth: {fmtText(priority.ground_truth_metric)}
+              {priority.category_ordering_notes ? ` — ${priority.category_ordering_notes}` : ''}
+            </p>
+            {priority.weights_used && (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+                {Object.entries(priority.weights_used).map(([weight, value]) => (
+                  <Badge key={weight} tone="info">
+                    {weight.replace('_weight', '').toUpperCase()} {value}
+                  </Badge>
+                ))}
+              </div>
+            )}
+            <p className="meta" style={{ marginTop: 8 }}>
+              The deployed scoring model combines CVSS, EPSS and KEV only. No other signal contributed to these figures.
             </p>
           </div>
+        )}
+      </Section>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <span className="badge badge-cyan">300 Total Queries</span>
-            <span className="badge badge-purple">100 CVE</span>
-            <span className="badge badge-amber">100 ATT&CK</span>
-            <span className="badge badge-green">100 IR</span>
-          </div>
-        </div>
-      </div>
+      {/* -------------------- Baseline vs final -------------------- */}
 
-      {/* RAGAS Metrics Grid */}
-      <div>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Award size={18} color="var(--accent-cyan)" /> RAGAS Generation & Grounding Metrics
-        </h3>
+      <BaselineComparison comparison={comparison} error={comparisonError} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
-          {ragasMetrics.map((item, idx) => (
-            <div key={idx} className="glass-panel" style={{ padding: '20px' }}>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
-                {item.label}
-              </div>
-              <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '4px' }}>
-                {(item.score * 100).toFixed(1)}%
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                {item.desc}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* -------------------- Failure analysis -------------------- */}
 
-      {/* Retrieval Performance Table */}
-      <div className="glass-panel" style={{ padding: '24px' }}>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <BarChart3 size={18} color="var(--accent-purple)" /> Retrieval Pipeline Multi-Mode Performance
-        </h3>
-
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Mode</th>
-              <th>Recall@5</th>
-              <th>Recall@10</th>
-              <th>Precision@5</th>
-              <th>Precision@10</th>
-              <th>MRR</th>
-              <th>NDCG@5</th>
-              <th>NDCG@10</th>
-              <th>Latency (ms)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              { mode: 'Dense', r5: '0.4120', r10: '0.4550', p5: '0.1820', p10: '0.1310', mrr: '0.3780', ndcg5: '0.6010', ndcg10: '0.6950', lat: '145.2' },
-              { mode: 'Sparse (BM25)', r5: '0.5280', r10: '0.5890', p5: '0.2240', p10: '0.1580', mrr: '0.4920', ndcg5: '0.6840', ndcg10: '0.7420', lat: '12.4' },
-              { mode: 'Hybrid (RRF)', r5: '0.6410', r10: '0.7120', p5: '0.2850', p10: '0.1980', mrr: '0.6150', ndcg5: '0.7680', ndcg10: '0.8140', lat: '162.8' },
-              { mode: 'Full Pipeline (Rerank)', r5: '0.7850', r10: '0.8420', p5: '0.3420', p10: '0.2410', mrr: '0.7420', ndcg5: '0.8650', ndcg10: '0.8980', lat: '312.5' },
-            ].map((row, idx) => (
-              <tr key={idx} style={row.mode.includes('Full') ? { background: 'rgba(0, 242, 254, 0.06)' } : {}}>
-                <td className="font-mono" style={{ fontWeight: 700, color: '#fff' }}>{row.mode}</td>
-                <td>{row.r5}</td>
-                <td>{row.r10}</td>
-                <td>{row.p5}</td>
-                <td>{row.p10}</td>
-                <td><strong style={{ color: 'var(--accent-cyan)' }}>{row.mrr}</strong></td>
-                <td><strong style={{ color: 'var(--accent-green)' }}>{row.ndcg5}</strong></td>
-                <td>{row.ndcg10}</td>
-                <td className="font-mono" style={{ color: 'var(--text-muted)' }}>{row.lat}ms</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Priority Spearman & Category Summary */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '12px' }}>
-            Vulnerability Priority Scoring Correlation
-          </h4>
-          <div style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '6px' }}>
-            Spearman ρ: -0.3923
-          </div>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            Evaluated against 60 KEV vulnerabilities sorted by date_added. Category Ordering Accuracy: <strong>100.0%</strong> (Category B KEV exploited all ranked higher priority than Category A non-KEV).
-          </p>
-        </div>
-
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '12px' }}>
-            Baseline vs Final Performance Delta
-          </h4>
-          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-green)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <TrendingUp size={24} /> +42.3% NDCG@5 Improvement
-          </div>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            Full hybrid fusion with metadata-aware cross-encoder reranking demonstrates statistically significant improvements over single-mode dense baseline.
-          </p>
-        </div>
-      </div>
+      <Section title="Failure analysis" description="Queries whose expected document was not retrieved.">
+        <NotAvailable
+          what="per-query failure records are not exposed by the API"
+          reason="evaluation/results/retrieval_failures.json is written by the evaluation script but no endpoint serves it. Inspect that file directly, or add an endpoint to backend/main.py."
+        />
+      </Section>
     </div>
   );
-};
+}
+
+/* ------------------------------------------------------------------ */
+
+function BaselineComparison({ comparison, error }: { comparison: BaselineVsFinal | null; error: string | null }) {
+  if (error || !comparison?.metrics_by_mode) {
+    return (
+      <Section title="Baseline vs final configuration">
+        <NotAvailable
+          what="no baseline comparison is available"
+          reason={error ?? 'Run evaluation/phase6_baseline_vs_final.py to produce baseline_vs_final.json.'}
+        />
+      </Section>
+    );
+  }
+
+  const entries = Object.entries(comparison.metrics_by_mode);
+
+  return (
+    <Section
+      title="Baseline vs final configuration"
+      description={`${fmtInt(comparison.query_count)} queries — generated ${fmtText(comparison.timestamp_utc)}`}
+    >
+      {entries.map(([mode, metrics]) => {
+        const metricRows = Object.entries(metrics).filter(
+          (entry): entry is [string, MetricDelta] =>
+            !COMPARISON_META_KEYS.has(entry[0]) && !!entry[1] && typeof entry[1] === 'object',
+        );
+
+        const qualityUnchanged =
+          metricRows.length > 0 &&
+          metricRows
+            .filter(([key]) => QUALITY_METRICS.includes(key))
+            .every(([, value]) => value.absolute_improvement === 0);
+
+        if (metrics.status !== 'completed') {
+          return (
+            <div key={mode} style={{ marginBottom: 12 }}>
+              <p className="section-title" style={{ marginBottom: 4 }}>{modeLabel(mode)}</p>
+              <p className="meta">
+                {NA} — comparison status: {fmtText(metrics.status)}
+                {metrics.baseline_error ? ` (baseline: ${metrics.baseline_error})` : ''}
+                {metrics.final_error ? ` (final: ${metrics.final_error})` : ''}
+              </p>
+            </div>
+          );
+        }
+
+        return (
+          <div key={mode} style={{ marginBottom: 16 }}>
+            <p className="section-title" style={{ marginBottom: 8 }}>{modeLabel(mode)}</p>
+
+            <div className="table-scroll">
+              <table className="table">
+                <caption className="sr-only">Baseline versus final metrics for {modeLabel(mode)}</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Metric</th>
+                    <th scope="col" className="align-right">Baseline</th>
+                    <th scope="col" className="align-right">Final</th>
+                    <th scope="col" className="align-right">Absolute change</th>
+                    <th scope="col" className="align-right">Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {metricRows.map(([metric, values]) => (
+                    <tr key={metric}>
+                      <td>{METRIC_LABELS[metric] ?? metric}</td>
+                      <td className="align-right num">{fmtFixed(values.baseline, 4)}</td>
+                      <td className="align-right num">{fmtFixed(values.final, 4)}</td>
+                      <td className="align-right num">{fmtFixed(values.absolute_improvement, 4)}</td>
+                      <td className="align-right num">
+                        {values.percentage_improvement === undefined
+                          ? NA
+                          : `${values.percentage_improvement > 0 ? '+' : ''}${values.percentage_improvement.toFixed(2)}%`}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {qualityUnchanged && (
+              <p
+                className="meta"
+                style={{
+                  marginTop: 8,
+                  padding: '8px 10px',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--surface-sunken)',
+                }}
+              >
+                Every quality metric is identical between the two configurations for this mode; only latency differs.
+                Confirm which configuration was used as the baseline before citing this comparison as an optimisation
+                result.
+              </p>
+            )}
+          </div>
+        );
+      })}
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, marginTop: 8 }}>
+        <ConfigList title="Baseline configuration" config={comparison.baseline_config} />
+        <ConfigList title="Final configuration" config={comparison.final_config} />
+      </div>
+    </Section>
+  );
+}
+
+function ConfigList({ title, config }: { title: string; config?: Record<string, unknown> }) {
+  if (!config || isEmptyPayload(config)) {
+    return (
+      <div>
+        <p className="section-title" style={{ marginBottom: 6 }}>{title}</p>
+        <p className="meta">{NA}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <p className="section-title" style={{ marginBottom: 6 }}>{title}</p>
+      <KeyValues
+        rows={Object.entries(config).map(([key, value]) => ({
+          key: key.replace(/_/g, ' '),
+          value: typeof value === 'boolean' ? (value ? 'true' : 'false') : String(value),
+          mono: true,
+        }))}
+      />
+    </div>
+  );
+}
