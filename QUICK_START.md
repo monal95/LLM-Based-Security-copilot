@@ -6,8 +6,7 @@
 - Node.js 18+ with npm
 - Port 8000 (backend) and 5173 (frontend dev) available
 
----
-
+ 
 ## Option 1: Development Mode (Recommended for Testing)
 
 ### Terminal 1: Start Backend

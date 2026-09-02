@@ -29,11 +29,25 @@ export async function checkHealth(): Promise<any> {
 }
 
 export async function sendChatMessage(query: string): Promise<ChatResponse> {
-  const res = await fetch(`${API_BASE}/chat`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 120_000);
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query }),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err instanceof DOMException && err.name === 'AbortError') {
+      throw new Error('Request timed out after 120 seconds. The LLM may be loading — please retry.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
   if (!res.ok) {
     throw new Error(await safeErrorMessage(res, 'Chat execution failed'));
   }
