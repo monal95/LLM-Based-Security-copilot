@@ -157,21 +157,29 @@ def run(prompt_response: Any, config: LLMChainConfig | None = None) -> LLMChainR
         "num_predict": runtime_config.max_tokens,
     }
 
-    chat_kwargs: Dict[str, Any] = {
-        "model": runtime_config.model,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        "options": options,
+    client_kwargs: Dict[str, Any] = {
+        "timeout": runtime_config.timeout_seconds,
     }
-
     if runtime_config.host:
-        chat_kwargs["host"] = runtime_config.host
+        client_kwargs["host"] = runtime_config.host
 
     started = time.perf_counter()
     try:
-        payload = ollama.chat(**chat_kwargs)
+        client = ollama.Client(**client_kwargs)
+        LOGGER.info(
+            "Calling Ollama | model=%s timeout=%.0fs",
+            runtime_config.model,
+            runtime_config.timeout_seconds,
+        )
+        payload = client.chat(
+            model=runtime_config.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            options=options,
+            keep_alive="10m",
+        )
         latency_ms = (time.perf_counter() - started) * 1000.0
 
         message = payload.get("message", {}) if isinstance(payload, dict) else {}
