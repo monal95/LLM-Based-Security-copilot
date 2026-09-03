@@ -31,6 +31,7 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from backend import warmup
 from modules import patch_explainer, pipeline, priority_scorer, retriever, runbook_generator
+from modules.Generation import llm_chain
 
 LOGGER = logging.getLogger("secure_rag.backend")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
@@ -91,6 +92,7 @@ class PriorityRequest(BaseModel):
 
 @app.get("/api/health")
 def get_health() -> Dict[str, Any]:
+    llm_cfg = llm_chain.LLMChainConfig()
     return {
         "status": "healthy",
         "service": "SecureRAG API",
@@ -98,7 +100,10 @@ def get_health() -> Dict[str, Any]:
         "models": {
             "embedding": "sentence-transformers/all-MiniLM-L6-v2",
             "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
-            "llm": "mistral (via Ollama)",
+            # Report the model actually configured, not a hardcoded name.
+            "llm": f"{llm_cfg.model} (via Ollama)",
+            "llm_timeout_seconds": llm_cfg.timeout_seconds,
+            "llm_max_tokens": llm_cfg.max_tokens,
         },
         "database": "ChromaDB + BM25",
         # Real measurements recorded during startup warmup, not estimates.
@@ -114,12 +119,17 @@ def post_chat(req: ChatRequest) -> Dict[str, Any]:
             sparse_config=pipeline.sparse_retriever.SparseRetrieverConfig(top_k=req.top_k_sparse),
             fusion_config=pipeline.hybrid_fusion.HybridFusionConfig(top_k=req.top_k_fused),
             reranker_config=pipeline.reranker.RerankerConfig(top_k=req.top_k_rerank),
+            # Without this the pipeline falls back to LLMChainConfig() defaults and
+            # OLLAMA_MODEL / OLLAMA_HOST / LLM_TIMEOUT_SECONDS never take effect.
+            llm_config=llm_chain.LLMChainConfig(),
         )
         res = pipeline.run(req.query, config=cfg)
         return {
             "query": res.query,
             "final_answer": res.final_answer,
             "confidence_score": res.confidence_score,
+            "generation_status": res.generation_status,
+            "llm_error": res.llm_error,
             "verification_report": res.verification_report,
             "claim_reports": res.claim_reports,
             "counts": {

@@ -72,9 +72,12 @@ class PromptTemplateConfig:
         system_prompt: Optional override for system prompt text.
     """
 
+    # Sized for CPU-only generation: prompt evaluation is a large share of total
+    # latency there, and the text trimmed first is the low-signal "Affected
+    # Products" enumeration in NVD chunks, not the description or CVSS/KEV lines.
     max_context_chunks: int = 5
-    max_chunk_chars: int = 1600
-    max_total_context_chars: int = 7000
+    max_chunk_chars: int = 900
+    max_total_context_chars: int = 3500
     include_metadata_fields: tuple[str, ...] = (
         "cve_id",
         "cvss",
