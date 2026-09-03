@@ -115,7 +115,7 @@ SecureRAG addresses that with four design commitments:
 | Hybrid fusion   | `modules/Retrieval/hybrid_fusion.py`      | Reciprocal Rank Fusion                                                                                    | `rrf_k=60`                       |
 | Reranking       | `modules/Retrieval/reranker.py`           | `cross-encoder/ms-marco-MiniLM-L-6-v2`                                                                    | `top_k=10`                       |
 | Prompting       | `modules/Generation/prompt_template.py`   | Evidence-constrained prompt package                                                                       | —                                |
-| Generation      | `modules/Generation/llm_chain.py`         | Mistral via Ollama                                                                                        | `temperature=0.1`, `top_p=0.9`   |
+| Generation      | `modules/Generation/llm_chain.py`         | Mistral via Ollama (env-configurable)                                                                     | `temperature=0.1`, `max_tokens=300`, `timeout=420s` |
 | Verification    | `modules/Verification/hallucination_guard.py` | Claim/evidence overlap scoring                                                                        | verified ≥ 0.55, partial ≥ 0.30  |
 
 ### Analyst services built on the pipeline
@@ -401,7 +401,18 @@ curl -X POST http://127.0.0.1:8000/api/chat \
 | `top_k_rerank`  | int    | 5       | 1–20         |
 
 Returns `final_answer`, `confidence_score`, `verification_report`, `claim_reports`, per-stage
-retrieval `counts`, `total_latency_ms`, `stage_timings_ms`, and a `warm` flag.
+retrieval `counts`, `total_latency_ms`, `stage_timings_ms`, a `warm` flag, and
+`generation_status` / `llm_error`.
+
+`generation_status` separates a model failure from a genuine "the evidence does not support this"
+result:
+
+| `generation_status` | `final_answer` | `confidence_score` | `claim_reports` | Meaning |
+| ------------------- | -------------- | ------------------ | --------------- | ------- |
+| `"ok"` | verified answer | 0.0–1.0 | one per claim | Model answered; claims scored against evidence |
+| `"failed"` | `""` | `null` | `[]` | Ollama call errored — see `llm_error`. No claims are scored, because verifying an error message would report it as a low-confidence answer |
+
+Retrieval counts are populated in both cases, so the evidence remains usable when generation fails.
 
 ### `POST /api/retrieve`
 
@@ -464,6 +475,7 @@ curl http://127.0.0.1:8000/api/runbook/ransomware
 
 ---
 
+
 ## Configuration
 
 ### Backend — `.env`
@@ -478,6 +490,10 @@ ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000,http://127.0.0.1:517
 OLLAMA_HOST=http://localhost:11434
 OLLAMA_MODEL=mistral
 
+# Generation limits — see the note on CPU-only inference below
+LLM_TIMEOUT_SECONDS=420
+LLM_MAX_TOKENS=300
+
 # Optional: OpenAI-backed RAGAS evaluator instead of the local model
 # OPENAI_API_KEY=your_openai_api_key_here
 
@@ -485,12 +501,80 @@ DATA_DIR=data
 EMBEDDINGS_DIR=embeddings
 ```
 
-Additional environment variables:
+| Variable | Effect | Default |
+| -------- | ------ | ------- |
+| `OLLAMA_MODEL` | Model used for generation, runbooks and patch explanations | `mistral` |
+| `OLLAMA_HOST` | Ollama endpoint | `http://localhost:11434` |
+| `LLM_TIMEOUT_SECONDS` | Client timeout for a single generation call | `420` |
+| `LLM_MAX_TOKENS` | Cap on generated tokens (`num_predict`) | `300` |
+| `ALLOWED_ORIGINS` | Comma-separated CORS origins | localhost 5173/3000 |
+| `SECURERAG_SKIP_WARMUP=1` | Skip startup preloading; components load lazily on first query | unset |
+| `NVD_API_KEY` | Raises NVD ingestion rate limits | unset |
 
-| Variable                  | Effect                                                              |
-| ------------------------- | ------------------------------------------------------------------- |
-| `SECURERAG_SKIP_WARMUP=1` | Skip startup preloading; components load lazily on first query      |
-| `NVD_API_KEY`             | Raises NVD ingestion rate limits                                    |
+### Generation timeouts on CPU-only hardware
+
+Generation runs on the CPU unless Ollama can offload to a GPU (`curl
+http://localhost:11434/api/ps` — `size_vram: 0` means CPU-only). A 7B model such as `mistral`
+(~5 GB) can need **several minutes** per answer there, and it competes for RAM with torch, both
+transformer models, ChromaDB and the BM25 index.
+
+Two settings must stay in step, or a slow-but-successful generation is reported as a timeout:
+
+- `LLM_TIMEOUT_SECONDS` in `.env` — the backend's ceiling for **the Ollama call only**.
+- `VITE_CHAT_TIMEOUT_MS` (default 600000) — the browser's abort, which covers the **whole request**:
+  retrieval + fusion + reranking + generation.
+
+The second must exceed the first by more than the retrieval time, and retrieval is not free when
+memory is tight. Measured on an 8 GB laptop with a 5 GB model resident, one `/api/chat` call spent
+**408 s in retrieval before generation even started**:
+
+| Stage | Measured (starved) | Healthy machine |
+| ----- | ------------------ | --------------- |
+| Dense retrieval (with CVE metadata lookup) | 78.8 s | ~0.2 s |
+| Sparse retrieval (BM25 paged back from disk) | 317.8 s | ~0.2 s |
+| Hybrid fusion | 0.04 s | 0.04 s |
+| Reranking | 6.6 s | ~1 s |
+
+An already-warmed BM25 index taking five minutes means it was evicted to the pagefile — the clearest
+signal that the model and the retrieval stack do not fit in RAM together.
+
+**Ollama and the retrieval stack compete for the same RAM.** Ollama keeps a model resident after a
+query (`keep_alive`), so on a memory-tight machine a loaded 5 GB model can starve the backend's own
+startup — the BM25 and ChromaDB loads slow to a crawl or stall. Symptoms are a warmup that never
+reaches `ready` and a large pagefile. Check with:
+
+```bash
+curl http://localhost:11434/api/ps          # is a model resident, and how big?
+```
+
+To free it without stopping Ollama:
+
+```bash
+curl http://localhost:11434/api/generate -d '{"model":"mistral","keep_alive":0}'
+```
+
+Budget roughly: ~2 GB for the retrieval stack (torch, both transformer models, ChromaDB, BM25) plus
+the model size. Under about 8 GB total, a 7B model leaves no headroom.
+
+A smaller model helps far more than a longer timeout. Measured on an 8 GB laptop (i5-1235U,
+CPU-only, no GPU offload), same query, same 3500-char prompt budget and `LLM_MAX_TOKENS=300`:
+
+| Model | Size | Result |
+| ----- | ---- | ------ |
+| `mistral` (7.2B) | 5.0 GB | **Failed** — `ReadTimeout` at 423 s, 0 tokens generated |
+| `qwen2.5:3b` (3.1B) | 1.9 GB | **106 s** — correct grounded answer (load 8.8 s, prompt eval 895 tok / 62.6 s, generate 98 tok / 32.9 s) |
+
+The 7B model is not slow so much as *absent*: it does not fit alongside the retrieval stack, so the
+machine swaps instead of computing. Switching models needs no code change:
+
+```bash
+ollama pull qwen2.5:3b        # ~1.9 GB instead of ~5 GB
+# then set OLLAMA_MODEL=qwen2.5:3b in .env and restart the backend
+```
+
+When generation fails, `/api/chat` returns `generation_status: "failed"` with an `llm_error`, and
+the console shows a generation-failure notice with the retrieved evidence still listed — rather than
+scoring the fallback text as an unsupported claim.
 
 ### Frontend — API base URL
 
@@ -500,7 +584,15 @@ Additional environment variables:
 ```bash
 # frontend/.env
 VITE_API_BASE_URL=https://securerag.example.com/api
+VITE_CHAT_TIMEOUT_MS=600000
 ```
+
+| Variable | Effect | Default |
+| -------- | ------ | ------- |
+| `VITE_API_BASE_URL` | Backend base URL — must include the `/api` segment | `http://127.0.0.1:8000/api` |
+| `VITE_CHAT_TIMEOUT_MS` | Browser abort for the whole `/api/chat` request | `600000` (10 min) |
+
+Vite inlines these at build time, so change them before `npm run build`, not after.
 
 ### Tuning retrieval
 
@@ -726,14 +818,46 @@ npm run build
 `warmup.status: "ready"`. If you set `SECURERAG_SKIP_WARMUP=1`, the cost moves to the first query
 instead.
 
+Warmup loads the chunk payload, the BM25 index, the tokenized corpus, ChromaDB and both transformer
+models. On a memory-constrained machine this is slow — measured on an 8 GB laptop with almost no
+free RAM, a cold warmup took **16 minutes**:
+
+| Stage | Measured |
+| ----- | -------- |
+| `chunks_ms` (chunks.json, ~770 MB) | 520 s |
+| `tokenized_corpus_ms` | 208 s |
+| `bm25_index_ms` | 131 s |
+| `embedding_model_ms` | 114 s |
+| `cross_encoder_ms` | 6 s |
+| `chroma_collection_ms` | 5 s |
+
+With adequate free RAM these are seconds, not minutes. A warmup measured in minutes is a memory
+signal — see the Ollama contention note under [Configuration](#configuration).
+
+**The answer is "Not found in retrieved evidence." even though the evidence panel shows the right
+chunks** — this is a *generation* failure, not a retrieval or verification one. Check
+`generation_status` in the `/api/chat` response: `"failed"` means the Ollama call errored and
+`llm_error` says why. The usual cause is the generation timeout being too short for CPU-only
+inference — see [Generation timeouts on CPU-only hardware](#generation-timeouts-on-cpu-only-hardware).
+
+If you see the literal text *"LLM generation is temporarily unavailable"* inside a claim, you are
+running a build from before this was fixed: the guarded fallback string was being scored against the
+evidence and reported as an unsupported claim.
+
 **Generation, runbooks, or patch explanations fail** — Ollama is not reachable:
 
 ```bash
 ollama serve
 ollama pull mistral
+curl http://localhost:11434/api/tags     # confirm the model in OLLAMA_MODEL is listed
 ```
 
 Retrieval, CVE lookup, MITRE lookup, and prioritization still work without it.
+
+**Chat requests time out** — CPU-only generation is slow and the machine may be swapping. Check free
+RAM; a 7B model needs ~5 GB on top of the ~2 GB the retrieval stack holds. Close memory-heavy apps,
+or switch to a smaller `OLLAMA_MODEL`. Raise `LLM_TIMEOUT_SECONDS` *and* `CHAT_TIMEOUT_MS` together —
+raising only the backend value lets the browser abort first.
 
 **Empty retrieval results** — the knowledge base has not been built. Verify:
 

@@ -17,8 +17,14 @@ export interface VerificationReport {
 
 export interface ChatResponse {
   query: string;
+  /** Empty when generation_status is 'failed'. */
   final_answer: string;
-  confidence_score: number;
+  /** Null when generation_status is 'failed' — no claims were scored. */
+  confidence_score: number | null;
+  /** 'failed' means the LLM call errored; the answer was never produced. */
+  generation_status?: 'ok' | 'failed';
+  /** Populated when generation_status is 'failed'. */
+  llm_error?: string;
   verification_report: VerificationReport;
   claim_reports: ClaimReport[];
   counts: {

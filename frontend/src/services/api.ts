@@ -28,9 +28,23 @@ export async function checkHealth(): Promise<any> {
   return res.json();
 }
 
+/**
+ * Client abort ceiling for /api/chat.
+ *
+ * This must cover the WHOLE request - retrieval, fusion, reranking AND
+ * generation - not just the backend's LLM_TIMEOUT_SECONDS. On a
+ * memory-constrained host the retrieval stages alone have been measured at
+ * over 400s (paging the BM25 index back in while a 5 GB model is resident),
+ * so a ceiling sized only to the generation timeout aborts a request the
+ * backend would still have completed.
+ *
+ * Override with VITE_CHAT_TIMEOUT_MS when the default does not fit the host.
+ */
+const CHAT_TIMEOUT_MS = Number(import.meta.env.VITE_CHAT_TIMEOUT_MS) || 600_000;
+
 export async function sendChatMessage(query: string): Promise<ChatResponse> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 120_000);
+  const timeoutId = setTimeout(() => controller.abort(), CHAT_TIMEOUT_MS);
   let res: Response;
   try {
     res = await fetch(`${API_BASE}/chat`, {
@@ -42,7 +56,11 @@ export async function sendChatMessage(query: string): Promise<ChatResponse> {
   } catch (err) {
     clearTimeout(timeoutId);
     if (err instanceof DOMException && err.name === 'AbortError') {
-      throw new Error('Request timed out after 120 seconds. The LLM may be loading — please retry.');
+      throw new Error(
+        `Request timed out after ${CHAT_TIMEOUT_MS / 1000} seconds. ` +
+          'CPU-only generation is slow — close memory-heavy apps and retry, ' +
+          'or set a smaller OLLAMA_MODEL in .env.',
+      );
     }
     throw err;
   } finally {

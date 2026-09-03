@@ -79,7 +79,13 @@ class PipelineResponse:
 
     query: str
     final_answer: str
-    confidence_score: float
+    confidence_score: Optional[float]
+    #: "ok" when the model produced an answer, "failed" when generation errored.
+    #: On failure the answer is empty and no claims are scored - verifying the
+    #: guarded fallback text would report an error message as a low-confidence
+    #: answer instead of surfacing the failure.
+    generation_status: str = "ok"
+    llm_error: str = ""
     verification_report: Dict[str, Any] = field(default_factory=dict)
     claim_reports: List[Dict[str, Any]] = field(default_factory=list)
     dense_results_count: int = 0
@@ -327,6 +333,39 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
             latency_ms=0.0,
             generated_at_utc=datetime.now(timezone.utc).isoformat(),
             raw_response={"error": "llm_chain stage failed"},
+            failed=True,
+            error="llm_chain stage failed",
+        )
+
+    if llm_response.failed:
+        # Generation failed: report it rather than scoring the fallback text.
+        # Retrieved evidence is still returned so the analyst keeps the useful
+        # half of the pipeline.
+        total_latency_ms = (time.perf_counter() - started) * 1000.0
+        diagnostics["generation_status"] = "failed"
+        diagnostics["llm_error"] = llm_response.error
+        LOGGER.error(
+            "SecureRAG generation failed | model=%s error=%s reranked=%d",
+            llm_response.model,
+            llm_response.error,
+            reranked_response.total_results,
+        )
+        return PipelineResponse(
+            query=normalized_query,
+            final_answer="",
+            confidence_score=None,
+            generation_status="failed",
+            llm_error=llm_response.error,
+            verification_report={},
+            claim_reports=[],
+            dense_results_count=dense_response.total_results,
+            sparse_results_count=sparse_response.total_results,
+            fused_results_count=fused_response.total_results,
+            reranked_results_count=reranked_response.total_results,
+            llm_latency_ms=llm_response.latency_ms,
+            total_latency_ms=total_latency_ms,
+            generated_at_utc=datetime.now(timezone.utc).isoformat(),
+            diagnostics=diagnostics,
         )
 
     guard_response = _safe_stage(
@@ -355,10 +394,12 @@ def run(query: str, config: SecureRAGPipelineConfig | None = None) -> PipelineRe
         )
 
     total_latency_ms = (time.perf_counter() - started) * 1000.0
+    diagnostics["generation_status"] = "ok"
     response = PipelineResponse(
         query=normalized_query,
         final_answer=guard_response.verified_answer,
         confidence_score=guard_response.confidence_score,
+        generation_status="ok",
         verification_report=guard_response.verification_summary,
         claim_reports=[_claim_report_to_dict(report) for report in guard_response.claim_reports],
         dense_results_count=dense_response.total_results,
@@ -417,6 +458,14 @@ def _main() -> int:
     except Exception as exc:  # pragma: no cover - CLI surface
         LOGGER.exception("Pipeline execution failed")
         print(f"ERROR: {exc}")
+        return 1
+
+    if response.generation_status == "failed":
+        print("SecureRAG pipeline completed WITHOUT an answer")
+        print(f"Query: {response.query}")
+        print(f"Generation failed: {response.llm_error}")
+        print(f"Retrieved evidence: {response.reranked_results_count} reranked chunks")
+        print(f"Total latency (ms): {response.total_latency_ms:.2f}")
         return 1
 
     print("SecureRAG pipeline successful")

@@ -83,6 +83,9 @@ export function CopilotChatView() {
   };
 
   const verification = response?.verification_report;
+  // Generation failed: the backend produced no answer and scored no claims.
+  // Show the failure plainly instead of an empty answer with a null confidence.
+  const generationFailed = response?.generation_status === 'failed';
 
   return (
     <div className="view-stack">
@@ -125,7 +128,27 @@ export function CopilotChatView() {
         </div>
       )}
 
-      {response && !loading && (
+      {response && !loading && generationFailed && (
+        <Section
+          title="Generation failed"
+          description={`Query: ${response.query}`}
+          actions={<span className="meta">{response.generated_at_utc}</span>}
+        >
+          <ErrorNote
+            message={
+              response.llm_error ||
+              'The language model did not return an answer.'
+            }
+          />
+          <p className="meta" style={{ marginTop: '0.75rem', lineHeight: 1.6 }}>
+            Retrieval succeeded — {response.counts.reranked} reranked chunks are available below.
+            No answer was generated, so no claims were verified. This is a generation failure,
+            not a finding that the evidence lacks support.
+          </p>
+        </Section>
+      )}
+
+      {response && !loading && !generationFailed && (
         <>
           <Grid min={200}>
             <StatCard label="Confidence" value={fmtPct(response.confidence_score, 1)} sub="Share of claims supported by evidence" />
@@ -258,27 +281,32 @@ export function CopilotChatView() {
             </Section>
           )}
 
-          <Section
-            title="Evidence"
-            description="Chunks retrieved for this query from the indexed knowledge base."
-            actions={
-              <button type="button" className="btn btn-sm" onClick={loadEvidence} disabled={evidenceLoading}>
-                {evidenceLoading ? <Spinner /> : null}
-                {evidence ? 'Reload evidence' : 'Retrieve evidence'}
-              </button>
-            }
-          >
-            {evidenceError && <ErrorNote message={evidenceError} />}
-            {evidenceLoading && <LoadingRow message="Retrieving evidence…" />}
-            {!evidenceLoading && evidence && <EvidenceList items={evidence} />}
-            {!evidenceLoading && !evidence && !evidenceError && (
-              <p className="meta">
-                The chat endpoint reports evidence counts only. Retrieve the chunks themselves to inspect what the answer
-                was grounded in.
-              </p>
-            )}
-          </Section>
         </>
+      )}
+
+      {/* Evidence stays available even when generation fails - retrieval is the
+          half of the pipeline that still produced something useful. */}
+      {response && !loading && (
+        <Section
+          title="Evidence"
+          description="Chunks retrieved for this query from the indexed knowledge base."
+          actions={
+            <button type="button" className="btn btn-sm" onClick={loadEvidence} disabled={evidenceLoading}>
+              {evidenceLoading ? <Spinner /> : null}
+              {evidence ? 'Reload evidence' : 'Retrieve evidence'}
+            </button>
+          }
+        >
+          {evidenceError && <ErrorNote message={evidenceError} />}
+          {evidenceLoading && <LoadingRow message="Retrieving evidence…" />}
+          {!evidenceLoading && evidence && <EvidenceList items={evidence} />}
+          {!evidenceLoading && !evidence && !evidenceError && (
+            <p className="meta">
+              The chat endpoint reports evidence counts only. Retrieve the chunks themselves to inspect what the answer
+              was grounded in.
+            </p>
+          )}
+        </Section>
       )}
     </div>
   );

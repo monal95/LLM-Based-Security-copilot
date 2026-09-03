@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -37,10 +38,61 @@ LOGGER = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
+# Defaults sized for CPU-only inference. A 7B model on a laptop CPU needs far
+# more than the 60s this module used to allow, and generating 900 tokens at
+# CPU speed is what pushed the request past that ceiling in the first place.
+DEFAULT_MODEL = "mistral"
+DEFAULT_TIMEOUT_SECONDS = 420.0
+DEFAULT_MAX_TOKENS = 300
+
+
+def _env_str(name: str, default: Optional[str]) -> Optional[str]:
+    """Read an environment override, treating blank values as unset."""
+    raw = os.getenv(name)
+    if raw is None or not raw.strip():
+        return default
+    return raw.strip()
+
+
+def _env_float(name: str, default: float) -> float:
+    """Read a float override, falling back to the default when malformed."""
+    raw = _env_str(name, None)
+    if raw is None:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        LOGGER.warning("Ignoring invalid %s=%r; using %s", name, raw, default)
+        return default
+
+
+def _env_int(name: str, default: int) -> int:
+    """Read an int override, falling back to the default when malformed."""
+    raw = _env_str(name, None)
+    if raw is None:
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        LOGGER.warning("Ignoring invalid %s=%r; using %s", name, raw, default)
+        return default
+
 
 @dataclass(slots=True)
 class LLMChainConfig:
     """Runtime configuration for Ollama generation.
+
+    Field defaults are read from the environment so ``.env`` settings actually
+    reach the generation stage:
+
+    ==========================  ===========================
+    Environment variable        Field
+    ==========================  ===========================
+    ``OLLAMA_MODEL``            ``model``
+    ``OLLAMA_HOST``             ``host``
+    ``LLM_TIMEOUT_SECONDS``     ``timeout_seconds``
+    ``LLM_MAX_TOKENS``          ``max_tokens``
+    ==========================  ===========================
 
     Attributes:
         model: Ollama model name.
@@ -51,17 +103,25 @@ class LLMChainConfig:
         host: Optional Ollama host override.
     """
 
-    model: str = "mistral"
+    model: str = field(default_factory=lambda: _env_str("OLLAMA_MODEL", DEFAULT_MODEL) or DEFAULT_MODEL)
     temperature: float = 0.1
     top_p: float = 0.9
-    max_tokens: int = 900
-    timeout_seconds: float = 60.0
-    host: Optional[str] = None
+    max_tokens: int = field(default_factory=lambda: _env_int("LLM_MAX_TOKENS", DEFAULT_MAX_TOKENS))
+    timeout_seconds: float = field(
+        default_factory=lambda: _env_float("LLM_TIMEOUT_SECONDS", DEFAULT_TIMEOUT_SECONDS)
+    )
+    host: Optional[str] = field(default_factory=lambda: _env_str("OLLAMA_HOST", None))
 
 
 @dataclass(slots=True)
 class LLMChainResponse:
-    """Structured output for the LLM generation stage."""
+    """Structured output for the LLM generation stage.
+
+    ``failed`` distinguishes a genuine model answer from the guarded fallback
+    text. Callers must not verify a failed answer against evidence: the fallback
+    is an error message, and scoring it produces a misleading low-confidence
+    result instead of a visible failure.
+    """
 
     model: str
     answer: str
@@ -69,6 +129,8 @@ class LLMChainResponse:
     latency_ms: float = 0.0
     generated_at_utc: str = ""
     raw_response: Dict[str, Any] = field(default_factory=dict)
+    failed: bool = False
+    error: str = ""
 
 
 def _configure_logging() -> None:
@@ -102,6 +164,42 @@ def _extract_prompt(prompt_response: Any) -> tuple[str, str]:
     return system_prompt, user_prompt
 
 
+def _normalize_payload(payload: Any) -> Dict[str, Any]:
+    """Coerce an Ollama chat response into a plain dict.
+
+    ollama-python returns a ``ChatResponse`` pydantic model rather than a dict,
+    so an ``isinstance(payload, dict)`` test silently discards a perfectly good
+    answer. Older client versions did return a dict, so both are supported.
+    """
+    if isinstance(payload, dict):
+        return payload
+
+    dump = getattr(payload, "model_dump", None)
+    if callable(dump):
+        try:
+            dumped = dump()
+            if isinstance(dumped, dict):
+                return dumped
+        except Exception:  # noqa: BLE001 - fall through to attribute access
+            LOGGER.warning(
+                "Could not serialize %s; falling back to attribute access",
+                type(payload).__name__,
+            )
+
+    # Last resort: read the only fields the caller actually needs.
+    message = getattr(payload, "message", None)
+    content = getattr(message, "content", None) if message is not None else None
+    return {"message": {"content": content}} if content is not None else {}
+
+
+def _extract_answer(payload: Dict[str, Any]) -> str:
+    """Return the assistant text from a normalized chat payload."""
+    message = payload.get("message") or {}
+    if not isinstance(message, dict):
+        message = {"content": getattr(message, "content", "")}
+    return str(message.get("content") or "").strip()
+
+
 def _extract_usage(payload: Dict[str, Any]) -> Dict[str, int]:
     usage: Dict[str, int] = {}
     for key in ("prompt_eval_count", "eval_count", "total_duration", "load_duration"):
@@ -126,6 +224,8 @@ def _fallback_response(model: str, reason: str) -> LLMChainResponse:
         latency_ms=0.0,
         generated_at_utc=datetime.now(timezone.utc).isoformat(),
         raw_response={"error": reason},
+        failed=True,
+        error=reason,
     )
 
 
@@ -182,29 +282,45 @@ def run(prompt_response: Any, config: LLMChainConfig | None = None) -> LLMChainR
         )
         latency_ms = (time.perf_counter() - started) * 1000.0
 
-        message = payload.get("message", {}) if isinstance(payload, dict) else {}
-        answer = str(message.get("content", "")).strip()
-        if not answer:
+        normalized = _normalize_payload(payload)
+        answer = _extract_answer(normalized)
+        empty_completion = not answer
+        if empty_completion:
+            LOGGER.error(
+                "Ollama returned no assistant text | model=%s response_type=%s keys=%s",
+                runtime_config.model,
+                type(payload).__name__,
+                sorted(normalized) or "<none>",
+            )
             answer = _fallback_answer()
 
         response = LLMChainResponse(
             model=runtime_config.model,
             answer=answer,
-            token_usage=_extract_usage(payload if isinstance(payload, dict) else {}),
+            token_usage=_extract_usage(normalized),
             latency_ms=latency_ms,
             generated_at_utc=datetime.now(timezone.utc).isoformat(),
-            raw_response=payload if isinstance(payload, dict) else {"raw": str(payload)},
+            raw_response=normalized,
+            failed=empty_completion,
+            error="Model returned an empty completion" if empty_completion else "",
         )
     except Exception as exc:
         latency_ms = (time.perf_counter() - started) * 1000.0
         LOGGER.exception("Ollama generation failed; returning guarded fallback answer")
+        reason = (
+            f"{type(exc).__name__}: {exc} "
+            f"(model={runtime_config.model}, timeout={runtime_config.timeout_seconds:.0f}s, "
+            f"elapsed={latency_ms / 1000.0:.0f}s)"
+        )
         response = LLMChainResponse(
             model=runtime_config.model,
             answer=_fallback_answer(),
             token_usage={},
             latency_ms=latency_ms,
             generated_at_utc=datetime.now(timezone.utc).isoformat(),
-            raw_response={"error": str(exc)},
+            raw_response={"error": reason},
+            failed=True,
+            error=reason,
         )
 
     LOGGER.info(
